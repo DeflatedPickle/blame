@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# CMake files
+cmake-build-debug
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
