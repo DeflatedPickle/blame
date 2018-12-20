@@ -1,6 +1,7 @@
 #include <iostream>
 #include <optional>
 #include "Widget.hpp"
+#include "../util/EscapeCodes.hpp"
 
 Blame::Widgets::Widget::Widget(Blame::Console *console, std::optional<Blame::Widgets::Widget*> parent, int column, int row, int width, int height) {
     this->console = console;
@@ -17,6 +18,8 @@ void Blame::Widgets::Widget::redraw() {
 
     for (int h = 0; h < this->height; h++) {
         this->console->moveCaret(this->column, this->row + h);
+        std::cout << this->colour_border;
+        std::cout << this->colour_background;
         for (int w = 0; w < this->width; w++) {
             // Top Left
             if (w == 0 && h == 0) {
@@ -57,6 +60,7 @@ void Blame::Widgets::Widget::redraw() {
                 std::cout << this->symbol_bottom_right;
             }
         }
+        std::cout << Blame::Util::EscapeCodes::reset();
         std::cout << std::endl;
     }
 }

@@ -30,6 +30,9 @@ namespace Blame::Widgets {
         int internal_padding_right;
         int internal_padding_bottom;
 
+        std::string colour_border;
+        std::string colour_background;
+
         std::string symbol_top_left;
         std::string symbol_top_middle;
         std::string symbol_top_right;
