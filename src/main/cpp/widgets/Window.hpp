@@ -13,19 +13,14 @@ namespace Blame::Widgets {
     protected:
         std::string title_text;
 
-        char symbol_title_top_left;
-        char symbol_title_top_middle;
-        char symbol_title_top_right;
-        char symbol_title_middle_left;
-        char symbol_title_middle_fill;
-        char symbol_title_middle_right;
-        char symbol_title_bottom_left;
-        char symbol_title_bottom_middle;
-        char symbol_title_bottom_right;
+        std::string symbol_title_intersect_left;
+        std::string symbol_title_intersect_right;
 
-        char symbol_minimize;
-        char symbol_maximize;
-        char symbol_restore;
-        char symbol_close;
+        std::string colour_background_title;
+
+        std::string symbol_minimize;
+        std::string symbol_maximize;
+        std::string symbol_restore;
+        std::string symbol_close;
     };
 }

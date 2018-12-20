@@ -7,8 +7,15 @@ Blame::Console::Console() {
     this->clear();
     this->moveCaret(0, 0);
 
-    std::cout << Blame::Util::EscapeCodes::reset();
+    this->colour_background = Blame::Util::EscapeCodes::foregroundYellow();
+
+    std::cout << this->colour_background;
 }
+
+void Blame::Console::mainloop() {
+    while (true) {
+
+    }
 }
 
 void Blame::Console::moveCaret(int column, int row) {
@@ -16,5 +23,6 @@ void Blame::Console::moveCaret(int column, int row) {
 }
 
 void Blame::Console::clear() {
+    std::cout << Blame::Util::EscapeCodes::reset();
     printf("\033c");
 }

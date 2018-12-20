@@ -10,6 +10,7 @@ namespace Blame::Widgets {
         Widget(Console *console, std::optional<Blame::Widgets::Widget*> parent, int column, int row, int width, int height);
 
         virtual void redraw();
+        void setColours();
 
     protected:
         Console *console;
@@ -32,6 +33,7 @@ namespace Blame::Widgets {
 
         std::string colour_border;
         std::string colour_background;
+        std::string colour_text;
 
         std::string symbol_top_left;
         std::string symbol_top_middle;

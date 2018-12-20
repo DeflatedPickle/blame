@@ -5,7 +5,13 @@ namespace Blame {
     public:
         Console();
 
+        void mainloop();
+
         void clear();
+
         void moveCaret(int column, int row);
+
+    protected:
+        std::string colour_background;
     };
 }
