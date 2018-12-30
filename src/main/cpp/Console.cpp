@@ -7,6 +7,7 @@
 #include <sys/ioctl.h>
 #include "util/EscapeCodes.hpp"
 #include "util/ArrowKey.hpp"
+#include "widgets/Widget.hpp"
 
 // TODO: Add signals for console events
 Blame::Console::Console() {
@@ -85,4 +86,17 @@ void Blame::Console::moveCaret(int column, int row) {
 void Blame::Console::clear() {
     std::cout << Blame::Util::EscapeCodes::reset();
     printf("\033c");
+}
+
+void Blame::Console::redraw() {
+    this->clear();
+
+    // TODO: Maybe add a check for if they need to be redrawn?
+    for (auto widget : this->widgetList) {
+        // The widgets are added as listeners, since the Widget class is incomplete at the time of headers
+        // meaning they can't be used for the typing of the list, so we have to cast them to widgets...
+        // which they might not be
+        auto new_widget = dynamic_cast<Blame::Widgets::Widget *>(widget);
+        new_widget->redraw();
+    }
 }

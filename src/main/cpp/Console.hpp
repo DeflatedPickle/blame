@@ -12,6 +12,8 @@ namespace Blame {
 
         void clear();
 
+        void redraw();
+
         void moveCaret(int column, int row);
 
         int width;

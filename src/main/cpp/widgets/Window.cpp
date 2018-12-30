@@ -112,6 +112,5 @@ void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
             break;
     }
 
-    // TODO: Have the console clear itself and redraw everything
-    this->redraw();
+    console->redraw();
 }
