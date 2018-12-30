@@ -6,6 +6,8 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 #include <algorithm>
+#include <chrono>
+#include <thread>
 #include "util/EscapeCodes.hpp"
 #include "util/ArrowKey.hpp"
 #include "widgets/Widget.hpp"
@@ -32,7 +34,7 @@ Blame::Console::Console() {
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void Blame::Console::mainloop() {
+void Blame::Console::mainLoop() {
     char first;
     char second;
     char third;
@@ -42,6 +44,8 @@ void Blame::Console::mainloop() {
     this->focused_widget = this->focus_order[0];
     this->focused_widget->focus();
 
+    std::thread draw_thread(&Blame::Console::drawLoop, this);
+
     while (true) {
         find_second_third = true;
         std::cout.flush();
@@ -49,6 +53,7 @@ void Blame::Console::mainloop() {
         std::cin >> first;
 
         if (first == 'q') {
+            this->exit = true;
             std::cout << std::endl;
 
             // Perform clean up on all widgets
@@ -103,6 +108,27 @@ void Blame::Console::mainloop() {
                     widget->arrowKey(Blame::Util::ArrowKey::LEFT);
                 }
             }
+        }
+    }
+}
+
+void Blame::Console::drawLoop() {
+    std::chrono::milliseconds current_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+    std::chrono::milliseconds start_time = current_time;
+    int frame_count = 0;
+
+    while (!this->exit) {
+        frame_count++;
+        current_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+
+        // this->setTitle("Current Time: " + std::to_string(current_time.count()) + " Start Time:" + std::to_string(start_time.count()) + " Final: " + std::to_string(current_time.count() - start_time.count()));
+        if (current_time.count() - start_time.count() > 0.25f && frame_count) {
+            frame_count = 0;
+
+            start_time = current_time;
+
+            // this->setTitle("--------------------------------");
+            this->redraw();
         }
     }
 }

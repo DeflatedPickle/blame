@@ -12,7 +12,7 @@ int main() {
     auto window_two = new Blame::Widgets::Window(console, "Another Window");
     window_two->place(40, 8, 30, 10);
 
-    console->mainloop();
+    console->mainLoop();
 
     return 0;
 }

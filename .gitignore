@@ -39,3 +39,6 @@ cmake-build-debug
 *.iml
 out
 gen
+
+# Other files
+*.stackdump

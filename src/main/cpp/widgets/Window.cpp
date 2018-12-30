@@ -30,6 +30,8 @@ Blame::Widgets::Window::Window(Console *console, std::string title_text) : Widge
 
 void Blame::Widgets::Window::redraw() {
     this->console->moveCaret(this->column, this->row);
+    // Account for the title height
+    this->row -= 2;
 
     std::cout << this->colour_border;
     for (int h = 0; h < 3; h++) {
@@ -90,9 +92,6 @@ void Blame::Widgets::Window::redraw() {
 }
 
 void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
-    // Account for the title height
-    this->row -= 2;
-
     if (this != this->console->focused_widget)
         return;
 
@@ -121,6 +120,4 @@ void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
             }
             break;
     }
-
-    console->redraw();
 }

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <atomic>
 #include "widgets/Listener.hpp"
 #include "util/ClientArea.hpp"
 
@@ -10,7 +11,8 @@ namespace Blame {
     public:
         Console();
 
-        void mainloop();
+        void mainLoop();
+        void drawLoop();
 
         void clear();
 
@@ -31,5 +33,6 @@ namespace Blame {
 
     protected:
         // std::string colour_background;
+        std::atomic_bool exit;
     };
 }
