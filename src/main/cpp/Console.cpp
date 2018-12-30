@@ -19,6 +19,11 @@ Blame::Console::Console() {
     this->width = size.ws_col;
     this->height = size.ws_row;
 
+    this->client_area_left = 0;
+    this->client_area_top = 0;
+    this->client_area_right = this->width;
+    this->client_area_bottom = this->height;
+
     struct termios term{};
     tcgetattr(STDIN_FILENO, &term);
     term.c_lflag &= ~ICANON;

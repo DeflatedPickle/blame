@@ -22,6 +22,11 @@ namespace Blame {
         int width;
         int height;
 
+        int client_area_left;
+        int client_area_right;
+        int client_area_top;
+        int client_area_bottom;
+
         std::vector<Blame::Widgets::Listener *> widgetList;
 
     protected:

@@ -92,23 +92,32 @@ void Blame::Widgets::Window::redraw() {
 }
 
 void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
+    // Account for the title height
+    this->row -= 2;
+
     switch (arrowKey) {
         case Blame::Util::ArrowKey::UP:
-            this->row -= 3;
+            if (this->row - 1 > console->client_area_top) {
+                this->row -= 1;
+            }
             break;
 
         case Blame::Util::ArrowKey::DOWN:
-            this->row--;
+            if (this->row + 1 + this->height < console->client_area_bottom) {
+                this->row++;
+            }
             break;
 
         case Blame::Util::ArrowKey::LEFT:
-            this->row -= 2;
-            this->column--;
+            if (this->column - 1 > console->client_area_left) {
+                this->column--;
+            }
             break;
 
         case Blame::Util::ArrowKey::RIGHT:
-            this->row -= 2;
-            this->column++;
+            if (this->column + 1 + this->width < console->client_area_right) {
+                this->column++;
+            }
             break;
     }
 
