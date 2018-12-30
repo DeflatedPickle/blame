@@ -4,11 +4,13 @@
 #include "Widget.hpp"
 
 namespace Blame::Widgets {
-    class Window : Widget {
+    class Window : public Widget {
     public:
         Window(Console *console, std::string title_text, int column, int row, int width, int height);
 
         void redraw() override;
+
+        void arrowKey(Blame::Util::ArrowKey arrowKey) override;
 
     protected:
         std::string title_text;

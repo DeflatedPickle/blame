@@ -1,6 +1,7 @@
+#include "Widget.hpp"
+
 #include <iostream>
 #include <optional>
-#include "Widget.hpp"
 #include "../util/EscapeCodes.hpp"
 
 Blame::Widgets::Widget::Widget(Blame::Console *console, std::optional<Blame::Widgets::Widget*> parent, int column, int row, int width, int height) {
@@ -11,6 +12,8 @@ Blame::Widgets::Widget::Widget(Blame::Console *console, std::optional<Blame::Wid
     this->row = row;
     this->width = width;
     this->height = height;
+
+    this->console->widgetList.push_back(this);
 }
 
 void Blame::Widgets::Widget::redraw() {

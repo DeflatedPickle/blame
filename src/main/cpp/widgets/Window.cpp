@@ -1,5 +1,6 @@
-#include <iostream>
 #include "Window.hpp"
+
+#include <iostream>
 #include "../util/EscapeCodes.hpp"
 
 Blame::Widgets::Window::Window(Console *console, std::string title_text, int column, int row, int width, int height) : Widget(console, nullptr, column, row, width, height) {
@@ -88,4 +89,29 @@ void Blame::Widgets::Window::redraw() {
 
     this->symbol_top_left = "╔";
     this->symbol_top_right = "╗";
+}
+
+void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
+    switch (arrowKey) {
+        case Blame::Util::ArrowKey::UP:
+            this->row -= 3;
+            break;
+
+        case Blame::Util::ArrowKey::DOWN:
+            this->row--;
+            break;
+
+        case Blame::Util::ArrowKey::LEFT:
+            this->row -= 2;
+            this->column--;
+            break;
+
+        case Blame::Util::ArrowKey::RIGHT:
+            this->row -= 2;
+            this->column++;
+            break;
+    }
+
+    // TODO: Have the console clear itself and redraw everything
+    this->redraw();
 }

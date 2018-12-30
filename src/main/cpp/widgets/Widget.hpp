@@ -3,17 +3,22 @@
 #include <string>
 #include <optional>
 #include "../Console.hpp"
+#include "Listener.hpp"
 
+// TODO: Add checks for if the widget is focused or disabled
 namespace Blame::Widgets {
-    class Widget {
+    class Widget : public Blame::Widgets::Listener {
     public:
-        Widget(Console *console, std::optional<Blame::Widgets::Widget*> parent, int column, int row, int width, int height);
+        Widget(Blame::Console *console, std::optional<Blame::Widgets::Widget*> parent, int column, int row, int width, int height);
 
         virtual void redraw();
         void setColours();
 
+        void arrowKey(Blame::Util::ArrowKey arrowKey) override {}
+        void quit() override {}
+
     protected:
-        Console *console;
+        Blame::Console *console;
         std::optional<Blame::Widgets::Widget*> parent;
 
         int column;

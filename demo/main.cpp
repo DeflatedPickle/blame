@@ -8,5 +8,7 @@ int main() {
     auto window = new Blame::Widgets::Window(console, "Hello World", 5, 5, 20, 10);
     window->redraw();
 
+    console->mainloop();
+
     return 0;
 }
