@@ -12,7 +12,7 @@
 namespace Blame::Widgets {
     class Widget : public Blame::Widgets::Listener {
     public:
-        Widget(Blame::Console *console, std::optional<Blame::Widgets::Widget*> parent, int column, int row, int width, int height);
+        Widget(Blame::Console *console, std::optional<Blame::Widgets::Widget*> parent);
 
         virtual void redraw();
         void setColours();
@@ -20,7 +20,7 @@ namespace Blame::Widgets {
         void quit() override {}
 
         void focus() override {
-            this->console->focusedWidget = this;
+            this->console->focused_widget = this;
             this->state = Blame::Util::State::FOCUSED;
         }
 
@@ -43,14 +43,34 @@ namespace Blame::Widgets {
             }
         }
 
-    protected:
-        Blame::Console *console;
-        std::optional<Blame::Widgets::Widget*> parent;
+        void place(int x, int y, int width, int height) {
+            this->column = x;
+            this->row = y;
+            this->width = width;
+            this->height = height;
+
+            this->redraw();
+        }
+        // void placeRemove();
+
+        // void pack();
+        // void packRemove();
+
+        // void grid(int row, int column);
+        // void gridRemove();
 
         int column;
         int row;
         int width;
         int height;
+
+        Blame::Util::ClientArea client_area;
+
+        bool resizable;
+
+    protected:
+        Blame::Console *console;
+        std::optional<Blame::Widgets::Widget*> parent;
 
         // int padding_top;
         // int padding_left;

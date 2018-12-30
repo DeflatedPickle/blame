@@ -6,11 +6,11 @@ int main() {
     auto console = new Blame::Console();
     console->setTitle("Hello, World!");
 
-    auto window = new Blame::Widgets::Window(console, "Hello World", 5, 5, 20, 10);
-    window->redraw();
+    auto window = new Blame::Widgets::Window(console, "Hello World");
+    window->place(5, 5, 20, 10);
 
-    auto window_two = new Blame::Widgets::Window(console, "Another Window", 40, 8, 30, 10);
-    window_two->redraw();
+    auto window_two = new Blame::Widgets::Window(console, "Another Window");
+    window_two->place(40, 8, 30, 10);
 
     console->mainloop();
 

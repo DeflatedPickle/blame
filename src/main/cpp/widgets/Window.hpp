@@ -6,7 +6,7 @@
 namespace Blame::Widgets {
     class Window : public Widget {
     public:
-        Window(Console *console, std::string title_text, int column, int row, int width, int height);
+        Window(Console *console, std::string title_text);
 
         void redraw() override;
 

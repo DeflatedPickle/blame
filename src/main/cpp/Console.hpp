@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "widgets/Listener.hpp"
+#include "util/ClientArea.hpp"
 
 namespace Blame {
     class Console {
@@ -22,14 +23,11 @@ namespace Blame {
         int width;
         int height;
 
-        int client_area_left;
-        int client_area_right;
-        int client_area_top;
-        int client_area_bottom;
+        Blame::Util::ClientArea client_area;
 
-        std::vector<Blame::Widgets::Listener *> widgetList;
-        std::vector<Blame::Widgets::Listener *> focusOrder;
-        Blame::Widgets::Listener *focusedWidget;
+        std::vector<Blame::Widgets::Listener *> widget_list;
+        std::vector<Blame::Widgets::Listener *> focus_order;
+        Blame::Widgets::Listener *focused_widget;
 
     protected:
         // std::string colour_background;

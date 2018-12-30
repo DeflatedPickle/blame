@@ -20,10 +20,10 @@ Blame::Console::Console() {
     this->width = size.ws_col;
     this->height = size.ws_row;
 
-    this->client_area_left = 0;
-    this->client_area_top = 0;
-    this->client_area_right = this->width;
-    this->client_area_bottom = this->height;
+    this->client_area.left = 0;
+    this->client_area.top = 0;
+    this->client_area.right = this->width;
+    this->client_area.bottom = this->height;
 
     struct termios term{};
     tcgetattr(STDIN_FILENO, &term);
@@ -39,8 +39,8 @@ void Blame::Console::mainloop() {
 
     bool find_second_third;
 
-    this->focusedWidget = this->focusOrder[0];
-    this->focusedWidget->focus();
+    this->focused_widget = this->focus_order[0];
+    this->focused_widget->focus();
 
     while (true) {
         find_second_third = true;
@@ -52,7 +52,7 @@ void Blame::Console::mainloop() {
             std::cout << std::endl;
 
             // Perform clean up on all widgets
-            for (auto widget : this->widgetList) {
+            for (auto widget : this->widget_list) {
                 widget->quit();
             }
 
@@ -60,14 +60,14 @@ void Blame::Console::mainloop() {
         }
 
         if (first == 'f') {
-            auto pos = distance(focusOrder.begin(), find(focusOrder.begin(), focusOrder.end(), this->focusedWidget));
+            auto pos = distance(focus_order.begin(), find(focus_order.begin(), focus_order.end(), this->focused_widget));
 
-            this->focusedWidget->unfocus();
-            if (pos + 1 >= this->focusOrder.size()) {
-                this->focusOrder[0]->focus();
+            this->focused_widget->unfocus();
+            if (pos + 1 >= this->focus_order.size()) {
+                this->focus_order[0]->focus();
             }
             else {
-                this->focusOrder[pos + 1]->focus();
+                this->focus_order[pos + 1]->focus();
             }
 
             find_second_third = false;
@@ -81,25 +81,25 @@ void Blame::Console::mainloop() {
         if (first == 27 && second == 91) {
             if (third == 65) {
                 // std::cout << "UP";
-                for (auto widget : this->widgetList) {
+                for (auto widget : this->widget_list) {
                     widget->arrowKey(Blame::Util::ArrowKey::UP);
                 }
             }
             else if (third == 66) {
                 // std::cout << "DOWN";
-                for (auto widget : this->widgetList) {
+                for (auto widget : this->widget_list) {
                     widget->arrowKey(Blame::Util::ArrowKey::DOWN);
                 }
             }
             else if (third == 67) {
                 // std::cout << "RIGHT";
-                for (auto widget : this->widgetList) {
+                for (auto widget : this->widget_list) {
                     widget->arrowKey(Blame::Util::ArrowKey::RIGHT);
                 }
             }
             else if (third == 68) {
                 // std::cout << "LEFT";
-                for (auto widget : this->widgetList) {
+                for (auto widget : this->widget_list) {
                     widget->arrowKey(Blame::Util::ArrowKey::LEFT);
                 }
             }
@@ -119,7 +119,7 @@ void Blame::Console::redraw() {
     this->moveCaret(0, 0);
 
     // TODO: Maybe add a check for if they need to be redrawn?
-    for (auto widget : this->widgetList) {
+    for (auto widget : this->widget_list) {
         // The widgets are added as listeners, since the Widget class is incomplete at the time of headers
         // meaning they can't be used for the typing of the list, so we have to cast them to widgets...
         // which they might not be
