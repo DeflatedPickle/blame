@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "widgets/Listener.hpp"
 
 namespace Blame {
@@ -13,6 +14,8 @@ namespace Blame {
         void clear();
 
         void redraw();
+
+        void setTitle(std::string str);
 
         void moveCaret(int column, int row);
 

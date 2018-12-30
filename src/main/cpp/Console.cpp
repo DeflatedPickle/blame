@@ -79,17 +79,16 @@ void Blame::Console::mainloop() {
     }
 }
 
-void Blame::Console::moveCaret(int column, int row) {
-    printf("\033[%d;%dH", row, column);
-}
-
 void Blame::Console::clear() {
     std::cout << Blame::Util::EscapeCodes::reset();
     printf("\033c");
 }
 
 void Blame::Console::redraw() {
+    // TODO: Only redraw the cells that have been changed, don't clear the whole thing
     this->clear();
+
+    this->moveCaret(0, 0);
 
     // TODO: Maybe add a check for if they need to be redrawn?
     for (auto widget : this->widgetList) {
@@ -99,4 +98,12 @@ void Blame::Console::redraw() {
         auto new_widget = dynamic_cast<Blame::Widgets::Widget *>(widget);
         new_widget->redraw();
     }
+}
+
+void Blame::Console::setTitle(std::string str) {
+    printf("\033]2;%s\007", str.c_str());
+}
+
+void Blame::Console::moveCaret(int column, int row) {
+    printf("\033[%d;%dH", row, column);
 }
