@@ -28,6 +28,8 @@ namespace Blame {
         int client_area_bottom;
 
         std::vector<Blame::Widgets::Listener *> widgetList;
+        std::vector<Blame::Widgets::Listener *> focusOrder;
+        Blame::Widgets::Listener *focusedWidget;
 
     protected:
         // std::string colour_background;

@@ -14,6 +14,7 @@ Blame::Widgets::Widget::Widget(Blame::Console *console, std::optional<Blame::Wid
     this->height = height;
 
     this->console->widgetList.push_back(this);
+    this->console->focusOrder.push_back(this);
 }
 
 void Blame::Widgets::Widget::redraw() {
@@ -77,6 +78,6 @@ void Blame::Widgets::Widget::redraw() {
 }
 
 void Blame::Widgets::Widget::setColours() {
-    std::cout << this->colour_border;
+    std::cout << this->getCurrentBorderColour();
     std::cout << this->colour_background;
 }

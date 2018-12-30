@@ -15,6 +15,8 @@ Blame::Widgets::Window::Window(Console *console, std::string title_text, int col
     this->colour_background = Blame::Util::EscapeCodes::backgroundWhite();
     this->colour_text = Blame::Util::EscapeCodes::foregroundBlack();
 
+    this->colour_focus_border = Blame::Util::EscapeCodes::foregroundGreen();
+
     this->symbol_top_left = "╔";
     this->symbol_top_middle = "═";
     this->symbol_top_right = "╗";
@@ -40,18 +42,18 @@ void Blame::Widgets::Window::redraw() {
         for (int w = 0; w < this->width; w++) {
             // Top Left
             if (w == 0 && h == 0) {
-                std::cout << this->colour_border;
+                std::cout << this->getCurrentBorderColour();
                 std::cout << this->symbol_top_left;
             }
             // Middle Left
             else if (w == 0 && h > 0 && h < this->height - 1) {
-                std::cout << this->colour_border;
+                std::cout << this->getCurrentBorderColour();
                 std::cout << this->symbol_middle_left;
             }
 
             // Top Middle
             if (h == 0) {
-                std::cout << this->colour_border;
+                std::cout << this->getCurrentBorderColour();
                 std::cout << this->symbol_top_middle;
             }
             // Middle Fill
@@ -68,12 +70,12 @@ void Blame::Widgets::Window::redraw() {
 
             // Top Right
             if (w == this->width - 1 && h == 0) {
-                std::cout << this->colour_border;
+                std::cout << this->getCurrentBorderColour();
                 std::cout << this->symbol_top_right;
             }
                 // Middle Right
             else if (w == this->width - 1 && h > 0 && h < this->height - 1) {
-                std::cout << this->colour_border;
+                std::cout << this->getCurrentBorderColour();
                 std::cout << this->symbol_middle_right;
             }
         }
@@ -94,6 +96,9 @@ void Blame::Widgets::Window::redraw() {
 void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
     // Account for the title height
     this->row -= 2;
+
+    if (this != this->console->focusedWidget)
+        return;
 
     switch (arrowKey) {
         case Blame::Util::ArrowKey::UP:

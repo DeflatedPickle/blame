@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/ioctl.h>
+#include <algorithm>
 #include "util/EscapeCodes.hpp"
 #include "util/ArrowKey.hpp"
 #include "widgets/Widget.hpp"
@@ -36,7 +37,13 @@ void Blame::Console::mainloop() {
     char second;
     char third;
 
+    bool find_second_third;
+
+    this->focusedWidget = this->focusOrder[0];
+    this->focusedWidget->focus();
+
     while (true) {
+        find_second_third = true;
         std::cout.flush();
 
         std::cin >> first;
@@ -52,8 +59,24 @@ void Blame::Console::mainloop() {
             break;
         }
 
-        std::cin >> second;
-        std::cin >> third;
+        if (first == 'f') {
+            auto pos = distance(focusOrder.begin(), find(focusOrder.begin(), focusOrder.end(), this->focusedWidget));
+
+            this->focusedWidget->unfocus();
+            if (pos + 1 >= this->focusOrder.size()) {
+                this->focusOrder[0]->focus();
+            }
+            else {
+                this->focusOrder[pos + 1]->focus();
+            }
+
+            find_second_third = false;
+        }
+
+        if (find_second_third) {
+            std::cin >> second;
+            std::cin >> third;
+        }
 
         if (first == 27 && second == 91) {
             if (third == 65) {
