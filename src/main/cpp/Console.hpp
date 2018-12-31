@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <atomic>
+#include <sstream>
 #include "widgets/Listener.hpp"
 #include "util/ClientArea.hpp"
 
@@ -20,7 +21,7 @@ namespace Blame {
 
         void setTitle(std::string str);
 
-        void moveCaret(int column, int row);
+        void moveCaret(std::ostream& stream, int column, int row);
 
         int width;
         int height;

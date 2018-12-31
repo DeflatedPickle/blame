@@ -29,56 +29,56 @@ Blame::Widgets::Window::Window(Console *console, std::string title_text) : Widge
 }
 
 void Blame::Widgets::Window::redraw() {
-    this->console->moveCaret(this->column, this->row);
+    this->console->moveCaret(this->widget_stream, this->column, this->row);
     // Account for the title height
     this->row -= 2;
 
-    std::cout << this->colour_border;
+    this->widget_stream << this->colour_border;
     for (int h = 0; h < 3; h++) {
-        this->console->moveCaret(this->column, this->row + h);
-        std::cout << this->colour_background;
+        this->console->moveCaret(this->widget_stream, this->column, this->row + h);
+        this->widget_stream << this->colour_background;
         for (int w = 0; w < this->width; w++) {
             // Top Left
             if (w == 0 && h == 0) {
-                std::cout << this->getCurrentBorderColour();
-                std::cout << this->symbol_top_left;
+                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->symbol_top_left;
             }
             // Middle Left
             else if (w == 0 && h > 0 && h < this->height - 1) {
-                std::cout << this->getCurrentBorderColour();
-                std::cout << this->symbol_middle_left;
+                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->symbol_middle_left;
             }
 
             // Top Middle
             if (h == 0) {
-                std::cout << this->getCurrentBorderColour();
-                std::cout << this->symbol_top_middle;
+                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->symbol_top_middle;
             }
             // Middle Fill
             else {
                 if (w == 1) {
-                    std::cout << this->colour_text;
-                    std::cout << this->title_text;
+                    this->widget_stream << this->colour_text;
+                    this->widget_stream << this->title_text;
                 }
                 else if (w == 0 || w > this->title_text.length()) {
-                    std::cout << Blame::Util::EscapeCodes::foregroundWhite();
-                    std::cout << this->symbol_middle_fill;
+                    this->widget_stream << Blame::Util::EscapeCodes::foregroundWhite();
+                    this->widget_stream << this->symbol_middle_fill;
                 }
             }
 
             // Top Right
             if (w == this->width - 1 && h == 0) {
-                std::cout << this->getCurrentBorderColour();
-                std::cout << this->symbol_top_right;
+                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->symbol_top_right;
             }
                 // Middle Right
             else if (w == this->width - 1 && h > 0 && h < this->height - 1) {
-                std::cout << this->getCurrentBorderColour();
-                std::cout << this->symbol_middle_right;
+                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->symbol_middle_right;
             }
         }
-        std::cout << Blame::Util::EscapeCodes::reset();
-        std::cout << std::endl;
+        this->widget_stream << Blame::Util::EscapeCodes::reset();
+        this->widget_stream << std::endl;
     }
 
     this->symbol_top_left = this->symbol_title_intersect_left;
@@ -97,7 +97,7 @@ void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
 
     switch (arrowKey) {
         case Blame::Util::ArrowKey::UP:
-            if (this->row - 1 > console->client_area.top) {
+            if (this->row - 3 > console->client_area.top) {
                 this->row -= 1;
             }
             break;

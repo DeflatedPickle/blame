@@ -15,7 +15,7 @@
 // TODO: Add signals for console events
 Blame::Console::Console() {
     this->clear();
-    this->moveCaret(0, 0);
+    this->moveCaret(std::cout, 0, 0);
 
     struct winsize size{};
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
@@ -142,7 +142,7 @@ void Blame::Console::redraw() {
     // TODO: Only redraw the cells that have been changed, don't clear the whole thing
     this->clear();
 
-    this->moveCaret(0, 0);
+    this->moveCaret(std::cout, 0, 0);
 
     // TODO: Maybe add a check for if they need to be redrawn?
     for (auto widget : this->widget_list) {
@@ -155,9 +155,9 @@ void Blame::Console::redraw() {
 }
 
 void Blame::Console::setTitle(std::string str) {
-    printf("\033]2;%s\007", str.c_str());
+    std::cout << "\033]2;" << str.c_str() << "\007";
 }
 
-void Blame::Console::moveCaret(int column, int row) {
-    printf("\033[%d;%dH", row, column);
+void Blame::Console::moveCaret(std::ostream& stream, int column, int row) {
+    stream << "\033[" << row << ";" << column << "H";
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <optional>
+#include <sstream>
 #include "../Console.hpp"
 #include "Listener.hpp"
 #include "../util/EscapeCodes.hpp"
@@ -67,6 +68,8 @@ namespace Blame::Widgets {
         Blame::Util::ClientArea client_area;
 
         bool resizable;
+
+        std::ostringstream widget_stream;
 
     protected:
         Blame::Console *console;
