@@ -16,6 +16,13 @@
 Blame::Console::Console() {
     this->clear();
     this->moveCaret(std::cout, 0, 0);
+    std::cout << Blame::Util::EscapeCodes::caretOff();
+
+    this->buffer_list.push_back(&front_buffer);
+    this->buffer_list.push_back(&back_buffer);
+
+    this->exit.store(false);
+    this->has_flipped.store(true);
 
     struct winsize size{};
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
@@ -45,15 +52,16 @@ void Blame::Console::mainLoop() {
     this->focused_widget->focus();
 
     std::thread draw_thread(&Blame::Console::drawLoop, this);
+    std::thread buffer_thread(&Blame::Console::bufferLoop, this);
 
-    while (true) {
+    while (!this->exit.load()) {
         find_second_third = true;
         std::cout.flush();
 
         std::cin >> first;
 
         if (first == 'q') {
-            this->exit = true;
+            this->exit.store(true);
             std::cout << std::endl;
 
             // Perform clean up on all widgets
@@ -61,7 +69,7 @@ void Blame::Console::mainLoop() {
                 widget->quit();
             }
 
-            break;
+            std::exit(0);
         }
 
         if (first == 'f') {
@@ -117,17 +125,30 @@ void Blame::Console::drawLoop() {
     std::chrono::milliseconds start_time = current_time;
     int frame_count = 0;
 
-    while (!this->exit) {
+    while (!this->exit.load()) {
         frame_count++;
         current_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
         // this->setTitle("Current Time: " + std::to_string(current_time.count()) + " Start Time:" + std::to_string(start_time.count()) + " Final: " + std::to_string(current_time.count() - start_time.count()));
-        if (current_time.count() - start_time.count() > 0.25f && frame_count) {
+        if (current_time.count() - start_time.count() > 0.25f) {
             frame_count = 0;
 
             start_time = current_time;
 
             // this->setTitle("--------------------------------");
+            if (this->has_flipped.load()) {
+                this->has_flipped.exchange(false);
+
+                // this->redraw();
+                this->flipBuffers();
+            }
+        }
+    }
+}
+
+void Blame::Console::bufferLoop() {
+    while (!this->exit.load()) {
+        if (this->has_flipped.load()) {
             this->redraw();
         }
     }

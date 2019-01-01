@@ -28,6 +28,7 @@ Blame::Widgets::Window::Window(Console *console, std::string title_text) : Widge
     this->symbol_title_intersect_right = "╣";
 }
 
+// FIXME: Draws the line under the title twice
 void Blame::Widgets::Window::redraw() {
     this->console->moveCaret(this->widget_stream, this->column, this->row);
     // Account for the title height

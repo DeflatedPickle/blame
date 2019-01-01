@@ -49,8 +49,6 @@ namespace Blame::Widgets {
             this->row = y;
             this->width = width;
             this->height = height;
-
-            this->redraw();
         }
         // void placeRemove();
 

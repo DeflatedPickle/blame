@@ -71,7 +71,7 @@ void Blame::Widgets::Widget::redraw() {
         this->widget_stream << std::endl;
     }
 
-    std::cout << this->widget_stream.str();
+    *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();
     this->widget_stream.str(std::string());
 }
 

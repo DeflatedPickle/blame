@@ -21,6 +21,14 @@ namespace Blame::Util {
             return "\u001b[{n}D";
         }
 
+        static std::string caretOff() {
+            return "\u001b[?25l";
+        }
+
+        static std::string caretOn() {
+            return "\u001b[?25h";
+        }
+
         static std::string reset() {
             return "\u001b[0m";
         }
