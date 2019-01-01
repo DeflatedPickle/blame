@@ -171,7 +171,10 @@ void Blame::Console::redraw() {
         // meaning they can't be used for the typing of the list, so we have to cast them to widgets...
         // which they might not be
         auto new_widget = dynamic_cast<Blame::Widgets::Widget *>(widget);
-        new_widget->redraw();
+
+        if (new_widget->is_redrawn.load()) {
+            new_widget->redraw();
+        }
     }
 }
 

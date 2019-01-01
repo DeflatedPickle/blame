@@ -16,4 +16,4 @@ add_library(blame_src
         main/cpp/widgets/Window.cpp
         main/cpp/widgets/Window.hpp
 
-        main/cpp/util/ArrowKey.hpp main/cpp/widgets/Listener.hpp main/cpp/util/ClientArea.hpp)
+        main/cpp/util/ArrowKey.hpp main/cpp/widgets/Listener.hpp main/cpp/util/ClientArea.hpp main/cpp/styles/Style.hpp main/cpp/styles/Symbols.hpp main/cpp/styles/Colours.hpp main/cpp/styles/StyleWindow.hpp)

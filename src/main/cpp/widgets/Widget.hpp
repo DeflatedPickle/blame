@@ -8,6 +8,7 @@
 #include "Listener.hpp"
 #include "../util/EscapeCodes.hpp"
 #include "../util/State.hpp"
+#include "../styles/Style.hpp"
 
 // TODO: Add checks for if the widget is focused or disabled
 namespace Blame::Widgets {
@@ -34,13 +35,13 @@ namespace Blame::Widgets {
         std::string getCurrentBorderColour() {
             switch (this->state) {
                 case Blame::Util::State::NORMAL:
-                    return this->colour_border;
+                    return this->style->colours->border;
 
                 case Blame::Util::State::FOCUSED:
-                    return this->colour_focus_border;
+                    return this->style->colours->focus_border;
 
                 case Blame::Util::State::DISABLED:
-                    return this->colour_disable_border;
+                    return this->style->colours->disable_border;
             }
         }
 
@@ -69,6 +70,8 @@ namespace Blame::Widgets {
 
         std::ostringstream widget_stream;
 
+        std::atomic_bool is_redrawn;
+
     protected:
         Blame::Console *console;
         std::optional<Blame::Widgets::Widget*> parent;
@@ -83,26 +86,6 @@ namespace Blame::Widgets {
         // int internal_padding_right;
         // int internal_padding_bottom;
 
-        std::string colour_border;
-        std::string colour_background;
-        std::string colour_text;
-
-        std::string colour_focus_border;
-        std::string colour_focus_background;
-        std::string colour_focus_text;
-
-        std::string colour_disable_border;
-        std::string colour_disable_background;
-        std::string colour_disable_text;
-
-        std::string symbol_top_left;
-        std::string symbol_top_middle;
-        std::string symbol_top_right;
-        std::string symbol_middle_left;
-        std::string symbol_middle_fill;
-        std::string symbol_middle_right;
-        std::string symbol_bottom_left;
-        std::string symbol_bottom_middle;
-        std::string symbol_bottom_right;
+        Blame::Styles::Style *style;
     };
 }
