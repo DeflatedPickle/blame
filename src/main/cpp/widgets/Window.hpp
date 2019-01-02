@@ -10,12 +10,11 @@ namespace Blame::Widgets {
 
         void redraw() override;
 
-        void arrowKey(Blame::Util::ArrowKey arrowKey) override;
+        void move(Blame::Util::Direction direction) override;
 
         std::string title_text;
 
     protected:
-
         std::string symbol_title_intersect_left;
         std::string symbol_title_intersect_right;
 

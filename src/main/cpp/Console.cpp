@@ -9,7 +9,7 @@
 #include <chrono>
 #include <thread>
 #include "util/EscapeCodes.hpp"
-#include "util/ArrowKey.hpp"
+#include "util/Direction.hpp"
 #include "widgets/Widget.hpp"
 
 // TODO: Add signals for console events
@@ -83,25 +83,25 @@ void Blame::Console::mainLoop() {
             if (third == 65) {
                 // std::cout << "UP";
                 for (auto widget : this->widget_list) {
-                    widget->arrowKey(Blame::Util::ArrowKey::UP);
+                    widget->move(Blame::Util::Direction::UP);
                 }
             }
             else if (third == 66) {
                 // std::cout << "DOWN";
                 for (auto widget : this->widget_list) {
-                    widget->arrowKey(Blame::Util::ArrowKey::DOWN);
+                    widget->move(Blame::Util::Direction::DOWN);
                 }
             }
             else if (third == 67) {
                 // std::cout << "RIGHT";
                 for (auto widget : this->widget_list) {
-                    widget->arrowKey(Blame::Util::ArrowKey::RIGHT);
+                    widget->move(Blame::Util::Direction::RIGHT);
                 }
             }
             else if (third == 68) {
                 // std::cout << "LEFT";
                 for (auto widget : this->widget_list) {
-                    widget->arrowKey(Blame::Util::ArrowKey::LEFT);
+                    widget->move(Blame::Util::Direction::LEFT);
                 }
             }
         }

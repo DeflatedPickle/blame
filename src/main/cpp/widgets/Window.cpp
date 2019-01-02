@@ -22,35 +22,35 @@ void Blame::Widgets::Window::redraw() {
     this->row -= 2;
 
     this->widget_stream << this->style->colours->border;
-    for (int h = 0; h < 3; h++) {
-        this->console->moveCaret(this->widget_stream, this->column, this->row + h);
+    for (int y = 0; y < 3; y++) {
+        this->console->moveCaret(this->widget_stream, this->column, this->row + y);
         this->widget_stream << this->style->colours->background;
-        for (int w = 0; w < this->width; w++) {
+        for (int x = 0; x < this->width; x++) {
             // Top Left
-            if (w == 0 && h == 0) {
+            if (x == 0 && y == 0) {
                 this->widget_stream << this->getCurrentBorderColour();
                 this->widget_stream << this->style->symbols->top_left;
             }
             // Middle Left
-            else if (w == 0 && h > 0 && h < this->height - 1) {
+            else if (x == 0 && y > 0 && y < this->height - 1) {
                 this->widget_stream << this->getCurrentBorderColour();
                 this->widget_stream << this->style->symbols->middle_left;
             }
 
             // Top Middle
-            if (h == 0) {
+            if (y == 0) {
                 this->widget_stream << this->getCurrentBorderColour();
                 this->widget_stream << this->style->symbols->top_middle;
             }
             // Middle Fill
             else {
-                if (w == 1) {
+                if (x == 1) {
                     this->widget_stream << Blame::Util::EscapeCodes::reset();
                     this->widget_stream << this->style->colours->background;
                     this->widget_stream << this->style->colours->text;
                     this->widget_stream << this->title_text;
                 }
-                else if (w == 0 || w > this->title_text.length()) {
+                else if (x == 0 || x > this->title_text.length()) {
                     this->widget_stream << Blame::Util::EscapeCodes::reset();
                     this->widget_stream << this->style->colours->background;
                     this->widget_stream << this->style->symbols->middle_fill;
@@ -58,12 +58,12 @@ void Blame::Widgets::Window::redraw() {
             }
 
             // Top Right
-            if (w == this->width - 1 && h == 0) {
+            if (x == this->width - 1 && y == 0) {
                 this->widget_stream << this->getCurrentBorderColour();
                 this->widget_stream << this->style->symbols->top_right;
             }
                 // Middle Right
-            else if (w == this->width - 1 && h > 0 && h < this->height - 1) {
+            else if (x == this->width - 1 && y > 0 && y < this->height - 1) {
                 this->widget_stream << this->getCurrentBorderColour();
                 this->widget_stream << this->style->symbols->middle_right;
             }
@@ -84,12 +84,12 @@ void Blame::Widgets::Window::redraw() {
     this->is_redrawn.exchange(true);
 }
 
-void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
+void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
     if (this != this->console->focused_widget)
         return;
 
-    switch (arrowKey) {
-        case Blame::Util::ArrowKey::UP:
+    switch (direction) {
+        case Blame::Util::Direction::UP:
             if (this->row - 3 > console->client_area.top) {
                 this->row--;
 
@@ -99,7 +99,7 @@ void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
             }
             break;
 
-        case Blame::Util::ArrowKey::DOWN:
+        case Blame::Util::Direction::DOWN:
             if (this->row + 1 + this->height < console->client_area.bottom) {
                 this->row++;
 
@@ -109,7 +109,7 @@ void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
             }
             break;
 
-        case Blame::Util::ArrowKey::LEFT:
+        case Blame::Util::Direction::LEFT:
             if (this->column - 1 > console->client_area.left) {
                 this->column--;
 
@@ -119,7 +119,7 @@ void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
             }
             break;
 
-        case Blame::Util::ArrowKey::RIGHT:
+        case Blame::Util::Direction::RIGHT:
             if (this->column + 1 + this->width < console->client_area.right) {
                 this->column++;
 

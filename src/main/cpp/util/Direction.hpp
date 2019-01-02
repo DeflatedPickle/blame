@@ -1,7 +1,7 @@
 #pragma once
 
 namespace Blame::Util {
-    enum ArrowKey {
+    enum Direction {
         UP,
         DOWN,
         LEFT,

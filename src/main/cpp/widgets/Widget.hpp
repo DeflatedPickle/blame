@@ -9,6 +9,8 @@
 #include "../util/EscapeCodes.hpp"
 #include "../util/State.hpp"
 #include "../styles/Style.hpp"
+#include "managers/Manager.hpp"
+#include "managers/Pack.hpp"
 
 // TODO: Add checks for if the widget is focused or disabled
 namespace Blame::Widgets {
@@ -31,7 +33,7 @@ namespace Blame::Widgets {
             this->state = Blame::Util::State::NORMAL;
         }
 
-        void arrowKey(Blame::Util::ArrowKey arrowKey) override {}
+        void move(Blame::Util::Direction direction) override {}
 
         void activate() override {}
 
@@ -58,11 +60,38 @@ namespace Blame::Widgets {
         }
         // void placeRemove();
 
-        void pack() {
-            this->column = this->parent->client_area.left;
-            this->row = this->parent->client_area.top;
+        void pack(Blame::Util::Direction direction) {
+            if (this->parent->manager == nullptr) {
+                this->updateClientArea();
 
-            this->updateClientArea();
+                this->parent->manager = new Blame::Widgets::Managers::Pack();
+                auto manager = static_cast<Blame::Widgets::Managers::Pack *>(this->parent->manager);
+                manager->direction = direction;
+                manager->next_x = this->parent->client_area.left;
+                manager->next_y = this->parent->client_area.top;
+
+                this->parent->manager = manager;
+            }
+
+            auto manager = static_cast<Blame::Widgets::Managers::Pack *>(this->parent->manager);
+            manager->widgets.push_back(this);
+
+            this->column = manager->next_x;
+            this->row = manager->next_y;
+
+            switch (direction) {
+                case Blame::Util::Direction::LEFT:
+                    manager->next_x += this->width + 2;
+                    break;
+
+                case Blame::Util::Direction::DOWN:
+                    manager->next_y += this->height;
+                    break;
+            }
+
+            manager->direction = direction;
+
+            this->parent->manager = manager;
         }
         // void packRemove();
 
@@ -89,6 +118,7 @@ namespace Blame::Widgets {
 
         std::atomic_bool is_redrawn;
 
+        Blame::Widgets::Managers::Manager *manager;
         std::vector<Blame::Widgets::Widget *> children;
 
     protected:

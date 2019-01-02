@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../util/ArrowKey.hpp"
+#include "../util/Direction.hpp"
 #include "../util/State.hpp"
 
 namespace Blame::Widgets {
@@ -11,7 +11,7 @@ namespace Blame::Widgets {
         virtual void focus() = 0;
         virtual void unfocus() = 0;
 
-        virtual void arrowKey(Blame::Util::ArrowKey arrowKey) = 0;
+        virtual void move(Blame::Util::Direction direction) = 0;
         virtual void activate() = 0;
 
     protected:

@@ -16,7 +16,7 @@ add_library(blame_src
         main/cpp/widgets/Window.cpp
         main/cpp/widgets/Window.hpp
 
-        main/cpp/util/ArrowKey.hpp
+        main/cpp/util/Direction.hpp
 
         main/cpp/widgets/Listener.hpp
 
@@ -30,4 +30,7 @@ add_library(blame_src
         main/cpp/styles/StyleButton.hpp
 
         main/cpp/widgets/Button.cpp
-        main/cpp/widgets/Button.hpp)
+        main/cpp/widgets/Button.hpp
+
+        main/cpp/widgets/managers/Manager.hpp
+        main/cpp/widgets/managers/Pack.hpp)
