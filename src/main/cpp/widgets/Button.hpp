@@ -12,6 +12,8 @@ namespace Blame::Widgets {
 
         void activate() override {
             this->command();
+
+            Widget::activate();
         }
 
         std::string text;

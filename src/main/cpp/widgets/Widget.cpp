@@ -26,6 +26,7 @@ void Blame::Widgets::Widget::redraw() {
     this->updateClientArea();
     this->is_redrawn.exchange(false);
 
+    this->widget_stream << Blame::Util::EscapeCodes::reset();
     this->console->moveCaret(this->widget_stream, this->column, this->row);
 
     for (int y = 0; y < this->height; y++) {

@@ -22,6 +22,17 @@ namespace Blame {
         void clear();
 
         void redraw();
+        void drawBackground() {
+            this->moveCaret(std::cout, 0, 0);
+
+            for (int y = 0; y < this->height - 1; y++) {
+                for (int x = 0; x < this->width; x++) {
+                    *this->buffer_list[this->current_buffer] << "░";
+                }
+            }
+
+            this->flipBuffers();
+        }
 
         void setTitle(std::string str);
 
@@ -58,12 +69,14 @@ namespace Blame {
             switch (this->current_buffer) {
                 case 0:
                     std::cout << back_buffer.str();
+                    // Clear the buffer
                     back_buffer.str(std::string());
                     this->current_buffer = 1;
                     break;
 
                 case 1:
                     std::cout << front_buffer.str();
+                    // Clear the buffer
                     front_buffer.str(std::string());
                     this->current_buffer = 0;
                     break;

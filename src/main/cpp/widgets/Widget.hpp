@@ -22,20 +22,32 @@ namespace Blame::Widgets {
 
         void setColours();
 
-        void quit() override {}
+        void quit() override {
+            this->console->redraw();
+        }
 
         void focus() override {
             this->console->focused_widget = this;
             this->state = Blame::Util::State::FOCUSED;
+
+            this->console->redraw();
         }
 
         void unfocus() override {
             this->state = Blame::Util::State::NORMAL;
+            this->console->redraw();
+
         }
 
-        void move(Blame::Util::Direction direction) override {}
-        void activate() override {}
-        void text(std::string text) override {}
+        void move(Blame::Util::Direction direction) override {
+            this->console->redraw();
+        }
+        void activate() override {
+            this->console->redraw();
+        }
+        void text(std::string text) override {
+            this->console->redraw();
+        }
 
         std::string getCurrentBorderColour() {
             switch (this->state) {

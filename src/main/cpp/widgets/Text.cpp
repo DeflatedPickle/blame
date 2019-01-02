@@ -26,8 +26,10 @@ void Blame::Widgets::Text::redraw() {
     this->console->moveCaret(this->widget_stream, this->client_area.left + this->caret_x, this->client_area.top + this->caret_y);
     this->widget_stream << this->colour_caret;
     this->widget_stream << this->symbol_caret;
-
     this->widget_stream << Blame::Util::EscapeCodes::reset();
+
+    *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();
+    this->widget_stream.str(std::string());
 
     this->is_redrawn.exchange(true);
 }
@@ -38,24 +40,36 @@ void Blame::Widgets::Text::move(Blame::Util::Direction direction) {
 
     switch (direction) {
         case Blame::Util::Direction::UP:
-            this->caret_y--;
+            if (this->caret_y - 1 > -1) {
+                this->caret_y--;
+            }
             break;
 
         case Blame::Util::Direction::DOWN:
-            this->caret_y++;
+            if (this->caret_y + 1 < this->height - 2) {
+                this->caret_y++;
+            }
             break;
 
         case Blame::Util::Direction::LEFT:
-            this->caret_x--;
+            if (this->caret_x - 1 > -1) {
+                this->caret_x--;
+            }
             break;
 
         case Blame::Util::Direction::RIGHT:
-            this->caret_x++;
+            if (this->caret_x + 1 < this->width) {
+                this->caret_x++;
+            }
             break;
     }
+
+    Widget::move(direction);
 }
 
 void Blame::Widgets::Text::text(std::string text) {
     this->content.insert((unsigned long)this->caret_x, text);
     this->caret_x++;
+
+    Widget::text(text);
 }

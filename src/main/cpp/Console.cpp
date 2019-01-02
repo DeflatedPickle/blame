@@ -52,7 +52,9 @@ void Blame::Console::mainLoop() {
     this->focused_widget = this->focus_order[0];
     this->focused_widget->focus();
 
-    std::thread draw_thread(&Blame::Console::drawLoop, this);
+    // std::thread draw_thread(&Blame::Console::drawLoop, this);
+
+    this->drawBackground();
 
     while (!this->exit.load()) {
         find_second_third = true;
@@ -137,7 +139,6 @@ void Blame::Console::drawLoop() {
 
                 if (this->buffer_list[this->current_buffer]->rdbuf() != std::cout.rdbuf()) {
                     this->redraw();
-                    this->flipBuffers();
                 }
             }
         }
@@ -146,14 +147,14 @@ void Blame::Console::drawLoop() {
 
 void Blame::Console::clear() {
     std::cout << Blame::Util::EscapeCodes::reset();
-    printf("\033c");
+    std::cout << "\033c";
 }
 
 void Blame::Console::redraw() {
     // TODO: Only redraw the cells that have been changed, don't clear the whole thing
-    this->clear();
+    // this->clear();
 
-    this->moveCaret(std::cout, 0, 0);
+    this->drawBackground();
 
     // TODO: Maybe add a check for if they need to be redrawn?
     for (auto widget : this->widget_list) {
@@ -172,6 +173,8 @@ void Blame::Console::redraw() {
             }
         }
     }
+
+    this->flipBuffers();
 }
 
 void Blame::Console::setTitle(std::string str) {

@@ -10,7 +10,7 @@ int main() {
     // console->setTitle(std::to_string(console->width) + "x" + std::to_string(console->height) + "=" + std::to_string(console->width * console->height));
 
     auto window = new Blame::Widgets::Window(console, "Hello World");
-    window->place(5, 5, 20, 10);
+    window->place(5, 5, 22, 12);
 
     auto text = new Blame::Widgets::Text(console, window);
     text->pack(Blame::Util::Direction::DOWN);

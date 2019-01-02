@@ -126,4 +126,6 @@ void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
             }
             break;
     }
+
+    Widget::move(direction);
 }
