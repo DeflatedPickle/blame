@@ -85,9 +85,6 @@ void Blame::Widgets::Window::redraw() {
 }
 
 void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
-    if (this != this->console->focused_widget)
-        return;
-
     switch (direction) {
         case Blame::Util::Direction::UP:
             if (this->row - 3 > console->client_area.top) {

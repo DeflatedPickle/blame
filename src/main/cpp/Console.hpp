@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "widgets/Listener.hpp"
 #include "util/ClientArea.hpp"
+#include "util/EscapeCodes.hpp"
 
 namespace Blame {
     class Console {

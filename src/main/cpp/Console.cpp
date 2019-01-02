@@ -11,6 +11,7 @@
 #include "util/EscapeCodes.hpp"
 #include "util/Direction.hpp"
 #include "widgets/Widget.hpp"
+#include "widgets/Text.hpp"
 
 // TODO: Add signals for console events
 Blame::Console::Console() {
@@ -59,18 +60,27 @@ void Blame::Console::mainLoop() {
 
         std::cin >> first;
 
+        // TODO: Change to the Escape key
         if (first == 'q') {
             this->quit();
         }
 
+        // TODO: Change to the Tab key
         if (first == 'f') {
             this->incrementFocus();
             find_second_third = false;
         }
 
+        // TODO: Change to the Enter key
         if (first == 'e') {
-            auto new_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
-            new_widget->activate();
+            auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
+            focused_widget->activate();
+            find_second_third = false;
+        }
+
+        if (first != 27) {
+            auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
+            focused_widget->text(std::string(1, first));
             find_second_third = false;
         }
 
@@ -82,27 +92,23 @@ void Blame::Console::mainLoop() {
         if (first == 27 && second == 91) {
             if (third == 65) {
                 // std::cout << "UP";
-                for (auto widget : this->widget_list) {
-                    widget->move(Blame::Util::Direction::UP);
-                }
+                auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
+                focused_widget->move(Blame::Util::Direction::UP);
             }
             else if (third == 66) {
                 // std::cout << "DOWN";
-                for (auto widget : this->widget_list) {
-                    widget->move(Blame::Util::Direction::DOWN);
-                }
+                auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
+                focused_widget->move(Blame::Util::Direction::DOWN);
             }
             else if (third == 67) {
                 // std::cout << "RIGHT";
-                for (auto widget : this->widget_list) {
-                    widget->move(Blame::Util::Direction::RIGHT);
-                }
+                auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
+                focused_widget->move(Blame::Util::Direction::RIGHT);
             }
             else if (third == 68) {
                 // std::cout << "LEFT";
-                for (auto widget : this->widget_list) {
-                    widget->move(Blame::Util::Direction::LEFT);
-                }
+                auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
+                focused_widget->move(Blame::Util::Direction::LEFT);
             }
         }
     }

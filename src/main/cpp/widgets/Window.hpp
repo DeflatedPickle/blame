@@ -4,7 +4,7 @@
 #include "Widget.hpp"
 
 namespace Blame::Widgets {
-    class Window : public Widget {
+    class Window : public Blame::Widgets::Widget {
     public:
         Window(Blame::Console *console, std::string title_text);
 

@@ -2,6 +2,7 @@
 #include "../src/main/cpp/Console.hpp"
 #include "../src/main/cpp/widgets/Window.hpp"
 #include "../src/main/cpp/widgets/Button.hpp"
+#include "../src/main/cpp/widgets/Text.hpp"
 
 int main() {
     auto console = new Blame::Console();
@@ -11,16 +12,15 @@ int main() {
     auto window = new Blame::Widgets::Window(console, "Hello World");
     window->place(5, 5, 20, 10);
 
+    auto text = new Blame::Widgets::Text(console, window);
+    text->pack(Blame::Util::Direction::DOWN);
+
     auto button = new Blame::Widgets::Button(console, window, "Click Me", nullptr);
     button->command = [=]() {button->text = "Clicked!";};
     button->pack(Blame::Util::Direction::DOWN);
 
-    auto button_two = new Blame::Widgets::Button(console, window, "Also Me", nullptr);
-    button_two->command = [=]() {button_two->text = "Clicked!";};
-    button_two->pack(Blame::Util::Direction::DOWN);
-
-    auto window_two = new Blame::Widgets::Window(console, "Another Window");
-    window_two->place(40, 8, 30, 10);
+    // auto window_two = new Blame::Widgets::Window(console, "Another Window");
+    // window_two->place(40, 8, 30, 10);
 
     console->mainLoop();
 

@@ -23,6 +23,7 @@ Blame::Widgets::Widget::Widget(Blame::Console *console, Blame::Widgets::Widget *
 }
 
 void Blame::Widgets::Widget::redraw() {
+    this->updateClientArea();
     this->is_redrawn.exchange(false);
 
     this->console->moveCaret(this->widget_stream, this->column, this->row);

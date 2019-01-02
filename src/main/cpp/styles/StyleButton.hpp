@@ -7,11 +7,11 @@ namespace Blame::Styles {
     struct StyleButton : Blame::Styles::Style {
         StyleButton() {
             // Colours
-            this->colours->border = Blame::Util::EscapeCodes::foregroundCyan();
+            this->colours->border = Blame::Util::EscapeCodes::foregroundBlack();
             this->colours->background = Blame::Util::EscapeCodes::backgroundWhite();
             this->colours->text = Blame::Util::EscapeCodes::foregroundBlack();
 
-            this->colours->focus_border = Blame::Util::EscapeCodes::foregroundGreen();
+            this->colours->focus_border = Blame::Util::EscapeCodes::foregroundBlue();
 
             // Symbols
             this->symbols->top_left = "┌";

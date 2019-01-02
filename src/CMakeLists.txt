@@ -33,4 +33,4 @@ add_library(blame_src
         main/cpp/widgets/Button.hpp
 
         main/cpp/widgets/managers/Manager.hpp
-        main/cpp/widgets/managers/Pack.hpp)
+        main/cpp/widgets/managers/Pack.hpp main/cpp/widgets/Text.cpp main/cpp/widgets/Text.hpp)

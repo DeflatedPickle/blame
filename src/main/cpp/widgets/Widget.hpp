@@ -34,8 +34,8 @@ namespace Blame::Widgets {
         }
 
         void move(Blame::Util::Direction direction) override {}
-
         void activate() override {}
+        void text(std::string text) override {}
 
         std::string getCurrentBorderColour() {
             switch (this->state) {
