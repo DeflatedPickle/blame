@@ -52,7 +52,6 @@ void Blame::Console::mainLoop() {
     this->focused_widget->focus();
 
     std::thread draw_thread(&Blame::Console::drawLoop, this);
-    std::thread buffer_thread(&Blame::Console::bufferLoop, this);
 
     while (!this->exit.load()) {
         find_second_third = true;
@@ -61,28 +60,17 @@ void Blame::Console::mainLoop() {
         std::cin >> first;
 
         if (first == 'q') {
-            this->exit.store(true);
-            std::cout << std::endl;
-
-            // Perform clean up on all widgets
-            for (auto widget : this->widget_list) {
-                widget->quit();
-            }
-
-            std::exit(0);
+            this->quit();
         }
 
         if (first == 'f') {
-            auto pos = distance(focus_order.begin(), find(focus_order.begin(), focus_order.end(), this->focused_widget));
+            this->incrementFocus();
+            find_second_third = false;
+        }
 
-            this->focused_widget->unfocus();
-            if (pos + 1 >= this->focus_order.size()) {
-                this->focus_order[0]->focus();
-            }
-            else {
-                this->focus_order[pos + 1]->focus();
-            }
-
+        if (first == 'e') {
+            auto new_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
+            new_widget->activate();
             find_second_third = false;
         }
 
@@ -121,13 +109,15 @@ void Blame::Console::mainLoop() {
 }
 
 void Blame::Console::drawLoop() {
-    std::chrono::milliseconds current_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+    std::chrono::milliseconds current_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch());
     std::chrono::milliseconds start_time = current_time;
     int frame_count = 0;
 
     while (!this->exit.load()) {
         frame_count++;
-        current_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+        current_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch());
 
         // this->setTitle("Current Time: " + std::to_string(current_time.count()) + " Start Time:" + std::to_string(start_time.count()) + " Final: " + std::to_string(current_time.count() - start_time.count()));
         if (current_time.count() - start_time.count() > 0.25f) {
@@ -139,17 +129,11 @@ void Blame::Console::drawLoop() {
             if (this->has_flipped.load()) {
                 this->has_flipped.exchange(false);
 
-                // this->redraw();
-                this->flipBuffers();
+                if (this->buffer_list[this->current_buffer]->rdbuf() != std::cout.rdbuf()) {
+                    this->redraw();
+                    this->flipBuffers();
+                }
             }
-        }
-    }
-}
-
-void Blame::Console::bufferLoop() {
-    while (!this->exit.load()) {
-        if (this->has_flipped.load()) {
-            this->redraw();
         }
     }
 }
@@ -174,6 +158,12 @@ void Blame::Console::redraw() {
 
         if (new_widget->is_redrawn.load()) {
             new_widget->redraw();
+
+            if (!new_widget->children.empty()) {
+                for (auto child : new_widget->children) {
+                    child->redraw();
+                }
+            }
         }
     }
 }
@@ -182,6 +172,6 @@ void Blame::Console::setTitle(std::string str) {
     std::cout << "\033]2;" << str.c_str() << "\007";
 }
 
-void Blame::Console::moveCaret(std::ostream& stream, int column, int row) {
+void Blame::Console::moveCaret(std::ostream &stream, int column, int row) {
     stream << "\033[" << row << ";" << column << "H";
 }

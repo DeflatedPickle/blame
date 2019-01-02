@@ -6,6 +6,7 @@
 #include <atomic>
 #include <iostream>
 #include <thread>
+#include <algorithm>
 #include "widgets/Listener.hpp"
 #include "util/ClientArea.hpp"
 
@@ -16,7 +17,6 @@ namespace Blame {
 
         void mainLoop();
         void drawLoop();
-        void bufferLoop();
 
         void clear();
 
@@ -26,28 +26,50 @@ namespace Blame {
 
         void moveCaret(std::ostream& stream, int column, int row);
 
+        void quit() {
+            this->exit.store(true);
+            std::cout << std::endl;
+
+            // Perform clean up on all widgets
+            for (auto widget : this->widget_list) {
+                widget->quit();
+            }
+
+            std::exit(0);
+        }
+
+        void incrementFocus() {
+            auto pos = std::distance(focus_order.begin(),
+                                std::find(focus_order.begin(), focus_order.end(), this->focused_widget));
+
+            this->focused_widget->unfocus();
+            if (pos + 1 >= this->focus_order.size()) {
+                this->focus_order[0]->focus();
+            }
+            else {
+                this->focus_order[pos + 1]->focus();
+            }
+        }
+
         void flipBuffers() {
             this->has_flipped.exchange(true);
 
             switch (this->current_buffer) {
                 case 0:
-                    std::cout << front_buffer.str();
-                    front_buffer.str(std::string());
+                    std::cout << back_buffer.str();
+                    back_buffer.str(std::string());
                     this->current_buffer = 1;
                     break;
 
                 case 1:
-                    std::cout << back_buffer.str();
-                    back_buffer.str(std::string());
+                    std::cout << front_buffer.str();
+                    front_buffer.str(std::string());
                     this->current_buffer = 0;
                     break;
 
                 default:
                     break;
             }
-
-            // Clear the hidden buffer
-            // this->buffer_list[!this->current_buffer]->str(std::string());
 
             // this->setTitle(std::to_string(this->current_buffer));
         }

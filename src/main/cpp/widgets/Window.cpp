@@ -4,8 +4,7 @@
 #include "../util/EscapeCodes.hpp"
 #include "../styles/StyleWindow.hpp"
 
-Blame::Widgets::Window::Window(Console *console, std::string title_text) : Widget(console, nullptr) {
-    this->console = console;
+Blame::Widgets::Window::Window(Blame::Console *console, std::string title_text) : Widget(console, nullptr) {
     this->title_text = title_text;
 
     this->symbol_title_intersect_left = "╠";
@@ -46,6 +45,8 @@ void Blame::Widgets::Window::redraw() {
             // Middle Fill
             else {
                 if (w == 1) {
+                    this->widget_stream << Blame::Util::EscapeCodes::reset();
+                    this->widget_stream << this->style->colours->background;
                     this->widget_stream << this->style->colours->text;
                     this->widget_stream << this->title_text;
                 }
@@ -90,25 +91,41 @@ void Blame::Widgets::Window::arrowKey(Blame::Util::ArrowKey arrowKey) {
     switch (arrowKey) {
         case Blame::Util::ArrowKey::UP:
             if (this->row - 3 > console->client_area.top) {
-                this->row -= 1;
+                this->row--;
+
+                for (auto child : this->children) {
+                    child->row--;
+                }
             }
             break;
 
         case Blame::Util::ArrowKey::DOWN:
             if (this->row + 1 + this->height < console->client_area.bottom) {
                 this->row++;
+
+                for (auto child : this->children) {
+                    child->row++;
+                }
             }
             break;
 
         case Blame::Util::ArrowKey::LEFT:
             if (this->column - 1 > console->client_area.left) {
                 this->column--;
+
+                for (auto child : this->children) {
+                    child->column--;
+                }
             }
             break;
 
         case Blame::Util::ArrowKey::RIGHT:
             if (this->column + 1 + this->width < console->client_area.right) {
                 this->column++;
+
+                for (auto child : this->children) {
+                    child->column++;
+                }
             }
             break;
     }

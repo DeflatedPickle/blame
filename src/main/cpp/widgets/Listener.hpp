@@ -12,6 +12,7 @@ namespace Blame::Widgets {
         virtual void unfocus() = 0;
 
         virtual void arrowKey(Blame::Util::ArrowKey arrowKey) = 0;
+        virtual void activate() = 0;
 
     protected:
         Blame::Util::State state = Blame::Util::State::NORMAL;

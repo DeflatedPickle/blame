@@ -6,14 +6,15 @@
 namespace Blame::Widgets {
     class Window : public Widget {
     public:
-        Window(Console *console, std::string title_text);
+        Window(Blame::Console *console, std::string title_text);
 
         void redraw() override;
 
         void arrowKey(Blame::Util::ArrowKey arrowKey) override;
 
-    protected:
         std::string title_text;
+
+    protected:
 
         std::string symbol_title_intersect_left;
         std::string symbol_title_intersect_right;

@@ -14,9 +14,10 @@
 namespace Blame::Widgets {
     class Widget : public Blame::Widgets::Listener {
     public:
-        Widget(Blame::Console *console, std::optional<Blame::Widgets::Widget*> parent);
+        Widget(Blame::Console *console, Blame::Widgets::Widget *parent);
 
         virtual void redraw();
+
         void setColours();
 
         void quit() override {}
@@ -31,6 +32,8 @@ namespace Blame::Widgets {
         }
 
         void arrowKey(Blame::Util::ArrowKey arrowKey) override {}
+
+        void activate() override {}
 
         std::string getCurrentBorderColour() {
             switch (this->state) {
@@ -50,14 +53,28 @@ namespace Blame::Widgets {
             this->row = y;
             this->width = width;
             this->height = height;
+
+            this->updateClientArea();
         }
         // void placeRemove();
 
-        // void pack();
+        void pack() {
+            this->column = this->parent->client_area.left;
+            this->row = this->parent->client_area.top;
+
+            this->updateClientArea();
+        }
         // void packRemove();
 
         // void grid(int row, int column);
         // void gridRemove();
+
+        virtual void updateClientArea() {
+            this->client_area.left = this->column + 1;
+            this->client_area.right = this->column - 1 + this->width;
+            this->client_area.top = this->row + 1;
+            this->client_area.bottom = this->row - 1 + this->height;
+        }
 
         int column;
         int row;
@@ -72,9 +89,11 @@ namespace Blame::Widgets {
 
         std::atomic_bool is_redrawn;
 
+        std::vector<Blame::Widgets::Widget *> children;
+
     protected:
         Blame::Console *console;
-        std::optional<Blame::Widgets::Widget*> parent;
+        Blame::Widgets::Widget *parent;
 
         // int padding_top;
         // int padding_left;
