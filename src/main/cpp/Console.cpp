@@ -64,6 +64,7 @@ void Blame::Console::mainLoop() {
 
         // TODO: Change to the Escape key
         if (first == 'q') {
+            this->clear();
             this->quit();
         }
 

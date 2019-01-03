@@ -20,9 +20,7 @@ namespace Blame::Widgets {
 
         virtual void redraw();
 
-        void quit() override {
-            this->console->redraw();
-        }
+        void quit() override {}
 
         void focus() override {
             this->console->focused_widget = this;
@@ -41,8 +39,8 @@ namespace Blame::Widgets {
             this->console->redraw();
         }
         void activate() override {
-            this->console->redraw();
             this->state = Blame::Util::State::ACTIVE;
+            this->console->redraw();
         }
 
         void text(std::string text) override {
