@@ -33,67 +33,72 @@ void Blame::Widgets::Widget::redraw() {
         this->console->moveCaret(this->widget_stream, this->column, this->row + y);
 
         for (int x = 0; x < this->width; x++) {
+            this->widget_stream << Blame::Util::EscapeCodes::reset();
+
             // Top Left
             if (x == 0 && y == 0) {
-                this->setColours();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->top_left;
             }
                 // Middle Left
             else if (x == 0 && y > 0 && y < this->height - 1) {
-                this->setColours();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->middle_left;
             }
                 // Bottom Left
             else if (x == 0 && y == this->height - 1) {
-                this->setColours();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->bottom_left;
             }
 
             // Top Middle
             if (y == 0) {
-                this->setColours();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->top_middle;
             }
-                // Bottom Middle
+            // Bottom Middle
             else if (y == this->height - 1) {
-                this->setColours();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->bottom_middle;
             }
-                // Middle Fill
+            // Middle Fill
             else {
                 this->widget_stream << Blame::Util::EscapeCodes::reset();
-                this->widget_stream << this->style->colours->background;
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_content);
                 this->widget_stream << this->style->symbols->middle_fill;
+                this->widget_stream << Blame::Util::EscapeCodes::reset();
             }
 
             // Top Right
             if (x == this->width - 1 && y == 0) {
-                this->setColours();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->top_right;
             }
-                // Middle Right
+            // Middle Right
             else if (x == this->width - 1 && y > 0 && y < this->height - 1) {
-                this->setColours();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->middle_right;
             }
-                // Bottom Right
+            // Bottom Right
             else if (x == this->width - 1 && y == this->height - 1) {
-                this->setColours();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->bottom_right;
             }
         }
         this->widget_stream << Blame::Util::EscapeCodes::reset();
-        this->widget_stream << std::endl;
     }
 
+    this->widget_stream << Blame::Util::EscapeCodes::reset();
     *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();
     this->widget_stream.str(std::string());
 
     this->is_redrawn.exchange(true);
-}
-
-void Blame::Widgets::Widget::setColours() {
-    this->widget_stream << Blame::Util::EscapeCodes::reset();
-    this->widget_stream << this->getCurrentBorderColour();
-    this->widget_stream << this->style->colours->background;
 }

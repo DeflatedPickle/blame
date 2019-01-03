@@ -20,8 +20,6 @@ namespace Blame::Widgets {
 
         virtual void redraw();
 
-        void setColours();
-
         void quit() override {
             this->console->redraw();
         }
@@ -44,21 +42,26 @@ namespace Blame::Widgets {
         }
         void activate() override {
             this->console->redraw();
+            this->state = Blame::Util::State::ACTIVE;
         }
+
         void text(std::string text) override {
             this->console->redraw();
         }
 
-        std::string getCurrentBorderColour() {
+        std::string getCurrentColour(Blame::Styles::StateColours stateColours) {
             switch (this->state) {
                 case Blame::Util::State::NORMAL:
-                    return this->style->colours->border;
+                    return stateColours.normal;
 
                 case Blame::Util::State::FOCUSED:
-                    return this->style->colours->focus_border;
+                    return stateColours.focused;
+
+                case Blame::Util::State::ACTIVE:
+                    return stateColours.active;
 
                 case Blame::Util::State::DISABLED:
-                    return this->style->colours->disable_border;
+                    return stateColours.disabled;
             }
         }
 

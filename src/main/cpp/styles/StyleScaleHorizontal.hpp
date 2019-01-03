@@ -7,11 +7,14 @@ namespace Blame::Styles {
     struct StyleScaleHorizontal : Blame::Styles::Style {
         StyleScaleHorizontal() {
             // Colours
-            this->colours->border = Blame::Util::EscapeCodes::foregroundBlack();
-            this->colours->background = Blame::Util::EscapeCodes::foregroundBlack() + Blame::Util::EscapeCodes::backgroundWhite();
-            this->colours->text = Blame::Util::EscapeCodes::foregroundBlack();
+            this->colours->border.normal = Blame::Util::EscapeCodes::foregroundBlack();
+            this->colours->background_content.normal = Blame::Util::EscapeCodes::foregroundBlack() + Blame::Util::EscapeCodes::backgroundWhite();
+            this->colours->background_border.normal = Blame::Util::EscapeCodes::backgroundWhite();
+            this->colours->text.normal = Blame::Util::EscapeCodes::foregroundBlack();
 
-            this->colours->focus_border = Blame::Util::EscapeCodes::foregroundBlue();
+            this->colours->border.focused = Blame::Util::EscapeCodes::foregroundBlue();
+            this->colours->background_content.focused = Blame::Util::EscapeCodes::foregroundBlack() + Blame::Util::EscapeCodes::backgroundWhite();
+            this->colours->background_border.focused = Blame::Util::EscapeCodes::backgroundWhite();
 
             // Symbols
             this->symbols->top_left = " ";

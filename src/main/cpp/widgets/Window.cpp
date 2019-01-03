@@ -21,55 +21,64 @@ void Blame::Widgets::Window::redraw() {
     // Account for the title height
     this->row -= 2;
 
-    this->widget_stream << this->style->colours->border;
+    this->widget_stream << this->getCurrentColour(this->style->colours->border);
     for (int y = 0; y < 3; y++) {
         this->console->moveCaret(this->widget_stream, this->column, this->row + y);
-        this->widget_stream << this->style->colours->background;
+        this->widget_stream << this->getCurrentColour(this->style->colours->background_content);
+
         for (int x = 0; x < this->width; x++) {
+            this->widget_stream << Blame::Util::EscapeCodes::reset();
+
             // Top Left
             if (x == 0 && y == 0) {
-                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->top_left;
             }
             // Middle Left
             else if (x == 0 && y > 0 && y < this->height - 1) {
-                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->middle_left;
             }
 
             // Top Middle
             if (y == 0) {
-                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->top_middle;
             }
             // Middle Fill
             else {
                 if (x == 1) {
                     this->widget_stream << Blame::Util::EscapeCodes::reset();
-                    this->widget_stream << this->style->colours->background;
-                    this->widget_stream << this->style->colours->text;
+                    this->widget_stream << this->getCurrentColour(this->style->colours->background_content);
+                    this->widget_stream << this->getCurrentColour(this->style->colours->text);
                     this->widget_stream << this->title_text;
+                    this->widget_stream << Blame::Util::EscapeCodes::reset();
                 }
                 else if (x == 0 || x > this->title_text.length()) {
                     this->widget_stream << Blame::Util::EscapeCodes::reset();
-                    this->widget_stream << this->style->colours->background;
+                    this->widget_stream << this->getCurrentColour(this->style->colours->background_content);
                     this->widget_stream << this->style->symbols->middle_fill;
+                    this->widget_stream << Blame::Util::EscapeCodes::reset();
                 }
             }
 
             // Top Right
             if (x == this->width - 1 && y == 0) {
-                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->top_right;
             }
-                // Middle Right
+            // Middle Right
             else if (x == this->width - 1 && y > 0 && y < this->height - 1) {
-                this->widget_stream << this->getCurrentBorderColour();
+                this->widget_stream << this->getCurrentColour(this->style->colours->border);
+                this->widget_stream << this->getCurrentColour(this->style->colours->background_border);
                 this->widget_stream << this->style->symbols->middle_right;
             }
         }
         this->widget_stream << Blame::Util::EscapeCodes::reset();
-        this->widget_stream << std::endl;
     }
 
     this->style->symbols->top_left = this->symbol_title_intersect_left;

@@ -4,8 +4,8 @@
 #include "../util/EscapeCodes.hpp"
 
 namespace Blame::Styles {
-    struct StyleButton : Blame::Styles::Style {
-        StyleButton() {
+    struct StyleText : Blame::Styles::Style {
+        StyleText() {
             // Colours
             this->colours->border.normal = Blame::Util::EscapeCodes::foregroundBlack();
             this->colours->background_content.normal = Blame::Util::EscapeCodes::backgroundWhite();
@@ -13,7 +13,7 @@ namespace Blame::Styles {
             this->colours->text.normal = Blame::Util::EscapeCodes::foregroundBlack();
 
             this->colours->border.focused = Blame::Util::EscapeCodes::foregroundBlue();
-            this->colours->background_content.focused = Blame::Util::EscapeCodes::backgroundCyan();
+            this->colours->background_content.focused = Blame::Util::EscapeCodes::backgroundWhite();
             this->colours->background_border.focused = Blame::Util::EscapeCodes::backgroundWhite();
             this->colours->text.focused = Blame::Util::EscapeCodes::foregroundBlack();
 

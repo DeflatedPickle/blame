@@ -25,11 +25,13 @@ add_library(blame_src
         main/cpp/styles/Style.hpp
         main/cpp/styles/Symbols.hpp
         main/cpp/styles/Colours.hpp
+        main/cpp/styles/StateColours.hpp
 
         main/cpp/styles/StyleWindow.hpp
         main/cpp/styles/StyleButton.hpp
         main/cpp/styles/StyleScaleHorizontal.hpp
         main/cpp/styles/StyleScaleVertical.hpp
+        main/cpp/styles/StyleText.hpp
 
         main/cpp/widgets/Button.cpp
         main/cpp/widgets/Button.hpp

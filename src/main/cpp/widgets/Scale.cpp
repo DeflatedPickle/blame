@@ -47,12 +47,11 @@ void Blame::Widgets::Scale::redraw() {
             break;
     }
 
-    this->widget_stream << this->style->colours->background;
+    this->widget_stream << this->getCurrentColour(this->style->colours->background_content);
     this->widget_stream << this->colour_handle;
     this->widget_stream << this->symbol_handle;
 
     this->widget_stream << Blame::Util::EscapeCodes::reset();
-
     *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();
     this->widget_stream.str(std::string());
 
