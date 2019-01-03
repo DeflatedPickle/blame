@@ -1,12 +1,14 @@
 #include "Text.hpp"
 #include "../styles/StyleButton.hpp"
 
+// TODO: Add support for multiple text caret's
+// TODO: Add support for selecting text
 Blame::Widgets::Text::Text(Blame::Console *console, Blame::Widgets::Widget *parent) : Widget(console, parent) {
     this->height = 6;
     this->width = 12;
 
     this->symbol_caret = "_";
-    this->colour_caret = Blame::Util::EscapeCodes::foregroundBrightMagenta();
+    this->colour_caret = Blame::Util::EscapeCodes::foregroundMagenta();
 
     this->style = new Blame::Styles::StyleButton();
 

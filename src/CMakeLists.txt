@@ -28,9 +28,19 @@ add_library(blame_src
 
         main/cpp/styles/StyleWindow.hpp
         main/cpp/styles/StyleButton.hpp
+        main/cpp/styles/StyleScaleHorizontal.hpp
+        main/cpp/styles/StyleScaleVertical.hpp
 
         main/cpp/widgets/Button.cpp
         main/cpp/widgets/Button.hpp
 
         main/cpp/widgets/managers/Manager.hpp
-        main/cpp/widgets/managers/Pack.hpp main/cpp/widgets/Text.cpp main/cpp/widgets/Text.hpp)
+        main/cpp/widgets/managers/Pack.hpp
+
+        main/cpp/widgets/Text.cpp
+        main/cpp/widgets/Text.hpp
+
+        main/cpp/widgets/Scale.cpp
+        main/cpp/widgets/Scale.hpp
+
+        main/cpp/util/Orientation.hpp)

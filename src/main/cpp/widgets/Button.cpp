@@ -6,8 +6,8 @@ Blame::Widgets::Button::Button(Blame::Console *console, Blame::Widgets::Widget *
     this->text = text;
     this->command = command;
 
-    this->height = 3;
     this->width = 8;
+    this->height = 3;
 
     this->style = new Blame::Styles::StyleButton();
 }

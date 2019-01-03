@@ -11,7 +11,7 @@
 #include "util/EscapeCodes.hpp"
 #include "util/Direction.hpp"
 #include "widgets/Widget.hpp"
-#include "widgets/Text.hpp"
+#include "widgets/Scale.hpp"
 
 // TODO: Add signals for console events
 Blame::Console::Console() {
