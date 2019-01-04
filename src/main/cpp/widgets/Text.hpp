@@ -17,6 +17,8 @@ namespace Blame::Widgets {
 
         std::string content;
 
+        std::vector<std::string> lines;
+
     protected:
         std::string symbol_caret;
 

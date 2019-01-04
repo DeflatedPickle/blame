@@ -60,7 +60,9 @@ void Blame::Console::mainLoop() {
         find_second_third = true;
         std::cout.flush();
 
-        std::cin >> first;
+        // std::cin >> first;
+
+        first = (char)std::cin.get();
 
         // TODO: Change to the Escape key
         if (first == 'q') {
