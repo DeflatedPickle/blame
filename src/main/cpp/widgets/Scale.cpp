@@ -1,3 +1,4 @@
+#include <cmath>
 #include <functional>
 #include "Scale.hpp"
 #include "../styles/StyleScaleHorizontal.hpp"
@@ -90,7 +91,7 @@ void Blame::Widgets::Scale::move(Blame::Util::Direction direction) {
             break;
     }
 
-    this->current = (float) this->handle_current / (this->handle_max - 1);
+    this->current = ((((float) this->handle_current / (this->handle_max - 1)) * this->max) - (std::fabs(this->min) / 2)) * 2;
     this->command();
 
     Widget::move(direction);
