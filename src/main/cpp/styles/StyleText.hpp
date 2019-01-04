@@ -17,6 +17,11 @@ namespace Blame::Styles {
             this->colours->background_border.focused = Blame::Util::EscapeCodes::backgroundWhite();
             this->colours->text.focused = Blame::Util::EscapeCodes::foregroundBlack();
 
+            this->colours->border.disabled = Blame::Util::EscapeCodes::foregroundRed();
+            this->colours->background_content.disabled = Blame::Util::EscapeCodes::backgroundBlack();
+            this->colours->background_border.disabled = Blame::Util::EscapeCodes::backgroundWhite();
+            this->colours->text.disabled = Blame::Util::EscapeCodes::foregroundWhite();
+
             // Symbols
             this->symbols->top_left = "┌";
             this->symbols->top_middle = "─";

@@ -1,9 +1,11 @@
+#include <functional>
 #include "Scale.hpp"
 #include "../styles/StyleScaleHorizontal.hpp"
 #include "../styles/StyleScaleVertical.hpp"
 
-Blame::Widgets::Scale::Scale(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation) : Widget(console, parent) {
+Blame::Widgets::Scale::Scale(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, std::function<void()> command) : Widget(console, parent) {
     this->orientation = orientation;
+    this->command = command;
 
     // TODO: Smoothly transition through the handle parts to represent each segment of a float value
     switch (this->orientation) {
@@ -87,6 +89,9 @@ void Blame::Widgets::Scale::move(Blame::Util::Direction direction) {
             }
             break;
     }
+
+    this->current = (float) this->handle_current / (this->handle_max - 1);
+    this->command();
 
     Widget::move(direction);
 }

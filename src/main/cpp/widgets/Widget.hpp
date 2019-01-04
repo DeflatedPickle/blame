@@ -29,6 +29,18 @@ namespace Blame::Widgets {
             this->console->redraw();
         }
 
+        void focus(long pos) override {
+            if (this->state != Blame::Util::State::DISABLED) {
+                this->console->focused_widget = this;
+                this->state = Blame::Util::State::FOCUSED;
+            }
+            else {
+                this->console->incrementFocus(pos + 1);
+            }
+
+            this->console->redraw();
+        }
+
         void unfocus() override {
             this->state = Blame::Util::State::NORMAL;
             this->console->redraw();
@@ -71,6 +83,8 @@ namespace Blame::Widgets {
 
             this->updateClientArea();
         }
+        // void placeBeside();
+        // void placeInside();
         // void placeRemove();
 
         void pack(Blame::Util::Direction direction) {

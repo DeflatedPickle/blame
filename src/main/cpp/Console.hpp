@@ -50,17 +50,25 @@ namespace Blame {
             std::exit(0);
         }
 
+        void incrementFocus(long pos) {
+            this->focused_widget->unfocus();
+            if (pos + 1 >= this->focus_order.size()) {
+                if (this->focus_order[0]->state != Blame::Util::State::DISABLED) {
+                    this->focus_order[0]->focus(0);
+                }
+            }
+            else {
+                if (this->focus_order[0]->state != Blame::Util::State::DISABLED) {
+                    this->focus_order[pos + 1]->focus(pos);
+                }
+            }
+        }
+
         void incrementFocus() {
             auto pos = std::distance(focus_order.begin(),
                                 std::find(focus_order.begin(), focus_order.end(), this->focused_widget));
 
-            this->focused_widget->unfocus();
-            if (pos + 1 >= this->focus_order.size()) {
-                this->focus_order[0]->focus();
-            }
-            else {
-                this->focus_order[pos + 1]->focus();
-            }
+            this->incrementFocus(pos);
         }
 
         void flipBuffers() {

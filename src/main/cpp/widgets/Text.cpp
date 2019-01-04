@@ -26,8 +26,8 @@ void Blame::Widgets::Text::redraw() {
     // Credit: https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
     std::vector<std::string> tokens;
     std::string token;
-    std::istringstream tokenStream(this->content);
-    while (std::getline(tokenStream, token, '~')) {
+    std::istringstream token_stream(this->content);
+    while (std::getline(token_stream, token, '~')) {
         tokens.push_back(token);
     }
     this->lines = tokens;
@@ -39,9 +39,11 @@ void Blame::Widgets::Text::redraw() {
         iteration++;
     }
 
-    this->console->moveCaret(this->widget_stream, this->client_area.left + this->caret_x, this->client_area.top + this->caret_y);
-    this->widget_stream << this->colour_caret;
-    this->widget_stream << this->symbol_caret;
+    if (this->state != Blame::Util::State::DISABLED) {
+        this->console->moveCaret(this->widget_stream, this->client_area.left + this->caret_x, this->client_area.top + this->caret_y);
+        this->widget_stream << this->colour_caret;
+        this->widget_stream << this->symbol_caret;
+    }
 
     this->widget_stream << Blame::Util::EscapeCodes::reset();
     *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();
@@ -51,7 +53,7 @@ void Blame::Widgets::Text::redraw() {
 }
 
 void Blame::Widgets::Text::move(Blame::Util::Direction direction) {
-    if (this != this->console->focused_widget)
+    if (this != this->console->focused_widget || this->state == Blame::Util::State::DISABLED)
         return;
 
     switch (direction) {
@@ -85,6 +87,9 @@ void Blame::Widgets::Text::move(Blame::Util::Direction direction) {
 }
 
 void Blame::Widgets::Text::text(std::string text) {
+    if (this->state == Blame::Util::State::DISABLED)
+        return;
+
     switch (text.c_str()[0]) {
         // Enter
         case '\n':
