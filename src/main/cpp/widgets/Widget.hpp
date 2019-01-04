@@ -37,8 +37,6 @@ namespace Blame::Widgets {
             else {
                 this->console->incrementFocus(pos + 1);
             }
-
-            this->console->redraw();
         }
 
         void unfocus() override {
