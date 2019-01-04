@@ -13,12 +13,12 @@ int main() {
     auto window = new Blame::Widgets::Window(console, "Hello World");
     window->place(5, 5, 22, 18);
 
-    // auto text = new Blame::Widgets::Text(console, window);
-    // text->pack(Blame::Util::Direction::DOWN);
+    auto text = new Blame::Widgets::Text(console, window);
+    text->pack(Blame::Util::Direction::DOWN);
 
-    // auto button = new Blame::Widgets::Button(console, window, "Click Me", nullptr);
-    // button->command = [=]() {button->text = "Clicked!";};
-    // button->pack(Blame::Util::Direction::DOWN);
+    auto button = new Blame::Widgets::Button(console, window, "Click Me", nullptr);
+    button->command = [=]() {button->text = "Clicked!";};
+    button->pack(Blame::Util::Direction::DOWN);
 
     auto scale = new Blame::Widgets::Scale(console, window, Blame::Util::Orientation::HORIZONTAL, nullptr);
     scale->pack(Blame::Util::Direction::DOWN);
