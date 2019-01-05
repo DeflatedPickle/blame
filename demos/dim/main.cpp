@@ -21,10 +21,13 @@ int main() {
     text->height = console->height - 3;
     text->focus();
 
-    text->style->symbols = new Blame::Styles::Symbols();
-    text->style->colours->background_border.focused = Blame::Util::EscapeCodes::reset();
-    text->style->colours->background_content.focused = Blame::Util::EscapeCodes::reset();
-    text->style->colours->text.focused = Blame::Util::EscapeCodes::foregroundWhite();
+    text->style->symbols->middle_fill = " ";
+
+    auto new_colours = new Blame::Styles::Colours();
+    new_colours->border = text->style->colours->border;
+    new_colours->text.focused = Blame::Util::EscapeCodes::foregroundWhite();
+
+    text->style->colours = new_colours;
 
     console->mainLoop();
 

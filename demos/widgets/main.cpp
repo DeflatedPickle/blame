@@ -31,7 +31,7 @@ int main() {
     scale_text->height = 3;
     scale_text->state = Blame::Util::State::DISABLED;
 
-    scale->command = [=]() {scale_text->content = std::to_string(scale->current);};
+    scale->command = [=]() {scale_text->content[0] = std::to_string(scale->current);};
 
     // auto window_two = new Blame::Widgets::Window(console, "Another Window");
     // window_two->place(40, 8, 30, 10);
