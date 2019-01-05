@@ -15,11 +15,12 @@ namespace Blame::Widgets {
 
         // void restore();
         // void minimize();
-        void maximize() {
+        // void maximize();
+        void fullscreen() {
             this->old_width = this->width;
             this->old_height = this->height;
 
-            this->state_window = Blame::Util::StateWindow::MAXIMIZED;
+            this->state_window = Blame::Util::StateWindow::FULLSCREEN;
 
             this->width = this->console->width - 2;
             this->height = this->console->height - 1;

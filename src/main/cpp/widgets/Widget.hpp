@@ -144,6 +144,8 @@ namespace Blame::Widgets {
         Blame::Widgets::Managers::Manager *manager;
         std::vector<Blame::Widgets::Widget *> children;
 
+        Blame::Styles::Style *style;
+
     protected:
         Blame::Console *console;
         Blame::Widgets::Widget *parent;
@@ -157,7 +159,5 @@ namespace Blame::Widgets {
         // int internal_padding_left;
         // int internal_padding_right;
         // int internal_padding_bottom;
-
-        Blame::Styles::Style *style;
     };
 }

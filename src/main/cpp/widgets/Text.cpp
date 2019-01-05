@@ -14,6 +14,8 @@ Blame::Widgets::Text::Text(Blame::Console *console, Blame::Widgets::Widget *pare
 
     this->caret_x = 0;
     this->caret_y = 0;
+
+    this->content.emplace_back("");
 }
 
 void Blame::Widgets::Text::redraw() {
@@ -23,17 +25,8 @@ void Blame::Widgets::Text::redraw() {
     this->widget_stream << this->getCurrentColour(this->style->colours->background_content);
     this->widget_stream << this->getCurrentColour(this->style->colours->text);
 
-    // Credit: https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
-    std::vector<std::string> tokens;
-    std::string token;
-    std::istringstream token_stream(this->content);
-    while (std::getline(token_stream, token, '~')) {
-        tokens.push_back(token);
-    }
-    this->lines = tokens;
-
     int iteration = 0;
-    for (const auto &i : this->lines) {
+    for (const auto &i : this->content) {
         this->console->moveCaret(this->widget_stream, this->client_area.left, this->client_area.top + iteration);
         this->widget_stream << i;
         iteration++;
@@ -93,23 +86,18 @@ void Blame::Widgets::Text::text(std::string text) {
     switch (text.c_str()[0]) {
         // Enter
         case '\n':
-            // Can't actually use new lines or the terminal will handle the string
-            this->content.insert((unsigned long)this->caret_x, "~");
             this->caret_x = 0;
             this->caret_y++;
+
+            if (this->caret_y >= this->content.size()) {
+                this->content.emplace_back("");
+            }
             break;
 
         // Space
         case ' ':
-            this->content.insert((unsigned long)this->caret_x, " ");
-
-            if (this->caret_x + 1 < this->width) {
-                this->caret_x++;
-            }
-            else {
-                this->caret_x = 0;
-                this->caret_y++;
-            }
+            this->content[this->caret_y].insert((unsigned long)this->caret_x, " ");
+            this->caret_x++;
             break;
 
         // Backspace
@@ -118,24 +106,14 @@ void Blame::Widgets::Text::text(std::string text) {
             if (this->caret_x - 1 > -1) {
                 this->caret_x--;
             }
-            else {
-                if (this->caret_y - 1 > -1) {
-                    this->caret_y--;
-                }
-            }
 
-            this->content.erase((unsigned long)this->caret_x, 1);
+            this->content[this->caret_y].erase((unsigned long)this->caret_x, 1);
             break;
 
         // Everything else
         default:
             // this->console->setTitle(std::to_string(text.c_str()[0]));
-            if (this->caret_y == 0) {
-                this->content.insert((unsigned long)this->caret_x, text);
-            }
-            else {
-                this->content.insert(this->content.size(), text);
-            }
+            this->content[this->caret_y].insert((unsigned long)this->caret_x, text);
             this->caret_x++;
             break;
     }

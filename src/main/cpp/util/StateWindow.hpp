@@ -5,6 +5,7 @@ namespace Blame::Util {
         RESTORED,
         MINIMIZED,
         MAXIMIZED,
+        FULLSCREEN,
         CLOSED
     };
 }

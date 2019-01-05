@@ -14,7 +14,7 @@ Blame::Widgets::Window::Window(Blame::Console *console, std::string title_text) 
 
 // FIXME: Draws the line under the title twice
 void Blame::Widgets::Window::redraw() {
-    if (this->state_window == Blame::Util::StateWindow::RESTORED) {
+    if (this->state_window == Blame::Util::StateWindow::RESTORED || this->state_window == Blame::Util::StateWindow::MAXIMIZED) {
         this->is_redrawn.exchange(false);
 
         this->console->moveCaret(this->widget_stream, this->column, this->row);
