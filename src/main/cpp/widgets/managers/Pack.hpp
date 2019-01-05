@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Manager.hpp"
-#include "../../util/Direction.hpp"
+#include "util/Direction.hpp"
 
 namespace Blame::Widgets {
     class Widget;

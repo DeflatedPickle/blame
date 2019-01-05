@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../util/Direction.hpp"
-#include "../util/State.hpp"
+#include <util/Direction.hpp>
+#include <util/State.hpp>
 
 namespace Blame::Widgets {
     class Listener {

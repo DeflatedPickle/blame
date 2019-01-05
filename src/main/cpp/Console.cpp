@@ -8,10 +8,7 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
-#include "util/EscapeCodes.hpp"
-#include "util/Direction.hpp"
-#include "widgets/Widget.hpp"
-#include "widgets/Scale.hpp"
+#include <widgets/Widget.hpp>
 
 // TODO: Add signals for console events
 Blame::Console::Console() {

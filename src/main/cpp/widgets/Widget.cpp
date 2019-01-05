@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <optional>
-#include "../util/EscapeCodes.hpp"
 
 Blame::Widgets::Widget::Widget(Blame::Console *console, Blame::Widgets::Widget *parent) {
     this->console = console;

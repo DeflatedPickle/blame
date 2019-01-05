@@ -4,13 +4,11 @@
 #include <string>
 #include <optional>
 #include <sstream>
-#include "../Console.hpp"
+#include <Console.hpp>
+#include <widgets/managers/Manager.hpp>
+#include <styles/Style.hpp>
+#include <widgets/managers/Pack.hpp>
 #include "Listener.hpp"
-#include "../util/EscapeCodes.hpp"
-#include "../util/State.hpp"
-#include "../styles/Style.hpp"
-#include "managers/Manager.hpp"
-#include "managers/Pack.hpp"
 
 // TODO: Add checks for if the widget is focused or disabled
 namespace Blame::Widgets {

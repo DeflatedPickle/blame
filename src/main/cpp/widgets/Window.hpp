@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <util/StateWindow.hpp>
 #include "Widget.hpp"
 
 namespace Blame::Widgets {
@@ -12,7 +13,22 @@ namespace Blame::Widgets {
 
         void move(Blame::Util::Direction direction) override;
 
+        // void restore();
+        // void minimize();
+        void maximize() {
+            this->old_width = this->width;
+            this->old_height = this->height;
+
+            this->state_window = Blame::Util::StateWindow::MAXIMIZED;
+
+            this->width = this->console->width - 2;
+            this->height = this->console->height - 1;
+        }
+        // void close();
+
         std::string title_text;
+
+        Blame::Util::StateWindow state_window = Blame::Util::StateWindow::RESTORED;
 
     protected:
         std::string symbol_title_intersect_left;
@@ -24,5 +40,9 @@ namespace Blame::Widgets {
         std::string symbol_maximize;
         std::string symbol_restore;
         std::string symbol_close;
+
+    private:
+        int old_width;
+        int old_height;
     };
 }

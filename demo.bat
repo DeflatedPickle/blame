@@ -1,1 +1,1 @@
-start "" cmake-build-debug/demo/blame_demo.exe
+start "" cmake-build-debug/demos/widgets/blame_demo_widgets.exe

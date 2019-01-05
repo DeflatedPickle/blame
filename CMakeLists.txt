@@ -4,4 +4,4 @@ project(blame)
 set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(src)
-add_subdirectory(demo)
+add_subdirectory(demos)

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Style.hpp"
-#include "../util/EscapeCodes.hpp"
 
 namespace Blame::Styles {
     struct StyleWindow : Blame::Styles::Style {

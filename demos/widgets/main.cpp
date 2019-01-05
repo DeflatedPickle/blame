@@ -1,9 +1,9 @@
 #include <iostream>
-#include "../src/main/cpp/Console.hpp"
-#include "../src/main/cpp/widgets/Window.hpp"
-#include "../src/main/cpp/widgets/Button.hpp"
-#include "../src/main/cpp/widgets/Scale.hpp"
-#include "../src/main/cpp/widgets/Text.hpp"
+#include <Console.hpp>
+#include <widgets/Window.hpp>
+#include <widgets/Text.hpp>
+#include <widgets/Button.hpp>
+#include <widgets/Scale.hpp>
 
 int main() {
     auto console = new Blame::Console();

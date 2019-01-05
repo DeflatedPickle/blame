@@ -1,7 +1,7 @@
 #pragma once
 
+#include <util/EscapeCodes.hpp>
 #include "Style.hpp"
-#include "../util/EscapeCodes.hpp"
 
 namespace Blame::Styles {
     struct StyleButton : Blame::Styles::Style {
