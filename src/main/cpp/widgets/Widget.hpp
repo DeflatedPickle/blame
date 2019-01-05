@@ -31,6 +31,8 @@ namespace Blame::Widgets {
             if (this->state != Blame::Util::State::DISABLED) {
                 this->console->focused_widget = this;
                 this->state = Blame::Util::State::FOCUSED;
+
+                this->console->redraw();
             }
             else {
                 this->console->incrementFocus(pos + 1);

@@ -2,7 +2,7 @@
 A curses-like library for C++.
 
 ## Compatibility
-Your terminal will need to implement at least the ANSI escape code for moving the caret for Blame to look readable.
+Your terminal will need to implement at least the ANSI escape code for moving the caret for Blame to look readable, and the font used will need to support the [block elements](https://en.wikipedia.org/wiki/Block_Elements) and [box drawing](https://en.wikipedia.org/wiki/Box_Drawing) unicode blocks.
 
 ## Demos
 ### Widgets

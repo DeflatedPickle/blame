@@ -44,8 +44,6 @@ void Blame::Console::mainLoop() {
     char second;
     char third;
 
-    bool find_second_third;
-
     this->focused_widget = this->focus_order[0];
     this->focused_widget->focus();
 
@@ -54,7 +52,6 @@ void Blame::Console::mainLoop() {
     this->drawBackground();
 
     while (!this->exit.load()) {
-        find_second_third = true;
         std::cout.flush();
 
         // std::cin >> first;
@@ -62,34 +59,32 @@ void Blame::Console::mainLoop() {
         first = (char)std::cin.get();
 
         // TODO: Change to the Escape key
-        if (first == 'q') {
+        if (first == 27) {
             this->clear();
             this->quit();
         }
 
         // TODO: Change to the Tab key
-        if (first == 'f') {
+        if (first == 9) {
             this->incrementFocus();
-            find_second_third = false;
+            continue;
         }
 
         // TODO: Change to the Enter key
-        if (first == 'e') {
+        if (first == 5) {
             auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
             focused_widget->activate();
-            find_second_third = false;
+            continue;
         }
 
         if (first != 27) {
             auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
             focused_widget->text(std::string(1, first));
-            find_second_third = false;
+            continue;
         }
 
-        if (find_second_third) {
-            std::cin >> second;
-            std::cin >> third;
-        }
+        std::cin >> second;
+        std::cin >> third;
 
         if (first == 27 && second == 91) {
             if (third == 65) {
