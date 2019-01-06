@@ -7,6 +7,7 @@
 #include <iostream>
 #include <thread>
 #include <algorithm>
+#include <termios.h>
 #include "widgets/Listener.hpp"
 #include "util/ClientArea.hpp"
 #include "util/EscapeCodes.hpp"
@@ -24,16 +25,14 @@ namespace Blame {
         void redraw();
         void drawBackground() {
             this->moveCaret(std::cout, 0, 0);
-
             for (int y = 0; y < this->height - 1; y++) {
                 for (int x = 0; x < this->width; x++) {
                     *this->buffer_list[this->current_buffer] << "░";
                 }
             }
-
             this->flipBuffers();
         }
-
+        ~Console();
         void setTitle(std::string str);
 
         void moveCaret(std::ostream& stream, int column, int row);
@@ -46,8 +45,8 @@ namespace Blame {
             for (auto widget : this->widget_list) {
                 widget->quit();
             }
-
-            std::exit(0);
+            widget_list.clear();
+            clear();
         }
 
         void incrementFocus(long pos) {
@@ -108,7 +107,7 @@ namespace Blame {
         std::ostringstream front_buffer;
         std::ostringstream back_buffer;
         std::vector<std::ostringstream *> buffer_list;
-        int current_buffer;
+        int current_buffer = 0;
 
         std::atomic_bool has_flipped;
 

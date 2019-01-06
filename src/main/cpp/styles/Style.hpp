@@ -6,7 +6,7 @@
 
 namespace Blame::Styles {
     struct Style {
-        Blame::Styles::Symbols *symbols = new Symbols();
-        Blame::Styles::Colours *colours = new Colours();
+        Blame::Styles::Symbols symbols = Symbols();
+        Blame::Styles::Colours colours = Colours();
     };
 }

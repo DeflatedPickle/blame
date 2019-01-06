@@ -10,7 +10,7 @@ Blame::Widgets::Text::Text(Blame::Console *console, Blame::Widgets::Widget *pare
     this->symbol_caret = "_";
     this->colour_caret = Blame::Util::EscapeCodes::foregroundMagenta();
 
-    this->style = new Blame::Styles::StyleText();
+    this->style = Blame::Styles::StyleText();
 
     this->caret_x = 0;
     this->caret_y = 0;
@@ -22,8 +22,8 @@ void Blame::Widgets::Text::redraw() {
     Widget::redraw();
 
     this->console->moveCaret(this->widget_stream, this->client_area.left, this->client_area.top);
-    this->widget_stream << this->getCurrentColour(this->style->colours->background_content);
-    this->widget_stream << this->getCurrentColour(this->style->colours->text);
+    this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
+    this->widget_stream << this->getCurrentColour(this->style.colours.text);
 
     int iteration = 0;
     for (const auto &i : this->content) {
