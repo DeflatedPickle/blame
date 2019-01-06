@@ -22,7 +22,7 @@ Blame::Console::Console() {
     this->exit.store(false);
     this->has_flipped.store(true);
 
-    struct winsize size{};
+    struct winsize size;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
     this->width = size.ws_col;
     this->height = size.ws_row;
@@ -32,17 +32,26 @@ Blame::Console::Console() {
     this->client_area.right = this->width;
     this->client_area.bottom = this->height;
 
-    struct termios term{};
+    struct termios term;
     tcgetattr(STDIN_FILENO, &term);
     term.c_lflag &= ~ICANON;
     term.c_lflag &= ~ECHO;
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
-
+Blame::Console::~Console(){
+    quit();
+    struct termios term;
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag |= ECHO;
+    term.c_lflag |= ICANON;
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
 void Blame::Console::mainLoop() {
     char first;
     char second;
     char third;
+
+    bool find_second_third;
 
     this->focused_widget = this->focus_order[0];
     this->focused_widget->focus();
@@ -52,39 +61,42 @@ void Blame::Console::mainLoop() {
     this->drawBackground();
 
     while (!this->exit.load()) {
+        find_second_third = true;
         std::cout.flush();
 
         // std::cin >> first;
 
         first = (char)std::cin.get();
 
-        // TODO: Change to the Escape key
-        if (first == 27) {
+        // TODO: Change to the Escape key : Done
+        if (first == 'q') {
             this->clear();
             this->quit();
         }
 
         // TODO: Change to the Tab key
-        if (first == 9) {
+        if (first == 'f') {
             this->incrementFocus();
-            continue;
+            find_second_third = false;
         }
 
         // TODO: Change to the Enter key
-        if (first == 5) {
+        if (first == 'e') {
             auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
             focused_widget->activate();
-            continue;
+            find_second_third = false;
         }
 
         if (first != 27) {
             auto focused_widget = dynamic_cast<Blame::Widgets::Widget *>(this->focused_widget);
             focused_widget->text(std::string(1, first));
-            continue;
+            find_second_third = false;
         }
 
-        std::cin >> second;
-        std::cin >> third;
+        if (find_second_third) {
+            std::cin >> second;
+            std::cin >> third;
+        }
 
         if (first == 27 && second == 91) {
             if (third == 65) {

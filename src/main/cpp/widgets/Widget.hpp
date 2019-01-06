@@ -15,6 +15,10 @@ namespace Blame::Widgets {
     class Widget : public Blame::Widgets::Listener {
     public:
         Widget(Blame::Console *console, Blame::Widgets::Widget *parent);
+        
+        ~Widget(){
+            children.clear();
+        }
 
         virtual void redraw();
 
@@ -31,8 +35,6 @@ namespace Blame::Widgets {
             if (this->state != Blame::Util::State::DISABLED) {
                 this->console->focused_widget = this;
                 this->state = Blame::Util::State::FOCUSED;
-
-                this->console->redraw();
             }
             else {
                 this->console->incrementFocus(pos + 1);
@@ -71,6 +73,7 @@ namespace Blame::Widgets {
                 case Blame::Util::State::DISABLED:
                     return stateColours.disabled;
             }
+            return stateColours.normal;//TODO: Default color
         }
 
         void place(int x, int y, int width, int height) {
@@ -88,17 +91,15 @@ namespace Blame::Widgets {
         void pack(Blame::Util::Direction direction) {
             if (this->parent->manager == nullptr) {
                 this->updateClientArea();
-
                 this->parent->manager = new Blame::Widgets::Managers::Pack();
-                auto manager = static_cast<Blame::Widgets::Managers::Pack *>(this->parent->manager);
+                auto manager = static_cast<Blame::Widgets::Managers::Pack*>(this->parent->manager);
                 manager->direction = direction;
                 manager->next_x = this->parent->client_area.left;
                 manager->next_y = this->parent->client_area.top;
-
-                this->parent->manager = manager;
+                this->parent->manager = static_cast<Blame::Widgets::Managers::Manager*>(manager);
             }
 
-            auto manager = static_cast<Blame::Widgets::Managers::Pack *>(this->parent->manager);
+            auto manager = static_cast<Blame::Widgets::Managers::Pack*>(this->parent->manager);
             manager->widgets.push_back(this);
 
             this->column = manager->next_x;
@@ -143,14 +144,14 @@ namespace Blame::Widgets {
 
         std::atomic_bool is_redrawn;
 
-        Blame::Widgets::Managers::Manager *manager;
+        Blame::Widgets::Managers::Manager *manager = nullptr;
         std::vector<Blame::Widgets::Widget *> children;
 
-        Blame::Styles::Style *style;
+        Blame::Styles::Style style;
 
     protected:
-        Blame::Console *console;
-        Blame::Widgets::Widget *parent;
+        Blame::Console *console = nullptr;
+        Blame::Widgets::Widget *parent = nullptr;
 
         // int padding_top;
         // int padding_left;

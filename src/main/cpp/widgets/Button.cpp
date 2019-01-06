@@ -9,7 +9,7 @@ Blame::Widgets::Button::Button(Blame::Console *console, Blame::Widgets::Widget *
     this->width = 8;
     this->height = 3;
 
-    this->style = new Blame::Styles::StyleButton();
+    this->style = Blame::Styles::StyleButton();
 }
 
 void Blame::Widgets::Button::redraw() {
@@ -17,8 +17,8 @@ void Blame::Widgets::Button::redraw() {
 
     this->console->moveCaret(this->widget_stream, this->column + 1, this->row + 1);
     
-    this->widget_stream << this->getCurrentColour(this->style->colours->background_content);
-    this->widget_stream << this->getCurrentColour(this->style->colours->text);
+    this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
+    this->widget_stream << this->getCurrentColour(this->style.colours.text);
     this->widget_stream << this->text;
 
     *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();

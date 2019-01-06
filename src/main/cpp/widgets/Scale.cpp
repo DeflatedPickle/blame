@@ -16,7 +16,7 @@ Blame::Widgets::Scale::Scale(Blame::Console *console, Blame::Widgets::Widget *pa
 
             this->symbol_handle = "█";
 
-            this->style = new Blame::Styles::StyleScaleHorizontal();
+            this->style = Blame::Styles::StyleScaleHorizontal();
             break;
 
         case Blame::Util::Orientation::VERTICAL:
@@ -25,7 +25,7 @@ Blame::Widgets::Scale::Scale(Blame::Console *console, Blame::Widgets::Widget *pa
 
             this->symbol_handle = "█";
 
-            this->style = new Blame::Styles::StyleScaleVertical();
+            this->style = Blame::Styles::StyleScaleVertical();
             break;
     }
 
@@ -50,7 +50,7 @@ void Blame::Widgets::Scale::redraw() {
             break;
     }
 
-    this->widget_stream << this->getCurrentColour(this->style->colours->background_content);
+    this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
     this->widget_stream << this->colour_handle;
     this->widget_stream << this->symbol_handle;
 
