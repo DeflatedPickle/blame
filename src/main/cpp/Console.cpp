@@ -22,7 +22,7 @@ Blame::Console::Console() {
     this->exit.store(false);
     this->has_flipped.store(true);
 
-    struct winsize size;
+    struct winsize size{};
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
     this->width = size.ws_col;
     this->height = size.ws_row;
@@ -32,20 +32,22 @@ Blame::Console::Console() {
     this->client_area.right = this->width;
     this->client_area.bottom = this->height;
 
-    struct termios term;
+    struct termios term{};
     tcgetattr(STDIN_FILENO, &term);
     term.c_lflag &= ~ICANON;
     term.c_lflag &= ~ECHO;
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
-Blame::Console::~Console(){
+
+Blame::Console::~Console() {
     quit();
-    struct termios term;
+    struct termios term{};
     tcgetattr(STDIN_FILENO, &term);
     term.c_lflag |= ECHO;
     term.c_lflag |= ICANON;
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
+
 void Blame::Console::mainLoop() {
     char first;
     char second;
@@ -66,7 +68,7 @@ void Blame::Console::mainLoop() {
 
         // std::cin >> first;
 
-        first = (char)std::cin.get();
+        first = (char) std::cin.get();
 
         // TODO: Change to the Escape key : Done
         if (first == 'q') {

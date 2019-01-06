@@ -6,7 +6,7 @@
 Blame::Widgets::Widget::Widget(Blame::Console *console, Blame::Widgets::Widget *parent) {
     this->console = console;
     this->parent = parent;
-    
+
     //Should Be Handled by Parent or Console:
     //Valgrind warning 
     if (this->parent != nullptr) {
@@ -21,6 +21,7 @@ Blame::Widgets::Widget::Widget(Blame::Console *console, Blame::Widgets::Widget *
 
     this->updateClientArea();
 }
+
 void Blame::Widgets::Widget::redraw() {
     this->updateClientArea();
     this->is_redrawn.exchange(false);
@@ -40,13 +41,13 @@ void Blame::Widgets::Widget::redraw() {
                 this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
                 this->widget_stream << this->style.symbols.top_left;
             }
-                // Middle Left
+            // Middle Left
             else if (x == 0 && y > 0 && y < this->height - 1) {
                 this->widget_stream << this->getCurrentColour(this->style.colours.border);
                 this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
                 this->widget_stream << this->style.symbols.middle_left;
             }
-                // Bottom Left
+            // Bottom Left
             else if (x == 0 && y == this->height - 1) {
                 this->widget_stream << this->getCurrentColour(this->style.colours.border);
                 this->widget_stream << this->getCurrentColour(this->style.colours.background_border);

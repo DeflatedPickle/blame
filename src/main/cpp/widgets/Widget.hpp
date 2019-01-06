@@ -15,8 +15,8 @@ namespace Blame::Widgets {
     class Widget : public Blame::Widgets::Listener {
     public:
         Widget(Blame::Console *console, Blame::Widgets::Widget *parent);
-        
-        ~Widget(){
+
+        ~Widget() {
             children.clear();
         }
 
@@ -50,6 +50,7 @@ namespace Blame::Widgets {
         void move(Blame::Util::Direction direction) override {
             this->console->redraw();
         }
+
         void activate() override {
             this->state = Blame::Util::State::ACTIVE;
             this->console->redraw();
@@ -92,14 +93,14 @@ namespace Blame::Widgets {
             if (this->parent->manager == nullptr) {
                 this->updateClientArea();
                 this->parent->manager = new Blame::Widgets::Managers::Pack();
-                auto manager = static_cast<Blame::Widgets::Managers::Pack*>(this->parent->manager);
+                auto manager = static_cast<Blame::Widgets::Managers::Pack *>(this->parent->manager);
                 manager->direction = direction;
                 manager->next_x = this->parent->client_area.left;
                 manager->next_y = this->parent->client_area.top;
-                this->parent->manager = static_cast<Blame::Widgets::Managers::Manager*>(manager);
+                this->parent->manager = static_cast<Blame::Widgets::Managers::Manager *>(manager);
             }
 
-            auto manager = static_cast<Blame::Widgets::Managers::Pack*>(this->parent->manager);
+            auto manager = static_cast<Blame::Widgets::Managers::Pack *>(this->parent->manager);
             manager->widgets.push_back(this);
 
             this->column = manager->next_x;
@@ -112,6 +113,12 @@ namespace Blame::Widgets {
 
                 case Blame::Util::Direction::DOWN:
                     manager->next_y += this->height;
+                    break;
+
+                case Util::UP:
+                    break;
+
+                case Util::RIGHT:
                     break;
             }
 

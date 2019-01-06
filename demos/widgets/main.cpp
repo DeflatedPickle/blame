@@ -4,16 +4,16 @@
 #include <widgets/Text.hpp>
 #include <widgets/Button.hpp>
 #include <widgets/Scale.hpp>
-class Demos{
+
+class Demos {
 private:
-    Blame::Console          *console;
-    Blame::Widgets::Window  *window;
-    Blame::Widgets::Text    *text,
-                            *scale_text;
-    Blame::Widgets::Button  *button;
-    Blame::Widgets::Scale   *scale;
+    Blame::Console *console;
+    Blame::Widgets::Window *window;
+    Blame::Widgets::Text *text, *scale_text;
+    Blame::Widgets::Button *button;
+    Blame::Widgets::Scale *scale;
 public:
-    Demos(){
+    Demos() {
         console = new Blame::Console();
         console->setTitle("Hello, World!");
 
@@ -24,7 +24,7 @@ public:
         text->pack(Blame::Util::Direction::DOWN);
 
         button = new Blame::Widgets::Button(console, window, "Click Me", nullptr);
-        button->command = [=]() {button->text = "Clicked!";};
+        button->command = [=]() { button->text = "Clicked!"; };
         button->pack(Blame::Util::Direction::DOWN);
 
         scale = new Blame::Widgets::Scale(console, window, Blame::Util::Orientation::HORIZONTAL, nullptr);
@@ -38,13 +38,12 @@ public:
         scale_text->height = 3;
         scale_text->state = Blame::Util::State::DISABLED;
 
-        scale->command = [=](){
-            scale_text->content.push_back(std::to_string(scale->current));
-        };
+        scale->command = [=]() { scale_text->content[0] = std::to_string(scale->current); };
 
         console->mainLoop();
     }
-    ~Demos(){
+
+    ~Demos() {
         delete console;
         delete window;
         delete text;
@@ -53,6 +52,7 @@ public:
         delete scale_text;
     }
 };
+
 int main() {
     Demos demos;
     return 0;
