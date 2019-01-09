@@ -16,6 +16,7 @@ namespace Blame {
     class Console {
     public:
         Console();
+        ~Console();
 
         void mainLoop();
         void drawLoop();
@@ -32,7 +33,6 @@ namespace Blame {
             }
             this->flipBuffers();
         }
-        ~Console();
         void setTitle(std::string str);
 
         void moveCaret(std::ostream& stream, int column, int row);

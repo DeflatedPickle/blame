@@ -40,7 +40,6 @@ Blame::Console::Console() {
 }
 
 Blame::Console::~Console() {
-    quit();
     struct termios term{};
     tcgetattr(STDIN_FILENO, &term);
     term.c_lflag |= ECHO;
@@ -70,7 +69,7 @@ void Blame::Console::mainLoop() {
 
         first = (char) std::cin.get();
 
-        // TODO: Change to the Escape key : Done
+        // TODO: Change to the Escape key
         if (first == 'q') {
             this->clear();
             this->quit();

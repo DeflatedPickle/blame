@@ -10,7 +10,8 @@
 #include <widgets/managers/Pack.hpp>
 #include "Listener.hpp"
 
-// TODO: Add checks for if the widget is focused or disabled
+// TODO: Add proper resize methods that change the client area
+// TODO: Add the ability to scroll a viewable area of the widgets client area
 namespace Blame::Widgets {
     class Widget : public Blame::Widgets::Listener {
     public:
@@ -74,7 +75,8 @@ namespace Blame::Widgets {
                 case Blame::Util::State::DISABLED:
                     return stateColours.disabled;
             }
-            return stateColours.normal;//TODO: Default color
+
+            return stateColours.normal;
         }
 
         void place(int x, int y, int width, int height) {
