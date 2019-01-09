@@ -7,8 +7,8 @@ Blame::Widgets::Widget::Widget(Blame::Console *console, Blame::Widgets::Widget *
     this->console = console;
     this->parent = parent;
 
-    //Should Be Handled by Parent or Console:
-    //Valgrind warning 
+    // Should Be Handled by Parent or Console:
+    // Valgrind warning
     if (this->parent != nullptr) {
         this->parent->children.push_back(this);
     }

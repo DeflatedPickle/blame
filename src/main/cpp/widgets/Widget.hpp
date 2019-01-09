@@ -107,7 +107,7 @@ namespace Blame::Widgets {
             this->row = manager->next_y;
 
             switch (direction) {
-                case Blame::Util::Direction::LEFT:
+                case Blame::Util::Direction::RIGHT:
                     manager->next_x += this->width + 2;
                     break;
 
@@ -115,10 +115,10 @@ namespace Blame::Widgets {
                     manager->next_y += this->height;
                     break;
 
-                case Util::UP:
+                case Blame::Util::Direction::UP:
                     break;
 
-                case Util::RIGHT:
+                case Blame::Util::Direction::LEFT:
                     break;
             }
 

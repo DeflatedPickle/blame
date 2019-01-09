@@ -4,10 +4,10 @@
 #include <widgets/Text.hpp>
 
 int main() {
-    auto console = new Blame::Console();
+    std::unique_ptr<Blame::Console> console(new Blame::Console());
     console->setTitle("Dim");
 
-    auto window = new Blame::Widgets::Window(console, "Dim");
+    std::unique_ptr<Blame::Widgets::Window> window(new Blame::Widgets::Window(console.get(), "Dim"));
     window->place(1, 1, 10, 10);
     window->fullscreen();
     window->state = Blame::Util::State::DISABLED;
@@ -15,8 +15,8 @@ int main() {
 
     window->style.symbols.middle_fill = " ";
 
-    auto text = new Blame::Widgets::Text(console, window);
-    text->pack(Blame::Util::Direction::DOWN);
+    std::unique_ptr<Blame::Widgets::Text> text(new Blame::Widgets::Text(console.get(), window.get()));
+    text->pack(Blame::Util::Direction::RIGHT);
     text->width = console->width - 4;
     text->height = console->height - 3;
     text->focus();
