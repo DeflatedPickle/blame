@@ -58,8 +58,12 @@ void Blame::Widgets::Text::move(Blame::Util::Direction direction) {
             break;
 
         case Blame::Util::Direction::DOWN:
-            if (this->caret_y + 1 < this->height - 2) {
+            if (this->caret_y + 1 < this->height - 2 && this->caret_y + 1 < this->content.size()) {
                 this->caret_y++;
+
+                if (this->content[this->caret_y].size() <= 1) {
+                    this->caret_x = 0;
+                }
             }
             break;
 
@@ -72,6 +76,11 @@ void Blame::Widgets::Text::move(Blame::Util::Direction direction) {
         case Blame::Util::Direction::RIGHT:
             if (this->caret_x + 1 < this->width) {
                 this->caret_x++;
+
+                if (this->caret_x + 1 > this->content[this->caret_y].size()) {
+                    this->caret_x = 0;
+                    this->move(Blame::Util::Direction::DOWN);
+                }
             }
             break;
     }
