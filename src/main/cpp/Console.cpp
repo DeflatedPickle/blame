@@ -27,6 +27,17 @@ Blame::Console::Console() {
     this->width = size.ws_col;
     this->height = size.ws_row;
 
+    // Creates a row of empty cells for the height and width of the terminal
+    for (auto i = 0; i < this->height; i++) {
+        std::vector<std::string> vec;
+
+        for (auto j = 0; j < this->width; j++) {
+            vec.emplace_back("");
+        }
+
+        this->cell_info.push_back(vec);
+    }
+
     this->client_area.left = 0;
     this->client_area.top = 0;
     this->client_area.right = this->width;
@@ -162,7 +173,7 @@ void Blame::Console::redraw() {
     // TODO: Only redraw the cells that have been changed, don't clear the whole thing
     // this->clear();
 
-    this->drawBackground();
+    // this->drawBackground();
 
     // TODO: Maybe add a check for if they need to be redrawn?
     for (auto widget : this->widget_list) {
@@ -178,6 +189,29 @@ void Blame::Console::redraw() {
                 for (auto child : new_widget->children) {
                     child->redraw();
                 }
+            }
+        }
+    }
+
+    auto counter_x = 0;
+    auto counter_y = 0;
+    for (const auto &y : this->cell_info) {
+        counter_y++;
+        for (const auto &x : y) {
+            counter_x++;
+
+            if (counter_x == this->width) {
+                counter_x = 0;
+                *this->buffer_list[!this->current_buffer] << std::endl;
+            }
+
+            this->moveCaret(*this->buffer_list[!this->current_buffer], counter_x, counter_y);
+
+            if (x.empty()) {
+                *this->buffer_list[!this->current_buffer] << "░" << Blame::Util::EscapeCodes::reset();
+            }
+            else {
+                *this->buffer_list[!this->current_buffer] << Blame::Util::EscapeCodes::reset() << x << Blame::Util::EscapeCodes::reset();
             }
         }
     }

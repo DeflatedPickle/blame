@@ -25,13 +25,13 @@ namespace Blame {
 
         void redraw();
         void drawBackground() {
-            this->moveCaret(std::cout, 0, 0);
-            for (int y = 0; y < this->height - 1; y++) {
-                for (int x = 0; x < this->width; x++) {
-                    *this->buffer_list[this->current_buffer] << "░";
-                }
-            }
-            this->flipBuffers();
+            // this->moveCaret(std::cout, 0, 0);
+            // for (int y = 0; y < this->height - 1; y++) {
+            //     for (int x = 0; x < this->width; x++) {
+            //         *this->buffer_list[this->current_buffer] << "░";
+            //     }
+            // }
+            // this->flipBuffers();
         }
         void setTitle(std::string str);
 
@@ -110,6 +110,8 @@ namespace Blame {
         int current_buffer = 0;
 
         std::atomic_bool has_flipped;
+
+        std::vector<std::vector<std::string>> cell_info;
 
     protected:
         // std::string colour_background;

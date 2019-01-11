@@ -31,24 +31,27 @@ void Blame::Widgets::Window::redraw() {
 
                 // Top Left
                 if (x == 0 && y == 0) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.top_left;
+                    this->console->cell_info[this->row + y][this->column + x - 1] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.top_left;
                 }
-                    // Middle Left
+                // Middle Left
                 else if (x == 0 && y > 0 && y < this->height - 1) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.middle_left;
+                    this->console->cell_info[this->row + y][this->column + x - 1] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.middle_left;
                 }
 
                 // Top Middle
                 if (y == 0) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.top_middle;
+                    this->console->cell_info[this->row + y][this->column + x] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.top_middle;
                 }
-                    // Middle Fill
+                // Middle Fill
                 else {
                     if (x == 1) {
                         this->widget_stream << Blame::Util::EscapeCodes::reset();
@@ -58,27 +61,28 @@ void Blame::Widgets::Window::redraw() {
                         this->widget_stream << Blame::Util::EscapeCodes::reset();
                     }
                     else if (x == 0 || x > this->title_text.length()) {
-                        this->widget_stream << Blame::Util::EscapeCodes::reset();
-                        this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-                        this->widget_stream << this->style.symbols.middle_fill;
-                        this->widget_stream << Blame::Util::EscapeCodes::reset();
+                        this->console->cell_info[this->row + y][this->column + x] =
+                                this->getCurrentColour(this->style.colours.border)
+                                + this->getCurrentColour(this->style.colours.background_border)
+                                + this->style.symbols.middle_fill;
                     }
                 }
 
                 // Top Right
                 if (x == this->width - 1 && y == 0) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.top_right;
+                    this->console->cell_info[this->row + y][this->column + x] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.top_right;
                 }
-                    // Middle Right
+                // Middle Right
                 else if (x == this->width - 1 && y > 0 && y < this->height - 1) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.middle_right;
+                    this->console->cell_info[this->row + y][this->column + x] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.middle_right;
                 }
             }
-            this->widget_stream << Blame::Util::EscapeCodes::reset();
         }
 
         this->style.symbols.top_left = this->symbol_title_intersect_left;
