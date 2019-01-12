@@ -24,14 +24,14 @@ void Blame::Widgets::Window::redraw() {
             for (int x = 0; x < this->width + 1; x++) {
                 // Top Left
                 if (x == 0 && y == 0) {
-                    this->console->cell_info[this->row + y][this->column + x - 1] =
+                    this->console->raw_grid[this->row + y][this->column + x - 1] =
                             this->getCurrentColour(this->style.colours.border)
                             + this->getCurrentColour(this->style.colours.background_border)
                             + this->style.symbols.top_left;
                 }
                 // Middle Left
                 else if (x == 0 && y > 0 && y < this->height - 1) {
-                    this->console->cell_info[this->row + y][this->column + x - 1] =
+                    this->console->raw_grid[this->row + y][this->column + x - 1] =
                             this->getCurrentColour(this->style.colours.border)
                             + this->getCurrentColour(this->style.colours.background_border)
                             + this->style.symbols.middle_left;
@@ -39,7 +39,7 @@ void Blame::Widgets::Window::redraw() {
 
                 // Top Middle
                 if (y == 0) {
-                    this->console->cell_info[this->row + y][this->column + x] =
+                    this->console->raw_grid[this->row + y][this->column + x] =
                             this->getCurrentColour(this->style.colours.border)
                             + this->getCurrentColour(this->style.colours.background_border)
                             + this->style.symbols.top_middle;
@@ -47,14 +47,14 @@ void Blame::Widgets::Window::redraw() {
                 // Middle Fill
                 else {
                     if (x >= 1 && x <= this->title_text.length()) {
-                        this->console->cell_info[this->row + y][this->column + x] =
+                        this->console->raw_grid[this->row + y][this->column + x] =
                                 this->getCurrentColour(this->style.colours.border)
                                 + this->getCurrentColour(this->style.colours.background_content)
                                 + this->title_text[x - 1];
                     }
                     // Text
                     else if (x == 0 || x > this->title_text.length()) {
-                        this->console->cell_info[this->row + y][this->column + x] =
+                        this->console->raw_grid[this->row + y][this->column + x] =
                                 this->getCurrentColour(this->style.colours.background_content)
                                 + this->style.symbols.middle_fill;
                     }
@@ -62,14 +62,14 @@ void Blame::Widgets::Window::redraw() {
 
                 // Top Right
                 if (x == this->width && y == 0) {
-                    this->console->cell_info[this->row + y][this->column + x] =
+                    this->console->raw_grid[this->row + y][this->column + x] =
                             this->getCurrentColour(this->style.colours.border)
                             + this->getCurrentColour(this->style.colours.background_border)
                             + this->style.symbols.top_right;
                 }
                 // Middle Right
                 else if (x == this->width && y > 0 && y < this->height - 1) {
-                    this->console->cell_info[this->row + y][this->column + x] =
+                    this->console->raw_grid[this->row + y][this->column + x] =
                             this->getCurrentColour(this->style.colours.border)
                             + this->getCurrentColour(this->style.colours.background_border)
                             + this->style.symbols.middle_right;

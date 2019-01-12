@@ -24,7 +24,7 @@ void Blame::Widgets::Text::redraw() {
     int iteration = 0;
     for (const auto &line : this->content) {
         for (auto i = 0; i < line.length(); i++) {
-            this->console->cell_info[this->row + 1 + iteration][this->column + i] =
+            this->console->raw_grid[this->row + 1 + iteration][this->column + i] =
                     this->getCurrentColour(this->style.colours.background_content)
                     + this->getCurrentColour(this->style.colours.text)
                     + line[i];
@@ -33,7 +33,7 @@ void Blame::Widgets::Text::redraw() {
     }
 
     if (this->state != Blame::Util::State::DISABLED) {
-        this->console->cell_info[this->row + 1 + this->caret_y][this->column + this->caret_x] =
+        this->console->raw_grid[this->row + 1 + this->caret_y][this->column + this->caret_x] =
                 this->colour_caret
                 + this->symbol_caret;
     }

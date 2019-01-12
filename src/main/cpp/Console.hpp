@@ -111,7 +111,10 @@ namespace Blame {
 
         std::atomic_bool has_flipped;
 
-        std::vector<std::vector<std::string>> cell_info;
+        // The grid drawn into by widgets, updates the screen_grid
+        std::vector<std::vector<std::string>> raw_grid;
+        // A duplicate of the raw_grid, used for the screen
+        std::vector<std::vector<std::string>> screen_grid;
 
     protected:
         // std::string colour_background;

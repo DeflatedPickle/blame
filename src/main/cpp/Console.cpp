@@ -35,7 +35,8 @@ Blame::Console::Console() {
             vec.emplace_back("");
         }
 
-        this->cell_info.push_back(vec);
+        this->raw_grid.push_back(vec);
+        this->screen_grid.push_back(vec);
     }
 
     this->client_area.left = 0;
@@ -193,28 +194,33 @@ void Blame::Console::redraw() {
         }
     }
 
-    auto counter_x = 0;
-    auto counter_y = 0;
-    for (const auto &y : this->cell_info) {
-        counter_y++;
-        for (const auto &x : y) {
-            counter_x++;
-
-            if (counter_x == this->width) {
-                counter_x = 0;
-
-                if (counter_y != this->height) {
+    // auto redraw_count = 0;
+    for (auto y = 0; y < this->raw_grid.size(); y++) {
+        for (auto x = 0; x < this->raw_grid[y].size(); x++) {
+            if (x == this->raw_grid[y].size()) {
+                if (y != this->raw_grid.size()) {
                     *this->buffer_list[!this->current_buffer] << std::endl;
                 }
             }
 
-            this->moveCaret(*this->buffer_list[!this->current_buffer], counter_x, counter_y);
+            this->moveCaret(*this->buffer_list[!this->current_buffer], x, y);
 
-            if (x.empty()) {
+            if (this->raw_grid[y][x].empty()) {
                 *this->buffer_list[!this->current_buffer] << "░" << Blame::Util::EscapeCodes::reset();
             }
+
+            if (this->raw_grid[y][x] != this->screen_grid[y][x]) {
+                this->screen_grid[y][x] = this->raw_grid[y][x];
+
+                // redraw_count++;
+                // this->setTitle("Redrawn: " + std::to_string(redraw_count) + " Cells, Out Of: " + std::to_string(this->raw_grid.size() * this->raw_grid[0].size()) + " Cells");
+            }
             else {
-                *this->buffer_list[!this->current_buffer] << Blame::Util::EscapeCodes::reset() << x << Blame::Util::EscapeCodes::reset();
+                continue;
+            }
+
+            if (!this->raw_grid[y][x].empty()) {
+                *this->buffer_list[!this->current_buffer] << Blame::Util::EscapeCodes::reset() << this->screen_grid[y][x] << Blame::Util::EscapeCodes::reset();
             }
         }
     }

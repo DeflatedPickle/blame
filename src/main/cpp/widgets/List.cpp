@@ -19,7 +19,7 @@ void Blame::Widgets::List::redraw() {
     int counter = 0;
     for (const auto &item : this->items) {
         for (auto i = 0; i < item.length(); i++) {
-            this->console->cell_info[this->row + 1 + counter][this->column + 1 + i] =
+            this->console->raw_grid[this->row + 1 + counter][this->column + 1 + i] =
                     this->getCurrentColour(this->style.colours.background_content)
                     + this->getCurrentColour(this->style.colours.text)
                     + (counter == this->selection ? Blame::Util::EscapeCodes::backgroundBlue() : "")

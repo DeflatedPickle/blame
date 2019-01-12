@@ -16,7 +16,7 @@ void Blame::Widgets::Button::redraw() {
     Widget::redraw();
 
     for (auto i = 0; i < this->text.length(); i++) {
-        this->console->cell_info[this->row + 1][this->column + i] =
+        this->console->raw_grid[this->row + 1][this->column + i] =
                 this->getCurrentColour(this->style.colours.border)
                 + this->getCurrentColour(this->style.colours.background_border)
                 + this->text[i];
