@@ -11,7 +11,7 @@ int main() {
     console->setTitle("Dim");
 
     std::unique_ptr<Blame::Widgets::Window> window(new Blame::Widgets::Window(console.get(), "Dim"));
-    window->place(1, 1, 10, 10);
+    window->place(0, 0, 10, 10);
     window->fullscreen();
     window->state = Blame::Util::State::DISABLED;
     console->focus_order.pop_back();

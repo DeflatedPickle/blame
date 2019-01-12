@@ -80,7 +80,7 @@ namespace Blame::Widgets {
         }
 
         void place(int x, int y, int width, int height) {
-            this->column = x;
+            this->column = x + 1;
             this->row = y;
             this->width = width;
             this->height = height;

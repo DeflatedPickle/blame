@@ -38,7 +38,7 @@ void Blame::Widgets::Window::redraw() {
                 }
 
                 // Top Middle
-                if (y == 0) {
+                if (x > 0 && y == 0) {
                     this->console->raw_grid[this->row + y + 1][this->column + x] =
                             this->getCurrentColour(this->style.colours.border)
                             + this->getCurrentColour(this->style.colours.background_border)
