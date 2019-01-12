@@ -202,7 +202,10 @@ void Blame::Console::redraw() {
 
             if (counter_x == this->width) {
                 counter_x = 0;
-                *this->buffer_list[!this->current_buffer] << std::endl;
+
+                if (counter_y != this->height) {
+                    *this->buffer_list[!this->current_buffer] << std::endl;
+                }
             }
 
             this->moveCaret(*this->buffer_list[!this->current_buffer], counter_x, counter_y);
