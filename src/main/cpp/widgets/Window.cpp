@@ -53,12 +53,11 @@ void Blame::Widgets::Window::redraw() {
                 }
                 // Middle Fill
                 else {
-                    if (x == 1) {
-                        this->widget_stream << Blame::Util::EscapeCodes::reset();
-                        this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-                        this->widget_stream << this->getCurrentColour(this->style.colours.text);
-                        this->widget_stream << this->title_text;
-                        this->widget_stream << Blame::Util::EscapeCodes::reset();
+                    if (x >= 1 && x <= this->title_text.length()) {
+                        this->console->cell_info[this->row + y][this->column + x] =
+                                this->getCurrentColour(this->style.colours.border)
+                                + this->getCurrentColour(this->style.colours.background_border)
+                                + this->title_text[x - 1];
                     }
                     else if (x == 0 || x > this->title_text.length()) {
                         this->console->cell_info[this->row + y][this->column + x] =
