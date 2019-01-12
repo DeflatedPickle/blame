@@ -95,6 +95,10 @@ void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
     switch (direction) {
         case Blame::Util::Direction::UP:
             if (this->row - 2 > console->client_area.top) {
+                for (auto i = this->column; i < this->column + this->width + 2; i++) {
+                    this->console->raw_grid[this->row + this->height][i] = "";
+                }
+
                 this->row--;
 
                 for (auto child : this->children) {
@@ -105,6 +109,10 @@ void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
 
         case Blame::Util::Direction::DOWN:
             if (this->row + 1 + this->height < console->client_area.bottom) {
+                for (auto i = this->column; i < this->column + this->width + 2; i++) {
+                    this->console->raw_grid[this->row - 1][i] = "";
+                }
+
                 this->row++;
 
                 for (auto child : this->children) {
@@ -115,6 +123,10 @@ void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
 
         case Blame::Util::Direction::LEFT:
             if (this->column - 1 > console->client_area.left) {
+                for (auto i = this->row - 1; i < this->row + this->height + 1; i++) {
+                    this->console->raw_grid[i][this->column + this->width + 1] = "";
+                }
+
                 this->column--;
 
                 for (auto child : this->children) {
@@ -125,6 +137,10 @@ void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
 
         case Blame::Util::Direction::RIGHT:
             if (this->column + 1 + this->width < console->client_area.right) {
+                for (auto i = this->row - 1; i < this->row + this->height + 1; i++) {
+                    this->console->raw_grid[i][this->column] = "";
+                }
+
                 this->column++;
 
                 for (auto child : this->children) {

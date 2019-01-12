@@ -208,21 +208,20 @@ void Blame::Console::redraw() {
             if (x > 0 && y > 0 && this->raw_grid[y][x].empty()) {
                 *this->buffer_list[!this->current_buffer] << "░" << Blame::Util::EscapeCodes::reset();
             }
-            else {
-                if (this->raw_grid[y][x] != this->screen_grid[y][x]) {
-                    this->screen_grid[y][x] = this->raw_grid[y][x];
 
-                    // redraw_count++;
-                    // this->setTitle("Redrawn: " + std::to_string(redraw_count) + " Cells, Out Of: " + std::to_string(this->raw_grid.size() * this->raw_grid[0].size()) + " Cells");
-                }
-                else {
-                    // Shows which cells were redrawn
-                    // *this->buffer_list[!this->current_buffer] << "░" << Blame::Util::EscapeCodes::reset();
-                    continue;
-                }
+            if (this->raw_grid[y][x] != this->screen_grid[y][x]) {
+                this->screen_grid[y][x] = this->raw_grid[y][x];
 
-                *this->buffer_list[!this->current_buffer] << Blame::Util::EscapeCodes::reset() << this->screen_grid[y][x] << Blame::Util::EscapeCodes::reset();
+                // redraw_count++;
+                // this->setTitle("Redrawn: " + std::to_string(redraw_count) + " Cells, Out Of: " + std::to_string(this->raw_grid.size() * this->raw_grid[0].size()) + " Cells");
             }
+            else {
+                // Shows which cells were redrawn
+                // *this->buffer_list[!this->current_buffer] << "░" << Blame::Util::EscapeCodes::reset();
+                continue;
+            }
+
+            *this->buffer_list[!this->current_buffer] << Blame::Util::EscapeCodes::reset() << this->screen_grid[y][x] << Blame::Util::EscapeCodes::reset();
         }
     }
 

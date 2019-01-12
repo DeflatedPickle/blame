@@ -1,7 +1,6 @@
 #include "Widget.hpp"
 
 #include <iostream>
-#include <optional>
 
 Blame::Widgets::Widget::Widget(Blame::Console *console, Blame::Widgets::Widget *parent) {
     this->console = console;
