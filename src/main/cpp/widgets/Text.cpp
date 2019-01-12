@@ -67,6 +67,10 @@ void Blame::Widgets::Text::move(Blame::Util::Direction direction) {
             if (this->caret_x - 1 > -1) {
                 this->caret_x--;
             }
+            else {
+                this->caret_y--;
+                this->caret_x = (int) this->content[this->caret_y].size();
+            }
             break;
 
         case Blame::Util::Direction::RIGHT:
