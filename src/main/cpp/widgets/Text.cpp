@@ -21,26 +21,22 @@ Blame::Widgets::Text::Text(Blame::Console *console, Blame::Widgets::Widget *pare
 void Blame::Widgets::Text::redraw() {
     Widget::redraw();
 
-    this->console->moveCaret(this->widget_stream, this->client_area.left, this->client_area.top);
-    this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-    this->widget_stream << this->getCurrentColour(this->style.colours.text);
-
     int iteration = 0;
-    for (const auto &i : this->content) {
-        this->console->moveCaret(this->widget_stream, this->client_area.left, this->client_area.top + iteration);
-        this->widget_stream << i;
+    for (const auto &line : this->content) {
+        for (auto i = 0; i < line.length(); i++) {
+            this->console->cell_info[this->row + 1 + iteration][this->column + i] =
+                    this->getCurrentColour(this->style.colours.background_content)
+                    + this->getCurrentColour(this->style.colours.text)
+                    + line[i];
+        }
         iteration++;
     }
 
     if (this->state != Blame::Util::State::DISABLED) {
-        this->console->moveCaret(this->widget_stream, this->client_area.left + this->caret_x, this->client_area.top + this->caret_y);
-        this->widget_stream << this->colour_caret;
-        this->widget_stream << this->symbol_caret;
+        this->console->cell_info[this->row + 1 + this->caret_y][this->column + this->caret_x] =
+                this->colour_caret
+                + this->symbol_caret;
     }
-
-    this->widget_stream << Blame::Util::EscapeCodes::reset();
-    *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();
-    this->widget_stream.str(std::string());
 
     this->is_redrawn.exchange(true);
 }
@@ -77,7 +73,7 @@ void Blame::Widgets::Text::move(Blame::Util::Direction direction) {
             if (this->caret_x + 1 < this->width) {
                 this->caret_x++;
 
-                if (this->caret_x + 1 > this->content[this->caret_y].size()) {
+                if (this->caret_x + 1 > this->content[this->caret_y].size() + 1) {
                     this->caret_x = 0;
                     this->move(Blame::Util::Direction::DOWN);
                 }

@@ -17,18 +17,11 @@ void Blame::Widgets::Window::redraw() {
     if (this->state_window == Blame::Util::StateWindow::RESTORED || this->state_window == Blame::Util::StateWindow::MAXIMIZED) {
         this->is_redrawn.exchange(false);
 
-        this->console->moveCaret(this->widget_stream, this->column, this->row);
         // Account for the title height
         this->row -= 2;
 
-        this->widget_stream << this->getCurrentColour(this->style.colours.border);
         for (int y = 0; y < 3; y++) {
-            this->console->moveCaret(this->widget_stream, this->column, this->row + y);
-            this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-
-            for (int x = 0; x < this->width; x++) {
-                this->widget_stream << Blame::Util::EscapeCodes::reset();
-
+            for (int x = 0; x < this->width + 1; x++) {
                 // Top Left
                 if (x == 0 && y == 0) {
                     this->console->cell_info[this->row + y][this->column + x - 1] =
@@ -56,26 +49,26 @@ void Blame::Widgets::Window::redraw() {
                     if (x >= 1 && x <= this->title_text.length()) {
                         this->console->cell_info[this->row + y][this->column + x] =
                                 this->getCurrentColour(this->style.colours.border)
-                                + this->getCurrentColour(this->style.colours.background_border)
+                                + this->getCurrentColour(this->style.colours.background_content)
                                 + this->title_text[x - 1];
                     }
+                    // Text
                     else if (x == 0 || x > this->title_text.length()) {
                         this->console->cell_info[this->row + y][this->column + x] =
-                                this->getCurrentColour(this->style.colours.border)
-                                + this->getCurrentColour(this->style.colours.background_border)
+                                this->getCurrentColour(this->style.colours.background_content)
                                 + this->style.symbols.middle_fill;
                     }
                 }
 
                 // Top Right
-                if (x == this->width - 1 && y == 0) {
+                if (x == this->width && y == 0) {
                     this->console->cell_info[this->row + y][this->column + x] =
                             this->getCurrentColour(this->style.colours.border)
                             + this->getCurrentColour(this->style.colours.background_border)
                             + this->style.symbols.top_right;
                 }
                 // Middle Right
-                else if (x == this->width - 1 && y > 0 && y < this->height - 1) {
+                else if (x == this->width && y > 0 && y < this->height - 1) {
                     this->console->cell_info[this->row + y][this->column + x] =
                             this->getCurrentColour(this->style.colours.border)
                             + this->getCurrentColour(this->style.colours.background_border)

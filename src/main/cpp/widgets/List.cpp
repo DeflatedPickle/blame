@@ -16,25 +16,18 @@ Blame::Widgets::List::List(Blame::Console *console, Blame::Widgets::Widget *pare
 void Blame::Widgets::List::redraw() {
     Widget::redraw();
 
-    this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-    this->widget_stream << this->getCurrentColour(this->style.colours.text);
-
     int counter = 0;
-    for (auto item : this->items) {
-        this->console->moveCaret(this->widget_stream, this->column + 1, this->row + counter + 1);
-
-        if (counter == this->selection) {
-            this->widget_stream << Blame::Util::EscapeCodes::backgroundBlue();
+    for (const auto &item : this->items) {
+        for (auto i = 0; i < item.length(); i++) {
+            this->console->cell_info[this->row + 1 + counter][this->column + 1 + i] =
+                    this->getCurrentColour(this->style.colours.background_content)
+                    + this->getCurrentColour(this->style.colours.text)
+                    + (counter == this->selection ? Blame::Util::EscapeCodes::backgroundBlue() : "")
+                    + item[i];
         }
-
-        this->widget_stream << item;
-        this->widget_stream << Blame::Util::EscapeCodes::reset();
 
         counter++;
     }
-
-    *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();
-    this->widget_stream.str(std::string());
 
     this->is_redrawn.exchange(true);
 }

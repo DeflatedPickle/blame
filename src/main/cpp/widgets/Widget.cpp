@@ -26,15 +26,8 @@ void Blame::Widgets::Widget::redraw() {
     this->updateClientArea();
     this->is_redrawn.exchange(false);
 
-    this->widget_stream << Blame::Util::EscapeCodes::reset();
-    this->console->moveCaret(this->widget_stream, this->column, this->row);
-
     for (int y = 0; y < this->height; y++) {
-        this->console->moveCaret(this->widget_stream, this->column, this->row + y);
-
-        for (int x = 0; x < this->width; x++) {
-            this->widget_stream << Blame::Util::EscapeCodes::reset();
-
+        for (int x = 0; x < this->width + 1; x++) {
             // Top Left
             if (x == 0 && y == 0) {
                 this->console->cell_info[this->row + y][this->column + x - 1] =
@@ -79,21 +72,21 @@ void Blame::Widgets::Widget::redraw() {
             }
 
             // Top Right
-            if (x == this->width - 1 && y == 0) {
+            if (x == this->width && y == 0) {
                 this->console->cell_info[this->row + y][this->column + x] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.top_right;
             }
             // Middle Right
-            else if (x == this->width - 1 && y > 0 && y < this->height - 1) {
+            else if (x == this->width && y > 0 && y < this->height - 1) {
                 this->console->cell_info[this->row + y][this->column + x] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.middle_right;
             }
             // Bottom Right
-            else if (x == this->width - 1 && y == this->height - 1) {
+            else if (x == this->width && y == this->height - 1) {
                 this->console->cell_info[this->row + y][this->column + x] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)

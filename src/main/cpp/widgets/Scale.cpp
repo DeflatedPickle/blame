@@ -42,21 +42,19 @@ void Blame::Widgets::Scale::redraw() {
 
     switch (this->orientation) {
         case Blame::Util::Orientation::HORIZONTAL:
-            this->console->moveCaret(this->widget_stream, this->client_area.left + this->handle_current, this->client_area.top);
+            this->console->cell_info[this->client_area.top][this->column + this->handle_current] =
+                    this->getCurrentColour(this->style.colours.background_content)
+                    + this->colour_handle
+                    + this->symbol_handle;
             break;
 
         case Blame::Util::Orientation::VERTICAL:
-            this->console->moveCaret(this->widget_stream, this->client_area.left, this->client_area.top + this->handle_current);
+            this->console->cell_info[this->row + 1 + this->handle_current][this->column] =
+                    this->getCurrentColour(this->style.colours.background_content)
+                    + this->colour_handle
+                    + this->symbol_handle;
             break;
     }
-
-    this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-    this->widget_stream << this->colour_handle;
-    this->widget_stream << this->symbol_handle;
-
-    this->widget_stream << Blame::Util::EscapeCodes::reset();
-    *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();
-    this->widget_stream.str(std::string());
 
     this->is_redrawn.exchange(true);
 }
