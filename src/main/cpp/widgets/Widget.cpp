@@ -30,21 +30,21 @@ void Blame::Widgets::Widget::redraw() {
         for (int x = 0; x < this->width + 1; x++) {
             // Top Left
             if (x == 0 && y == 0) {
-                this->console->raw_grid[this->row + y][this->column + x - 1] =
+                this->console->raw_grid[this->row + y + 1][this->column + x] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.top_left;
             }
             // Middle Left
             else if (x == 0 && y > 0 && y < this->height - 1) {
-                this->console->raw_grid[this->row + y][this->column + x - 1] =
+                this->console->raw_grid[this->row + y + 1][this->column + x] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.middle_left;
             }
             // Bottom Left
             else if (x == 0 && y == this->height - 1) {
-                this->console->raw_grid[this->row + y][this->column + x - 1] =
+                this->console->raw_grid[this->row + y + 1][this->column + x] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.bottom_left;
@@ -52,42 +52,42 @@ void Blame::Widgets::Widget::redraw() {
 
             // Top Middle
             if (y == 0) {
-                this->console->raw_grid[this->row + y][this->column + x] =
+                this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.top_middle;
             }
             // Bottom Middle
             else if (y == this->height - 1) {
-                this->console->raw_grid[this->row + y][this->column + x] =
+                this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.bottom_middle;
             }
             // Middle Fill
             else {
-                this->console->raw_grid[this->row + y][this->column + x] =
+                this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
                         this->getCurrentColour(this->style.colours.background_content)
                         + this->style.symbols.middle_fill;
             }
 
             // Top Right
             if (x == this->width && y == 0) {
-                this->console->raw_grid[this->row + y][this->column + x] =
+                this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.top_right;
             }
             // Middle Right
             else if (x == this->width && y > 0 && y < this->height - 1) {
-                this->console->raw_grid[this->row + y][this->column + x] =
+                this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.middle_right;
             }
             // Bottom Right
             else if (x == this->width && y == this->height - 1) {
-                this->console->raw_grid[this->row + y][this->column + x] =
+                this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
                         this->getCurrentColour(this->style.colours.border)
                         + this->getCurrentColour(this->style.colours.background_border)
                         + this->style.symbols.bottom_right;

@@ -42,14 +42,14 @@ void Blame::Widgets::Scale::redraw() {
 
     switch (this->orientation) {
         case Blame::Util::Orientation::HORIZONTAL:
-            this->console->raw_grid[this->client_area.top][this->column + this->handle_current] =
+            this->console->raw_grid[this->client_area.top][this->client_area.left + this->handle_current] =
                     this->getCurrentColour(this->style.colours.background_content)
                     + this->colour_handle
                     + this->symbol_handle;
             break;
 
         case Blame::Util::Orientation::VERTICAL:
-            this->console->raw_grid[this->row + 1 + this->handle_current][this->column] =
+            this->console->raw_grid[this->client_area.top + this->handle_current][this->client_area.left] =
                     this->getCurrentColour(this->style.colours.background_content)
                     + this->colour_handle
                     + this->symbol_handle;

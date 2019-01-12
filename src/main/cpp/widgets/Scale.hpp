@@ -13,6 +13,8 @@ namespace Blame::Widgets {
 
         void move(Blame::Util::Direction direction) override;
 
+        void activate() override {}
+
         Blame::Util::Orientation orientation;
         std::function<void()> command;
 

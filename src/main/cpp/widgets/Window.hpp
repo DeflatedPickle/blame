@@ -13,6 +13,8 @@ namespace Blame::Widgets {
 
         void move(Blame::Util::Direction direction) override;
 
+        void activate() override {}
+
         // void restore();
         // void minimize();
         // void maximize();

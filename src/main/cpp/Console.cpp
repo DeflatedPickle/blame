@@ -31,7 +31,7 @@ Blame::Console::Console() {
     for (auto i = 0; i < this->height; i++) {
         std::vector<std::string> vec;
 
-        for (auto j = 0; j < this->width; j++) {
+        for (auto j = 0; j < this->width + 1; j++) {
             vec.emplace_back("");
         }
 
