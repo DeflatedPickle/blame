@@ -2,7 +2,8 @@
 #include <styles/StyleText.hpp>
 #include "List.hpp"
 
-Blame::Widgets::List::List(Blame::Console *console, Blame::Widgets::Widget *parent, std::vector<std::string> items, std::function<void()> command) : Widget(console, parent) {
+Blame::Widgets::List::List(Blame::Console *console, Blame::Widgets::Widget *parent, std::vector<std::string> items,
+                           std::function<void()> command) : Widget(console, parent) {
     this->items = items;
     this->command = command;
     this->selection = 0;
@@ -21,8 +22,9 @@ void Blame::Widgets::List::redraw() {
         for (auto i = 0; i < item.length(); i++) {
             this->console->raw_grid[this->client_area.top + counter][this->client_area.left + i] =
                     this->getCurrentColour(this->style.colours.background_content)
-                    + this->getCurrentColour(this->style.colours.text)
-                    + (counter == this->selection ? Blame::Util::EscapeCodes::backgroundBlue() : "")
+                    + (counter == this->selection ? Blame::Util::EscapeCodes::backgroundBlue()
+                                                    + Blame::Util::EscapeCodes::foregroundYellow()
+                                                  : this->getCurrentColour(this->style.colours.text))
                     + item[i];
         }
 
