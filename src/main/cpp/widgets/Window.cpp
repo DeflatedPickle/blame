@@ -17,68 +17,64 @@ void Blame::Widgets::Window::redraw() {
     if (this->state_window == Blame::Util::StateWindow::RESTORED || this->state_window == Blame::Util::StateWindow::MAXIMIZED) {
         this->is_redrawn.exchange(false);
 
-        this->console->moveCaret(this->widget_stream, this->column, this->row);
         // Account for the title height
         this->row -= 2;
 
-        this->widget_stream << this->getCurrentColour(this->style.colours.border);
         for (int y = 0; y < 3; y++) {
-            this->console->moveCaret(this->widget_stream, this->column, this->row + y);
-            this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-
-            for (int x = 0; x < this->width; x++) {
-                this->widget_stream << Blame::Util::EscapeCodes::reset();
-
+            for (int x = 0; x < this->width + 1; x++) {
                 // Top Left
                 if (x == 0 && y == 0) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.top_left;
+                    this->console->raw_grid[this->row + y + 1][this->column + x] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.top_left;
                 }
-                    // Middle Left
+                // Middle Left
                 else if (x == 0 && y > 0 && y < this->height - 1) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.middle_left;
+                    this->console->raw_grid[this->row + y + 1][this->column + x] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.middle_left;
                 }
 
                 // Top Middle
-                if (y == 0) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.top_middle;
+                if (x > 0 && y == 0) {
+                    this->console->raw_grid[this->row + y + 1][this->column + x] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.top_middle;
                 }
-                    // Middle Fill
+                // Middle Fill
                 else {
-                    if (x == 1) {
-                        this->widget_stream << Blame::Util::EscapeCodes::reset();
-                        this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-                        this->widget_stream << this->getCurrentColour(this->style.colours.text);
-                        this->widget_stream << this->title_text;
-                        this->widget_stream << Blame::Util::EscapeCodes::reset();
+                    if (x >= 1 && x <= this->title_text.length()) {
+                        this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
+                                this->getCurrentColour(this->style.colours.border)
+                                + this->getCurrentColour(this->style.colours.background_content)
+                                + this->title_text[x - 1];
                     }
+                    // Text
                     else if (x == 0 || x > this->title_text.length()) {
-                        this->widget_stream << Blame::Util::EscapeCodes::reset();
-                        this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-                        this->widget_stream << this->style.symbols.middle_fill;
-                        this->widget_stream << Blame::Util::EscapeCodes::reset();
+                        this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
+                                this->getCurrentColour(this->style.colours.background_content)
+                                + this->style.symbols.middle_fill;
                     }
                 }
 
                 // Top Right
-                if (x == this->width - 1 && y == 0) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.top_right;
+                if (x == this->width && y == 0) {
+                    this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.top_right;
                 }
-                    // Middle Right
-                else if (x == this->width - 1 && y > 0 && y < this->height - 1) {
-                    this->widget_stream << this->getCurrentColour(this->style.colours.border);
-                    this->widget_stream << this->getCurrentColour(this->style.colours.background_border);
-                    this->widget_stream << this->style.symbols.middle_right;
+                // Middle Right
+                else if (x == this->width && y > 0 && y < this->height - 1) {
+                    this->console->raw_grid[this->row + y + 1][this->column + x + 1] =
+                            this->getCurrentColour(this->style.colours.border)
+                            + this->getCurrentColour(this->style.colours.background_border)
+                            + this->style.symbols.middle_right;
                 }
             }
-            this->widget_stream << Blame::Util::EscapeCodes::reset();
         }
 
         this->style.symbols.top_left = this->symbol_title_intersect_left;
@@ -98,7 +94,11 @@ void Blame::Widgets::Window::redraw() {
 void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
     switch (direction) {
         case Blame::Util::Direction::UP:
-            if (this->row - 3 > console->client_area.top) {
+            if (this->row - 2 > console->client_area.top) {
+                for (auto i = this->column; i < this->column + this->width + 2; i++) {
+                    this->console->raw_grid[this->row + this->height][i] = "";
+                }
+
                 this->row--;
 
                 for (auto child : this->children) {
@@ -109,6 +109,10 @@ void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
 
         case Blame::Util::Direction::DOWN:
             if (this->row + 1 + this->height < console->client_area.bottom) {
+                for (auto i = this->column; i < this->column + this->width + 2; i++) {
+                    this->console->raw_grid[this->row - 1][i] = "";
+                }
+
                 this->row++;
 
                 for (auto child : this->children) {
@@ -119,6 +123,10 @@ void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
 
         case Blame::Util::Direction::LEFT:
             if (this->column - 1 > console->client_area.left) {
+                for (auto i = this->row - 1; i < this->row + this->height + 1; i++) {
+                    this->console->raw_grid[i][this->column + this->width + 1] = "";
+                }
+
                 this->column--;
 
                 for (auto child : this->children) {
@@ -129,6 +137,10 @@ void Blame::Widgets::Window::move(Blame::Util::Direction direction) {
 
         case Blame::Util::Direction::RIGHT:
             if (this->column + 1 + this->width < console->client_area.right) {
+                for (auto i = this->row - 1; i < this->row + this->height + 1; i++) {
+                    this->console->raw_grid[i][this->column] = "";
+                }
+
                 this->column++;
 
                 for (auto child : this->children) {

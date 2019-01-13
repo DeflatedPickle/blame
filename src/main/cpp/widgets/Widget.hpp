@@ -80,7 +80,7 @@ namespace Blame::Widgets {
         }
 
         void place(int x, int y, int width, int height) {
-            this->column = x;
+            this->column = x + 1;
             this->row = y;
             this->width = width;
             this->height = height;
@@ -98,7 +98,7 @@ namespace Blame::Widgets {
                 auto manager = static_cast<Blame::Widgets::Managers::Pack *>(this->parent->manager);
                 manager->direction = direction;
                 manager->next_x = this->parent->client_area.left;
-                manager->next_y = this->parent->client_area.top;
+                manager->next_y = this->parent->client_area.top - 1;
                 this->parent->manager = static_cast<Blame::Widgets::Managers::Manager *>(manager);
             }
 
@@ -136,7 +136,7 @@ namespace Blame::Widgets {
         virtual void updateClientArea() {
             this->client_area.left = this->column + 1;
             this->client_area.right = this->column - 1 + this->width;
-            this->client_area.top = this->row + 1;
+            this->client_area.top = this->row + 2;
             this->client_area.bottom = this->row - 1 + this->height;
         }
 

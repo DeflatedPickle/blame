@@ -25,13 +25,13 @@ namespace Blame {
 
         void redraw();
         void drawBackground() {
-            this->moveCaret(std::cout, 0, 0);
-            for (int y = 0; y < this->height - 1; y++) {
-                for (int x = 0; x < this->width; x++) {
-                    *this->buffer_list[this->current_buffer] << "░";
-                }
-            }
-            this->flipBuffers();
+            // this->moveCaret(std::cout, 0, 0);
+            // for (int y = 0; y < this->height - 1; y++) {
+            //     for (int x = 0; x < this->width; x++) {
+            //         *this->buffer_list[this->current_buffer] << "░";
+            //     }
+            // }
+            // this->flipBuffers();
         }
         void setTitle(std::string str);
 
@@ -110,6 +110,11 @@ namespace Blame {
         int current_buffer = 0;
 
         std::atomic_bool has_flipped;
+
+        // The grid drawn into by widgets, updates the screen_grid
+        std::vector<std::vector<std::string>> raw_grid;
+        // A duplicate of the raw_grid, used for the screen
+        std::vector<std::vector<std::string>> screen_grid;
 
     protected:
         // std::string colour_background;

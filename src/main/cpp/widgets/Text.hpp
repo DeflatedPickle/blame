@@ -10,6 +10,7 @@ namespace Blame::Widgets {
         void redraw() override;
 
         void move(Blame::Util::Direction direction) override;
+        void activate() override {}
         void text(std::string text) override;
 
         int caret_x;

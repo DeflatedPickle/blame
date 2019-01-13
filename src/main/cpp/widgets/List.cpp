@@ -2,7 +2,8 @@
 #include <styles/StyleText.hpp>
 #include "List.hpp"
 
-Blame::Widgets::List::List(Blame::Console *console, Blame::Widgets::Widget *parent, std::vector<std::string> items, std::function<void()> command) : Widget(console, parent) {
+Blame::Widgets::List::List(Blame::Console *console, Blame::Widgets::Widget *parent, std::vector<std::string> items,
+                           std::function<void()> command) : Widget(console, parent) {
     this->items = items;
     this->command = command;
     this->selection = 0;
@@ -16,25 +17,19 @@ Blame::Widgets::List::List(Blame::Console *console, Blame::Widgets::Widget *pare
 void Blame::Widgets::List::redraw() {
     Widget::redraw();
 
-    this->widget_stream << this->getCurrentColour(this->style.colours.background_content);
-    this->widget_stream << this->getCurrentColour(this->style.colours.text);
-
     int counter = 0;
-    for (auto item : this->items) {
-        this->console->moveCaret(this->widget_stream, this->column + 1, this->row + counter + 1);
-
-        if (counter == this->selection) {
-            this->widget_stream << Blame::Util::EscapeCodes::backgroundBlue();
+    for (const auto &item : this->items) {
+        for (auto i = 0; i < item.length(); i++) {
+            this->console->raw_grid[this->client_area.top + counter][this->client_area.left + i] =
+                    this->getCurrentColour(this->style.colours.background_content)
+                    + (counter == this->selection ? Blame::Util::EscapeCodes::backgroundBlue()
+                                                    + Blame::Util::EscapeCodes::foregroundYellow()
+                                                  : this->getCurrentColour(this->style.colours.text))
+                    + item[i];
         }
-
-        this->widget_stream << item;
-        this->widget_stream << Blame::Util::EscapeCodes::reset();
 
         counter++;
     }
-
-    *this->console->buffer_list[!this->console->current_buffer] << this->widget_stream.str();
-    this->widget_stream.str(std::string());
 
     this->is_redrawn.exchange(true);
 }

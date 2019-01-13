@@ -27,6 +27,18 @@ Blame::Console::Console() {
     this->width = size.ws_col;
     this->height = size.ws_row;
 
+    // Creates a row of empty cells for the height and width of the terminal
+    for (auto i = 0; i < this->height; i++) {
+        std::vector<std::string> vec;
+
+        for (auto j = 0; j < this->width + 1; j++) {
+            vec.emplace_back("");
+        }
+
+        this->raw_grid.push_back(vec);
+        this->screen_grid.push_back(vec);
+    }
+
     this->client_area.left = 0;
     this->client_area.top = 0;
     this->client_area.right = this->width;
@@ -59,7 +71,7 @@ void Blame::Console::mainLoop() {
 
     // std::thread draw_thread(&Blame::Console::drawLoop, this);
 
-    this->drawBackground();
+    // this->drawBackground();
 
     while (!this->exit.load()) {
         find_second_third = true;
@@ -162,7 +174,7 @@ void Blame::Console::redraw() {
     // TODO: Only redraw the cells that have been changed, don't clear the whole thing
     // this->clear();
 
-    this->drawBackground();
+    // this->drawBackground();
 
     // TODO: Maybe add a check for if they need to be redrawn?
     for (auto widget : this->widget_list) {
@@ -179,6 +191,37 @@ void Blame::Console::redraw() {
                     child->redraw();
                 }
             }
+        }
+    }
+
+    // auto redraw_count = 0;
+    for (auto y = 0; y < this->raw_grid.size(); y++) {
+        for (auto x = 0; x < this->raw_grid[y].size(); x++) {
+            if (x == this->raw_grid[y].size()) {
+                if (y != this->raw_grid.size()) {
+                    *this->buffer_list[!this->current_buffer] << std::endl;
+                }
+            }
+
+            this->moveCaret(*this->buffer_list[!this->current_buffer], x, y);
+
+            if (x > 0 && y > 0 && this->raw_grid[y][x].empty()) {
+                *this->buffer_list[!this->current_buffer] << "░" << Blame::Util::EscapeCodes::reset();
+            }
+
+            if (this->raw_grid[y][x] != this->screen_grid[y][x]) {
+                this->screen_grid[y][x] = this->raw_grid[y][x];
+
+                // redraw_count++;
+                // this->setTitle("Redrawn: " + std::to_string(redraw_count) + " Cells, Out Of: " + std::to_string(this->raw_grid.size() * this->raw_grid[0].size()) + " Cells");
+            }
+            else {
+                // Shows which cells were redrawn
+                // *this->buffer_list[!this->current_buffer] << "░" << Blame::Util::EscapeCodes::reset();
+                continue;
+            }
+
+            *this->buffer_list[!this->current_buffer] << Blame::Util::EscapeCodes::reset() << this->screen_grid[y][x] << Blame::Util::EscapeCodes::reset();
         }
     }
 

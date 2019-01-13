@@ -11,7 +11,7 @@ int main() {
     console->setTitle("Dim");
 
     std::unique_ptr<Blame::Widgets::Window> window(new Blame::Widgets::Window(console.get(), "Dim"));
-    window->place(1, 1, 10, 10);
+    window->place(0, 0, 10, 10);
     window->fullscreen();
     window->state = Blame::Util::State::DISABLED;
     console->focus_order.pop_back();
@@ -30,6 +30,8 @@ int main() {
     list->pack(Blame::Util::Direction::RIGHT);
     list->width = 18;
     list->height = console->height - 3;
+
+    list->style.symbols.middle_fill = " ";
 
     std::shared_ptr<Blame::Widgets::Text> text(new Blame::Widgets::Text(console.get(), window.get()));
     text->pack(Blame::Util::Direction::RIGHT);
