@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Style.hpp"
+#include <Style.hpp>
 
 namespace Blame::Styles {
     struct StyleWindow : Blame::Styles::Style {

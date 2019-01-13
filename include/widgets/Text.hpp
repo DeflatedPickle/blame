@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Widget.hpp"
+#include <Widget.hpp>
 
 namespace Blame::Widgets {
     class Text : public Blame::Widgets::Widget {

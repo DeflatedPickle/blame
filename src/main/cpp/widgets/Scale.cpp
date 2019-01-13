@@ -1,8 +1,10 @@
+#include <widgets/Scale.hpp>
+
 #include <cmath>
 #include <functional>
+
 #include <styles/StyleScaleHorizontal.hpp>
 #include <styles/StyleScaleVertical.hpp>
-#include "Scale.hpp"
 
 Blame::Widgets::Scale::Scale(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, std::function<void()> command) : Widget(console, parent) {
     this->orientation = orientation;

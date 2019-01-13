@@ -8,9 +8,10 @@
 #include <thread>
 #include <algorithm>
 #include <termios.h>
-#include "widgets/Listener.hpp"
-#include "util/ClientArea.hpp"
-#include "util/EscapeCodes.hpp"
+
+#include <widgets/Listener.hpp>
+#include <util/ClientArea.hpp>
+#include <util/EscapeCodes.hpp>
 
 namespace Blame {
     class Console {

@@ -1,6 +1,8 @@
+#include <widgets/List.hpp>
+
 #include <functional>
+
 #include <styles/StyleText.hpp>
-#include "List.hpp"
 
 Blame::Widgets::List::List(Blame::Console *console, Blame::Widgets::Widget *parent, std::vector<std::string> items,
                            std::function<void()> command) : Widget(console, parent) {

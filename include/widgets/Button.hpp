@@ -1,7 +1,8 @@
 #pragma once
 
 #include <functional>
-#include "Widget.hpp"
+
+#include <Widget.hpp>
 
 namespace Blame::Widgets {
     class Button : public Blame::Widgets::Widget {

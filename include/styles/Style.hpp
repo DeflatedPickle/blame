@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
-#include "Symbols.hpp"
-#include "Colours.hpp"
+
+#include <Symbols.hpp>
+#include <Colours.hpp>
 
 namespace Blame::Styles {
     struct Style {

@@ -1,5 +1,6 @@
+#include <widgets/Text.hpp>
+
 #include <styles/StyleText.hpp>
-#include "Text.hpp"
 
 // TODO: Add support for multiple text caret's
 // TODO: Add support for selecting text

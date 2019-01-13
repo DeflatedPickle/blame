@@ -1,9 +1,12 @@
 #include <iostream>
+
 #include <Console.hpp>
 #include <widgets/Window.hpp>
 #include <widgets/Text.hpp>
 #include <widgets/Button.hpp>
 #include <widgets/Scale.hpp>
+#include <util/Direction.hpp>
+#include <util/State.hpp>
 
 int main() {
     std::unique_ptr<Blame::Console> console(new Blame::Console());

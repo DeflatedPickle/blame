@@ -1,4 +1,4 @@
-#include "Console.hpp"
+#include <Console.hpp>
 
 #include <cstdio>
 #include <iostream>
@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
+
 #include <widgets/Widget.hpp>
 
 // TODO: Add signals for console events

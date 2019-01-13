@@ -4,11 +4,12 @@
 #include <string>
 #include <optional>
 #include <sstream>
+
 #include <Console.hpp>
 #include <widgets/managers/Manager.hpp>
 #include <styles/Style.hpp>
 #include <widgets/managers/Pack.hpp>
-#include "Listener.hpp"
+#include <Listener.hpp>
 
 // TODO: Add proper resize methods that change the client area
 // TODO: Add the ability to scroll a viewable area of the widgets client area

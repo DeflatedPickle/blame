@@ -1,6 +1,7 @@
-#include "Window.hpp"
+#include <widgets/Window.hpp>
 
 #include <iostream>
+
 #include <styles/StyleWindow.hpp>
 
 Blame::Widgets::Window::Window(Blame::Console *console, std::string title_text) : Widget(console, nullptr) {

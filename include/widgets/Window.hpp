@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
+
 #include <util/StateWindow.hpp>
-#include "Widget.hpp"
+#include <Widget.hpp>
 
 namespace Blame::Widgets {
     class Window : public Blame::Widgets::Widget {

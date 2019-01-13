@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-#include "StateColours.hpp"
+
+#include <StateColours.hpp>
 
 namespace Blame::Styles {
     struct Colours {

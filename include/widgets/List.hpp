@@ -2,7 +2,8 @@
 
 #include <functional>
 #include <vector>
-#include "Widget.hpp"
+
+#include <Widget.hpp>
 
 namespace Blame::Widgets {
     class List : public Blame::Widgets::Widget {

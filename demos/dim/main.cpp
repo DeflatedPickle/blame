@@ -1,10 +1,11 @@
 #include <iostream>
 #include <experimental/filesystem>
+#include <fstream>
+
 #include <Console.hpp>
 #include <widgets/Window.hpp>
 #include <widgets/Text.hpp>
 #include <widgets/List.hpp>
-#include <fstream>
 
 int main() {
     std::shared_ptr<Blame::Console> console(new Blame::Console());

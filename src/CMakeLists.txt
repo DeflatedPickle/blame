@@ -5,51 +5,46 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_library(blame_src
         main/cpp/Console.cpp
-        main/cpp/Console.hpp
+        ../include/Console.hpp
 
-        main/cpp/util/EscapeCodes.hpp
-        main/cpp/util/State.hpp
-        main/cpp/util/StateWindow.hpp
+        ../include/util/EscapeCodes.hpp
+        ../include/util/State.hpp
+        ../include/util/StateWindow.hpp
 
         main/cpp/widgets/Widget.cpp
-        main/cpp/widgets/Widget.hpp
+        ../include/widgets/Widget.hpp
 
         main/cpp/widgets/Window.cpp
-        main/cpp/widgets/Window.hpp
+        ../include/widgets/Window.hpp
 
-        main/cpp/util/Direction.hpp
+        ../include/util/Direction.hpp
 
-        main/cpp/widgets/Listener.hpp
+        ../include/widgets/Listener.hpp
 
-        main/cpp/util/ClientArea.hpp
+        ../include/util/ClientArea.hpp
 
-        main/cpp/styles/Style.hpp
-        main/cpp/styles/Symbols.hpp
-        main/cpp/styles/Colours.hpp
-        main/cpp/styles/StateColours.hpp
+        ../include/styles/Style.hpp
+        ../include/styles/Symbols.hpp
+        ../include/styles/Colours.hpp
+        ../include/styles/StateColours.hpp
 
-        main/cpp/styles/StyleWindow.hpp
-        main/cpp/styles/StyleButton.hpp
-        main/cpp/styles/StyleScaleHorizontal.hpp
-        main/cpp/styles/StyleScaleVertical.hpp
-        main/cpp/styles/StyleText.hpp
+        ../include/styles/StyleWindow.hpp
+        ../include/styles/StyleButton.hpp
+        ../include/styles/StyleScaleHorizontal.hpp
+        ../include/styles/StyleScaleVertical.hpp
+        ../include/styles/StyleText.hpp
 
         main/cpp/widgets/Button.cpp
-        main/cpp/widgets/Button.hpp
+        ../include/widgets/Button.hpp
 
-        main/cpp/widgets/managers/Manager.hpp
-        main/cpp/widgets/managers/Pack.hpp
+        ../include/widgets/managers/Manager.hpp
+        ../include/widgets/managers/Pack.hpp
 
         main/cpp/widgets/Text.cpp
-        main/cpp/widgets/Text.hpp
+        ../include/widgets/Text.hpp
 
         main/cpp/widgets/Scale.cpp
-        main/cpp/widgets/Scale.hpp
+        ../include/widgets/Scale.hpp
 
         main/cpp/widgets/List.cpp
-        main/cpp/widgets/List.hpp)
-
-target_include_directories(blame_src PUBLIC
-        main/cpp)
-
-target_link_libraries(blame_src stdc++fs)
+        ../include/widgets/List.hpp)
