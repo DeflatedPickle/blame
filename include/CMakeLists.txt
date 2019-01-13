@@ -18,7 +18,7 @@ add_library(blame_include
 
         widgets/Listener.hpp
 
-        util/ClientArea.hpp
+        util/Area.hpp
 
         styles/Style.hpp
         styles/Symbols.hpp

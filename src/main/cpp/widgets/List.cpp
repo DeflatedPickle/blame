@@ -19,18 +19,21 @@ Blame::Widgets::List::List(Blame::Console *console, Blame::Widgets::Widget *pare
 void Blame::Widgets::List::redraw() {
     Widget::redraw();
 
-    int counter = 0;
-    for (const auto &item : this->items) {
-        for (auto i = 0; i < item.length(); i++) {
-            this->console->raw_grid[this->client_area.top + counter][this->client_area.left + i] =
-                    this->getCurrentColour(this->style.colours.background_content)
-                    + (counter == this->selection ? Blame::Util::EscapeCodes::backgroundBlue()
-                                                    + Blame::Util::EscapeCodes::foregroundYellow()
-                                                  : this->getCurrentColour(this->style.colours.text))
-                    + item[i];
+    int iteration = 0;
+    for (auto item = 0; item < this->items.size(); item++) {
+        for (auto i = 0; i < this->items[item].length(); i++) {
+            if (this->client_area.top + iteration < this->view_area.bottom
+                && this->client_area.left + i < this->view_area.right) {
+                this->console->raw_grid[this->client_area.top + iteration][this->client_area.left + i] =
+                        this->getCurrentColour(this->style.colours.background_content)
+                        + (iteration == this->selection ? Blame::Util::EscapeCodes::backgroundBlue()
+                                                        + Blame::Util::EscapeCodes::foregroundYellow()
+                                                      : this->getCurrentColour(this->style.colours.text))
+                        + this->items[item + this->view_area_offset_y][i + this->view_area_offset_x];
+            }
         }
 
-        counter++;
+        iteration++;
     }
 
     this->is_redrawn.exchange(true);

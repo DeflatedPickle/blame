@@ -21,7 +21,7 @@ add_library(blame_src
 
         ../include/widgets/Listener.hpp
 
-        ../include/util/ClientArea.hpp
+        ../include/util/Area.hpp
 
         ../include/styles/Style.hpp
         ../include/styles/Symbols.hpp

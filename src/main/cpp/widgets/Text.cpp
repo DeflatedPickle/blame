@@ -8,6 +8,10 @@ Blame::Widgets::Text::Text(Blame::Console *console, Blame::Widgets::Widget *pare
     this->height = 6;
     this->width = 12;
 
+    this->view_area_width = this->width;
+    this->view_area_height = this->height;
+    this->updateViewArea();
+
     this->symbol_caret = "_";
     this->colour_caret = Blame::Util::EscapeCodes::foregroundMagenta();
 
@@ -23,12 +27,15 @@ void Blame::Widgets::Text::redraw() {
     Widget::redraw();
 
     int iteration = 0;
-    for (const auto &line : this->content) {
-        for (auto i = 0; i < line.length(); i++) {
-            this->console->raw_grid[this->client_area.top + iteration][this->client_area.left + i] =
-                    this->getCurrentColour(this->style.colours.background_content)
-                    + this->getCurrentColour(this->style.colours.text)
-                    + line[i];
+    for (auto line = 0; line < this->content.size(); line++) {
+        for (auto i = 0; i < this->content[line].length(); i++) {
+            if (this->client_area.top + iteration < this->view_area.bottom
+                && this->client_area.left + i < this->view_area.right) {
+                this->console->raw_grid[this->client_area.top + iteration][this->client_area.left + i] =
+                        this->getCurrentColour(this->style.colours.background_content)
+                        + this->getCurrentColour(this->style.colours.text)
+                        + this->content[line + this->view_area_offset_y][i + this->view_area_offset_x];
+            }
         }
         iteration++;
     }

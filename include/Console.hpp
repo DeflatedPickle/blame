@@ -10,7 +10,7 @@
 #include <termios.h>
 
 #include <widgets/Listener.hpp>
-#include <util/ClientArea.hpp>
+#include <util/Area.hpp>
 #include <util/EscapeCodes.hpp>
 
 namespace Blame {
@@ -99,7 +99,7 @@ namespace Blame {
         int width;
         int height;
 
-        Blame::Util::ClientArea client_area;
+        Blame::Util::Area client_area;
 
         std::vector<Blame::Widgets::Listener *> widget_list;
         std::vector<Blame::Widgets::Listener *> focus_order;

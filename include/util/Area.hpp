@@ -1,10 +1,10 @@
 #pragma once
 
 namespace Blame::Util {
-    struct ClientArea {
+    struct Area {
         int left;
-        int right;
+        int right; // Width
         int top;
-        int bottom;
+        int bottom; // Height
     };
 }

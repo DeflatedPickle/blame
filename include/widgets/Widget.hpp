@@ -141,12 +141,26 @@ namespace Blame::Widgets {
             this->client_area.bottom = this->row - 1 + this->height;
         }
 
+        virtual void updateViewArea() {
+            this->view_area.left = this->client_area.left + this->view_area_offset_x;
+            this->view_area.right = this->view_area.left + this->view_area_width;
+            this->view_area.top = this->client_area.top + this->view_area_offset_y;
+            this->view_area.bottom = this->view_area.top + this->view_area_height;
+        }
+
         int column;
         int row;
         int width;
         int height;
 
-        Blame::Util::ClientArea client_area;
+        // The full area the widget takes up
+        Blame::Util::Area client_area;
+        // A portion of the client area that can be seen, usually inside the borders
+        Blame::Util::Area view_area;
+        int view_area_offset_x = 0;
+        int view_area_offset_y = 0;
+        int view_area_width = 0;
+        int view_area_height = 0;
 
         bool resizable;
 

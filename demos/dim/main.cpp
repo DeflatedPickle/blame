@@ -31,6 +31,10 @@ int main() {
     list->pack(Blame::Util::Direction::RIGHT);
     list->width = 18;
     list->height = console->height - 3;
+    list->view_area_width = list->width;
+    list->view_area_height = list->height;
+    list->updateClientArea();
+    list->updateViewArea();
 
     list->style.symbols.middle_fill = " ";
 
@@ -39,7 +43,11 @@ int main() {
     text->column += 10;
     text->width = console->width - 4 - list->width - 2;
     text->height = console->height - 3;
+    text->view_area_width = text->width;
+    text->view_area_height = text->height;
     text->focus();
+    text->updateClientArea();
+    text->updateViewArea();
 
     text->style.symbols.middle_fill = " ";
 
