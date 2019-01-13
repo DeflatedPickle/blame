@@ -194,6 +194,7 @@ void Blame::Console::redraw() {
         }
     }
 
+    // TODO: Group cells into packets
     // auto redraw_count = 0;
     for (auto y = 0; y < this->raw_grid.size(); y++) {
         for (auto x = 0; x < this->raw_grid[y].size(); x++) {
@@ -203,6 +204,7 @@ void Blame::Console::redraw() {
                 }
             }
 
+            // TODO: Remove leftward caret movements
             this->moveCaret(*this->buffer_list[!this->current_buffer], x, y);
 
             if (x > 0 && y > 0 && this->raw_grid[y][x].empty()) {
