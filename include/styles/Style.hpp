@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include <Symbols.hpp>
-#include <Colours.hpp>
+#include <styles/Symbols.hpp>
+#include <styles/Colours.hpp>
 
 namespace Blame::Styles {
     struct Style {

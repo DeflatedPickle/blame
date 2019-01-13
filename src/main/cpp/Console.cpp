@@ -88,8 +88,8 @@ void Blame::Console::mainLoop() {
             this->quit();
         }
 
-        // TODO: Change to the Tab key
-        if (first == 'f') {
+        // Tab
+        if (first == 9) {
             this->incrementFocus();
             find_second_third = false;
         }
@@ -220,7 +220,7 @@ void Blame::Console::redraw() {
             }
             else {
                 // Shows which cells were redrawn
-                // *this->buffer_list[!this->current_buffer] << "░" << Blame::Util::EscapeCodes::reset();
+                // *this->buffer_list[!this->current_buffer] << "@" << Blame::Util::EscapeCodes::reset();
                 continue;
             }
 

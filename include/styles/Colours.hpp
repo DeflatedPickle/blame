@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <StateColours.hpp>
+#include <styles/StateColours.hpp>
 
 namespace Blame::Styles {
     struct Colours {

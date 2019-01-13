@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Manager.hpp>
+#include <widgets/managers/Manager.hpp>
 #include <util/Direction.hpp>
 
 namespace Blame::Widgets {

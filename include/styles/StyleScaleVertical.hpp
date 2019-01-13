@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Style.hpp>
+#include <styles/Style.hpp>
 
 namespace Blame::Styles {
     struct StyleScaleVertical : Blame::Styles::Style {

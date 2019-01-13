@@ -9,7 +9,7 @@
 #include <widgets/managers/Manager.hpp>
 #include <styles/Style.hpp>
 #include <widgets/managers/Pack.hpp>
-#include <Listener.hpp>
+#include <widgets/Listener.hpp>
 
 // TODO: Add proper resize methods that change the client area
 // TODO: Add the ability to scroll a viewable area of the widgets client area

@@ -3,7 +3,7 @@
 #include <functional>
 #include <vector>
 
-#include <Widget.hpp>
+#include <widgets/Widget.hpp>
 
 namespace Blame::Widgets {
     class List : public Blame::Widgets::Widget {

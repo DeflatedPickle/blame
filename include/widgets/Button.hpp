@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include <Widget.hpp>
+#include <widgets/Widget.hpp>
 
 namespace Blame::Widgets {
     class Button : public Blame::Widgets::Widget {

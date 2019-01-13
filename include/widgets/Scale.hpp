@@ -3,7 +3,7 @@
 #include <functional>
 
 #include <util/Orientation.hpp>
-#include <Widget.hpp>
+#include <widgets/Widget.hpp>
 
 namespace Blame::Widgets {
     class Scale : public Blame::Widgets::Widget {
