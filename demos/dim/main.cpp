@@ -18,7 +18,7 @@ int main() {
     window->state = Blame::Util::State::DISABLED;
     console->focus_order.pop_back();
 
-    window->style.symbols.middle_fill = " ";
+    // Load files
 
     std::vector<std::string> file_paths;
     std::vector<std::string> file_names;
@@ -28,35 +28,52 @@ int main() {
         file_names.push_back(file.path().string().substr(file.path().string().find_last_of("/\\") + 1));
     }
 
+    // List
+
     std::shared_ptr<Blame::Widgets::List> list(new Blame::Widgets::List(console.get(), window.get(), file_names, nullptr));
-    list->pack(Blame::Util::Direction::RIGHT);
-    list->width = 18;
-    list->height = console->height - 3;
+    list->place(1, 1, 18, console->height - 6);
     list->view_area_width = list->width;
     list->view_area_height = list->height;
     list->updateClientArea();
     list->updateViewArea();
 
-    list->style.symbols.middle_fill = " ";
+    std::shared_ptr<Blame::Widgets::Scroll> list_scroll_x(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::HORIZONTAL, list.get()));
+    list_scroll_x->place(list->column - 1, list->row + list->height, list->width, 3);
+    list_scroll_x->handle_max = list_scroll_x->width;
+
+    std::shared_ptr<Blame::Widgets::Scroll> list_scroll_y(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::VERTICAL, list.get()));
+    list_scroll_y->place(list->column + list->width + 1, 1, 1, console->height - 6);
+    list_scroll_y->handle_max = list_scroll_y->height;
+
+    // Line Numbers
+
+    std::shared_ptr<Blame::Widgets::Text> line_numbers(new Blame::Widgets::Text(console.get(), window.get()));
+    line_numbers->place(list_scroll_y->column + list_scroll_y->width + 1, 1, 3, console->height - 6);
+    line_numbers->state = Blame::Util::State::DISABLED;
+    line_numbers->view_area_width = line_numbers->width;
+    line_numbers->view_area_height = line_numbers->height;
+    line_numbers->updateClientArea();
+    line_numbers->updateViewArea();
+
+    // Text
 
     std::shared_ptr<Blame::Widgets::Text> text(new Blame::Widgets::Text(console.get(), window.get()));
-    text->pack(Blame::Util::Direction::RIGHT);
-    text->column += 10;
-    text->width = console->width - 4 - 3 - list->width - 2;
-    text->height = console->height - 3;
+    text->place(line_numbers->column + line_numbers->width + 1, 1, console->width - 4 - 12 - list->width - 2, console->height - 6);
     text->view_area_width = text->width;
     text->view_area_height = text->height;
     text->focus();
     text->updateClientArea();
     text->updateViewArea();
 
-    text->style.symbols.middle_fill = " ";
+    std::shared_ptr<Blame::Widgets::Scroll> text_scroll_x(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::HORIZONTAL, text.get()));
+    text_scroll_x->place(text->column - 1, text->row + text->height, text->width, 3);
+    text_scroll_x->handle_max = text_scroll_x->width;
 
     std::shared_ptr<Blame::Widgets::Scroll> text_scroll_y(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::VERTICAL, text.get()));
-    text_scroll_y->pack(Blame::Util::Direction::RIGHT);
-    text_scroll_y->column = console->width - 3;
-    text_scroll_y->height = console->height - 3;
+    text_scroll_y->place(text->column + text->width + 1, 1, 1, console->height - 6);
     text_scroll_y->handle_max = text_scroll_y->height;
+
+    // Open file in text widget
 
     list->command = [=]() {
         std::ifstream file(file_paths[list->selection]);
@@ -79,18 +96,44 @@ int main() {
             }
         }
 
+        std::vector<std::string> numbers;
+        for (auto i = 0; i < new_content.size(); i++) {
+            if (i < 10) {
+                numbers.emplace_back("00" + std::to_string(i));
+            }
+            else if (i >= 10 && i < 100) {
+                numbers.emplace_back("0" + std::to_string(i));
+            }
+            else {
+                numbers.emplace_back(std::to_string(i));
+            }
+        }
+        line_numbers->content = numbers;
+
         text->content = new_content;
 
         text_scroll_y->max = (int) new_content.size();
         text_scroll_y->handle_size = std::abs(text->view_area_height - 2 - (int) new_content.size()) % text_scroll_y->max;
     };
 
+    // Customize Styles
+
+    window->style.symbols.middle_fill = " ";
+    list->style.symbols.middle_fill = " ";
+    line_numbers->style.symbols.middle_fill = " ";
+    text->style.symbols.middle_fill = " ";
+
     auto new_colours = Blame::Styles::Colours();
     new_colours.border = text->style.colours.border;
     new_colours.text.focused = Blame::Util::EscapeCodes::foregroundWhite();
 
     list->style.colours = new_colours;
+    line_numbers->style.colours = new_colours;
     text->style.colours = new_colours;
+    list_scroll_x->style.colours = new_colours;
+    list_scroll_y->style.colours = new_colours;
+    text_scroll_x->style.colours = new_colours;
+    text_scroll_y->style.colours = new_colours;
 
     console->mainLoop();
 
