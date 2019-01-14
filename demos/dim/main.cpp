@@ -97,12 +97,12 @@ int main() {
         }
 
         std::vector<std::string> numbers;
-        for (auto i = 0; i < new_content.size(); i++) {
+        for (auto i = 1; i < new_content.size(); i++) {
             if (i < 10) {
-                numbers.emplace_back("00" + std::to_string(i));
+                numbers.emplace_back("  " + std::to_string(i));
             }
             else if (i >= 10 && i < 100) {
-                numbers.emplace_back("0" + std::to_string(i));
+                numbers.emplace_back(" " + std::to_string(i));
             }
             else {
                 numbers.emplace_back(std::to_string(i));
