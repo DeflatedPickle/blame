@@ -7,8 +7,23 @@ Your terminal will need to implement at least the ANSI escape code for moving th
 ## Demos
 ### Widgets
 The `/demos/widgets` folder contains a demonstration of different widgets offered by Blame.
+
+The Widget showcase demo as of commit [fd6bd1d](https://github.com/DeflatedPickle/blame/commit/fd6bd1d6d46f9194eff2150310479505b4d70d36):
+
+![Widgets Alacritty](.github/images/widgets_alacritty.png)
+
+![Widgets Hyper](.github/images/widgets_hyper.png)
+
 ### Dim
 The `/demos/dim` folder contains a Vim-like demonstration.
+
+The Dim demo as of commit [4eb183f](https://github.com/DeflatedPickle/blame/commit/4eb183ff8300f6145f8b0ce93247f7468c3f9197):
+
+![Dim Command Prompt](.github/images/dim_command_prompt.png)
+
+![Dim Cmder](.github/images/dim_cmder.png)
+### Bi.Sh
+Coming soon - A shell.
 
 ## Building
 ### Windows

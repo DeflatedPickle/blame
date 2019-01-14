@@ -8,6 +8,11 @@
 #include <widgets/List.hpp>
 #include <widgets/Scroll.hpp>
 
+// TODO: Horizontal scrolling
+// TODO: Scrolling file list
+// TODO: Scrolling line numbers (multiple widgets)
+// TODO: Change the list to a tree with expanding folders
+// TODO: Syntax highlighting
 int main() {
     std::shared_ptr<Blame::Console> console(new Blame::Console());
     console->setTitle("Dim");
