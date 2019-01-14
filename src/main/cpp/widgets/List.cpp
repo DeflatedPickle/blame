@@ -22,7 +22,7 @@ void Blame::Widgets::List::redraw() {
     int iteration = 0;
     for (auto item = 0; item < this->items.size(); item++) {
         for (auto i = 0; i < this->items[item].length(); i++) {
-            if (this->client_area.top + iteration < this->view_area.bottom
+            if (this->client_area.top + iteration < this->view_area.bottom - 2
                 && this->client_area.left + i < this->view_area.right) {
                 this->console->raw_grid[this->client_area.top + iteration][this->client_area.left + i] =
                         this->getCurrentColour(this->style.colours.background_content)

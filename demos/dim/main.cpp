@@ -6,6 +6,7 @@
 #include <widgets/Window.hpp>
 #include <widgets/Text.hpp>
 #include <widgets/List.hpp>
+#include <widgets/Scroll.hpp>
 
 int main() {
     std::shared_ptr<Blame::Console> console(new Blame::Console());
@@ -41,7 +42,7 @@ int main() {
     std::shared_ptr<Blame::Widgets::Text> text(new Blame::Widgets::Text(console.get(), window.get()));
     text->pack(Blame::Util::Direction::RIGHT);
     text->column += 10;
-    text->width = console->width - 4 - list->width - 2;
+    text->width = console->width - 4 - 3 - list->width - 2;
     text->height = console->height - 3;
     text->view_area_width = text->width;
     text->view_area_height = text->height;
@@ -50,6 +51,12 @@ int main() {
     text->updateViewArea();
 
     text->style.symbols.middle_fill = " ";
+
+    std::shared_ptr<Blame::Widgets::Scroll> text_scroll_y(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::VERTICAL, text.get()));
+    text_scroll_y->pack(Blame::Util::Direction::RIGHT);
+    text_scroll_y->column = console->width - 3;
+    text_scroll_y->height = console->height - 3;
+    text_scroll_y->handle_max = text_scroll_y->height;
 
     list->command = [=]() {
         std::ifstream file(file_paths[list->selection]);
@@ -73,6 +80,9 @@ int main() {
         }
 
         text->content = new_content;
+
+        text_scroll_y->max = (int) new_content.size();
+        text_scroll_y->handle_size = std::abs(text->view_area_height - 2 - (int) new_content.size()) % text_scroll_y->max;
     };
 
     auto new_colours = Blame::Styles::Colours();

@@ -40,6 +40,8 @@ add_library(blame_include
 
         widgets/Scale.hpp
 
-        widgets/List.hpp)
+        widgets/List.hpp
+
+        widgets/Scroll.hpp)
 
 set_target_properties(blame_include PROPERTIES LINKER_LANGUAGE CXX)

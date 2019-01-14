@@ -29,7 +29,7 @@ void Blame::Widgets::Text::redraw() {
     int iteration = 0;
     for (auto line = 0; line < this->content.size(); line++) {
         for (auto i = 0; i < this->content[line].length(); i++) {
-            if (this->client_area.top + iteration < this->view_area.bottom
+            if (this->client_area.top + iteration < this->view_area.bottom - 2
                 && this->client_area.left + i < this->view_area.right) {
                 this->console->raw_grid[this->client_area.top + iteration][this->client_area.left + i] =
                         this->getCurrentColour(this->style.colours.background_content)
