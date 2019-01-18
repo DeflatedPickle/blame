@@ -6,9 +6,9 @@
 #include <styles/StyleScaleHorizontal.hpp>
 #include <styles/StyleScaleVertical.hpp>
 
-Blame::Widgets::Scroll::Scroll(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, Blame::Widgets::Widget *widget) : Widget(console, parent) {
+Blame::Widgets::Scroll::Scroll(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, std::vector<Blame::Widgets::Widget *> widgets) : Widget(console, parent) {
     this->orientation = orientation;
-    this->widget = widget;
+    this->widgets = widgets;
 
     switch (this->orientation) {
         case Blame::Util::Orientation::HORIZONTAL:
@@ -76,28 +76,40 @@ void Blame::Widgets::Scroll::move(Blame::Util::Direction direction) {
         case Blame::Util::Direction::UP:
             if (this->handle_current - 1 > this->handle_min - 1 && this->orientation == Blame::Util::Orientation::VERTICAL) {
                 this->handle_current--;
-                this->widget->view_area_offset_y--;
+
+                for (auto i : this->widgets) {
+                    i->view_area_offset_y--;
+                }
             }
             break;
 
         case Blame::Util::Direction::DOWN:
             if (this->handle_current + 1 < this->handle_max - 2 && this->orientation == Blame::Util::Orientation::VERTICAL) {
                 this->handle_current++;
-                this->widget->view_area_offset_y++;
+
+                for (auto i : this->widgets) {
+                    i->view_area_offset_y++;
+                }
             }
             break;
 
         case Blame::Util::Direction::LEFT:
             if (this->handle_current - 1 > this->handle_min - 1 && this->orientation == Blame::Util::Orientation::HORIZONTAL) {
                 this->handle_current--;
-                this->widget->view_area_offset_x--;
+
+                for (auto i : this->widgets) {
+                    i->view_area_offset_x--;
+                }
             }
             break;
 
         case Blame::Util::Direction::RIGHT:
             if (this->handle_current + 1 < this->handle_max && this->orientation == Blame::Util::Orientation::HORIZONTAL) {
                 this->handle_current++;
-                this->widget->view_area_offset_x++;
+
+                for (auto i : this->widgets) {
+                    i->view_area_offset_x++;
+                }
             }
             break;
     }

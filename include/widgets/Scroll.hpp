@@ -8,7 +8,7 @@
 namespace Blame::Widgets {
     class Scroll : public Blame::Widgets::Widget {
     public:
-        Scroll(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, Blame::Widgets::Widget *widget);
+        Scroll(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, std::vector<Blame::Widgets::Widget *> widgets);
 
         void redraw() override;
 
@@ -17,7 +17,7 @@ namespace Blame::Widgets {
         void activate() override {}
 
         Blame::Util::Orientation orientation;
-        Blame::Widgets::Widget *widget = nullptr;
+        std::vector<Blame::Widgets::Widget *> widgets;
 
         int min = 0;
         int current = 0;
