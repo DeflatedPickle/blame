@@ -1,6 +1,9 @@
 #include <iostream>
 #include <experimental/filesystem>
 #include <fstream>
+#include <array>
+#include <cstdio>
+#include <cstdlib>
 
 #include <Console.hpp>
 #include <widgets/Window.hpp>
@@ -78,6 +81,7 @@ int main() {
     // Text
 
     std::shared_ptr<Blame::Widgets::Text> text(new Blame::Widgets::Text(console.get(), window.get()));
+    text->draw_colours = false;
     text->style.symbols.middle_fill = " ";
     text->style.colours = new_colours;
     text->place(line_numbers->column + line_numbers->width + 1, 1, console->width - 4 - 12 - list->width - 2, console->height - 6);
@@ -106,10 +110,24 @@ int main() {
         std::string content((std::istreambuf_iterator<char>(file)),
                             (std::istreambuf_iterator<char>()));
 
+        // Colour the text
+        std::array<char, 1024> buffer{};
+        std::string coloured_content;
+        // std::string command(std::string("pygmentize") + " " + file_names[list->selection]);
+        // FIXME: Seems broken on Cygwin -- it can't find the library without a direct path.
+        //        Maybe just write a snippet in Ruby and embed it or pipe it through?
+        std::string command(std::string("rougify") + " " + file_names[list->selection]);
+        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"), pclose);
+
+        while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+            coloured_content += std::string(buffer.data());
+        }
+
+        // Add the new lines
         std::vector<std::string> new_content;
 
         int place = 0;
-        for (auto c : content) {
+        for (char c : coloured_content) {
             if (c == '\n') {
                 place++;
             }
@@ -136,6 +154,10 @@ int main() {
         }
         line_numbers->content = numbers;
 
+        // This doesn't format because the ANSI codes are broken apart and each character is inserted separately
+
+        // TODO: Add an insert method for the text widget, that strips and stores the ANSI codes somewhere else
+        //       and applies formatting when the text is inserted.
         text->content = new_content;
 
         text_scroll_y->max = (int) new_content.size();
