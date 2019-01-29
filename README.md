@@ -25,6 +25,15 @@ The Dim demo as of commit [4eb183f](https://github.com/DeflatedPickle/blame/comm
 ### Bi.Sh
 Coming soon - A shell.
 
+### Pitty
+Coming soon - A terminal emulator (inside a terminal emulator, potentially, inside a terminal emulator).
+
 ## Building
 ### Windows
 To build the library on Windows, you will need [CMake](https://cmake.org/) 3.13 or higher and [Cygwin](https://www.cygwin.com/) 2.11.2 or higher (Cygwin is required as it is the only, to my knowledge, GNU tool distribution on Windows to support libraries such as `termios` and `ioctl`).
+
+## Alternatives
+- [ncurses](https://www.gnu.org/software/ncurses/ncurses.html)
+- [dialog](https://invisible-island.net/dialog/)
+- [Newt](https://pagure.io/newt)
+- [Turbo Vision](http://tvision.sourceforge.net/)
