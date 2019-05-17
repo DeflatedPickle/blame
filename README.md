@@ -11,6 +11,7 @@ The `/demos/widgets` folder contains a demonstration of different widgets offere
 The Widget showcase demo as of commit [fd6bd1d](https://github.com/DeflatedPickle/blame/commit/fd6bd1d6d46f9194eff2150310479505b4d70d36):
 
 ![Widgets Alacritty](.github/images/widgets_alacritty.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FDeflatedPickle%2Fblame.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FDeflatedPickle%2Fblame?ref=badge_shield)
 
 ![Widgets Hyper](.github/images/widgets_hyper.png)
 
@@ -37,3 +38,6 @@ To build the library on Windows, you will need [CMake](https://cmake.org/) 3.13 
 - [dialog](https://invisible-island.net/dialog/)
 - [Newt](https://pagure.io/newt)
 - [Turbo Vision](http://tvision.sourceforge.net/)
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FDeflatedPickle%2Fblame.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FDeflatedPickle%2Fblame?ref=badge_large)
