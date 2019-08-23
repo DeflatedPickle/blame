@@ -1,0 +1,9 @@
+{
+	"authors": [
+		"DeflatedPickle"
+	],
+	"copyright": "Copyright © 2019, DeflatedPickle",
+	"description": "A library for TUIs.",
+	"license": "MIT",
+	"name": "blame"
+}
