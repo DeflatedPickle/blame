@@ -1,5 +1,6 @@
 import std.stdio;
 import core.sys.posix.sys.ioctl;
+import core.sys.posix.unistd;
 
 import widget;
 
@@ -12,9 +13,11 @@ class Console : Widget {
     char[] draw_buffer;
 
     this() {
+        super();
+
         auto size = winsize();
 
-        ioctl(1, TIOCGWINSZ, &size);
+        ioctl(STDIN_FILENO, TIOCGWINSZ, &size);
         this.view_area.width = size.ws_col;
         this.view_area.height = size.ws_row;
 
@@ -78,9 +81,18 @@ class Console : Widget {
 
 void main() {
     import label;
+    import button;
 
     auto console = new Console();
+
     auto labelw = new Label(console, console, "Label");
-    labelw.place(4, 4, 8, 1);
+    labelw.place(4, 4, 10, 2);
+
+    auto long_label = new Label(console, console, "Long Label Gets Cut Off");
+    long_label.place(18, 4, 6, 2);
+
+    auto buttonw = new Button(console, console, "Button", { writeln("Click!"); });
+    buttonw.place(4, 7, 8, 4);
+
     console.mainLoop();
 }
