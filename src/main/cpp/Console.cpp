@@ -17,8 +17,10 @@ Blame::Console::Console() {
     this->moveCaret(std::cout, 0, 0);
     std::cout << Blame::Util::EscapeCodes::caretOff();
 
-    this->buffer_list.push_back(&front_buffer);
-    this->buffer_list.push_back(&back_buffer);
+    std::ostringstream *front_buffer = new std::ostringstream();
+    std::ostringstream *back_buffer = new std::ostringstream();
+    this->buffer_list.push_back(front_buffer);
+    this->buffer_list.push_back(back_buffer);
 
     this->exit.store(false);
     this->has_flipped.store(true);
@@ -58,6 +60,11 @@ Blame::Console::~Console() {
     term.c_lflag |= ECHO;
     term.c_lflag |= ICANON;
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
+
+    /* TODO We still need to delete all the manually-allocated memory.
+     * Right?*/
+    delete buffer_list.at(FRONT);
+    delete buffer_list.at(BACK);
 }
 
 void Blame::Console::mainLoop() {

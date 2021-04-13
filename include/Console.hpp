@@ -93,8 +93,8 @@ namespace Blame {
         enum buffer_t {
           FRONT=0, BACK, NUM_BUFFERS
         };
-        std::ostringstream front_buffer;
-        std::ostringstream back_buffer;
+/*        std::ostringstream front_buffer;
+        std::ostringstream back_buffer;*/
         std::vector<std::ostringstream *> buffer_list;
         buffer_t current_buffer = FRONT;
 
