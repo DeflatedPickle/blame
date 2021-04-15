@@ -77,8 +77,8 @@ void Blame::Widgets::Scroll::move(Blame::Util::Direction direction) {
             if (this->handle_current - 1 > this->handle_min - 1 && this->orientation == Blame::Util::Orientation::VERTICAL) {
                 this->handle_current--;
 
-                for (Widget *i : this->widgets) {
-                    i->view_area_offset_y--;
+                for (Widget *enclosed_widget : this->widgets) {
+                    enclosed_widget->view_area_offset_y--;
                 }
             }
             break;
@@ -87,10 +87,10 @@ void Blame::Widgets::Scroll::move(Blame::Util::Direction direction) {
             if (this->handle_current + 1 < this->handle_max - 2 && this->orientation == Blame::Util::Orientation::VERTICAL) {
                 this->handle_current++;
 
-                for (Widget *i : this->widgets) {
-                    /* TODO scroll down IFF there are more items not currently displayed */
-/*                    if (i->) {*/
-                        i->view_area_offset_y++;
+                for (Widget *enclosed_widget : this->widgets) {
+                    /* TODO scroll down IFF. there are more items not currently displayed */
+/*                    if (enclosed_widget->) {*/
+                        enclosed_widget->view_area_offset_y++;
 /*                    }*/
                 }
             }
@@ -100,8 +100,8 @@ void Blame::Widgets::Scroll::move(Blame::Util::Direction direction) {
             if (this->handle_current - 1 > this->handle_min - 1 && this->orientation == Blame::Util::Orientation::HORIZONTAL) {
                 this->handle_current--;
 
-                for (Widget *i : this->widgets) {
-                    i->view_area_offset_x--;
+                for (Widget *enclosed_widget : this->widgets) {
+                    enclosed_widget->view_area_offset_x--;
                 }
             }
             break;
@@ -110,8 +110,8 @@ void Blame::Widgets::Scroll::move(Blame::Util::Direction direction) {
             if (this->handle_current + 1 < this->handle_max && this->orientation == Blame::Util::Orientation::HORIZONTAL) {
                 this->handle_current++;
 
-                for (Widget *i : this->widgets) {
-                    i->view_area_offset_x++;
+                for (Widget *enclosed_widget : this->widgets) {
+                    enclosed_widget->view_area_offset_x++;
                 }
             }
             break;
