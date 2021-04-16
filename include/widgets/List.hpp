@@ -15,12 +15,11 @@ namespace Blame::Widgets {
 
         void move(Blame::Util::Direction direction) override {
             if (direction == Blame::Util::Direction::UP) {
-                if (this->selection - 1 >= 0) {
+                if (this->selection >= 1) {
                     this->selection--;
                 }
-            }
-            else if (direction == Blame::Util::Direction::DOWN) {
-                if (this->selection + 1 <= this->content.size() - 1) {
+            } else if (direction == Blame::Util::Direction::DOWN) {
+                if (this->selection < (this->content.size() - 1)) {
                     this->selection++;
                 }
             }
@@ -39,3 +38,4 @@ namespace Blame::Widgets {
         int selection;
     };
 }
+
