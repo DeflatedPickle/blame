@@ -1,10 +1,11 @@
+#include <widgets/Scrollable.hpp>
 #include <widgets/Text.hpp>
 
 #include <styles/StyleText.hpp>
 
 // TODO: Add support for multiple text caret's
 // TODO: Add support for selecting text
-Blame::Widgets::Text::Text(Blame::Console *console, Blame::Widgets::Widget *parent) : Widget(console, parent) {
+Blame::Widgets::Text::Text(Blame::Console *console, Blame::Widgets::Widget *parent) : Blame::Widgets::Scrollable::Scrollable(console, parent) {
     this->height = 6;
     this->width = 12;
 

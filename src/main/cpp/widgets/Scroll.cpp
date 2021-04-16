@@ -1,4 +1,5 @@
 #include <widgets/Scroll.hpp>
+#include <widgets/Scrollable.hpp>
 
 #include <cmath>
 #include <functional>
@@ -6,9 +7,9 @@
 #include <styles/StyleScaleHorizontal.hpp>
 #include <styles/StyleScaleVertical.hpp>
 
-Blame::Widgets::Scroll::Scroll(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, std::vector<Blame::Widgets::Widget *> widgets) : Widget(console, parent) {
+Blame::Widgets::Scroll::Scroll(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, Blame::Widgets::Scrollable *associated_list) : Widget(console, parent) {
     this->orientation = orientation;
-    this->widgets = widgets;
+    this->enclosed_widget = associated_list;
 
     switch (this->orientation) {
         case Blame::Util::Orientation::HORIZONTAL:
@@ -71,50 +72,55 @@ void Blame::Widgets::Scroll::redraw() {
 void Blame::Widgets::Scroll::move(Blame::Util::Direction direction) {
     if (this != this->console->focused_widget)
         return;
-
-    switch (direction) {
-        case Blame::Util::Direction::UP:
-            if (this->handle_current - 1 > this->handle_min - 1 && this->orientation == Blame::Util::Orientation::VERTICAL) {
-                this->handle_current--;
-
-                for (Widget *enclosed_widget : this->widgets) {
+    
+    if (this->orientation == Blame::Util::Orientation::VERTICAL) {
+        if (enclosed_widget->getContent().size() <= this->height ||
+            direction == Blame::Util::Direction::LEFT ||
+            direction == Blame::Util::Direction::RIGHT) {
+            return;
+        }
+        switch (direction) {
+            case Blame::Util::Direction::UP:
+                if (this->handle_current > this->handle_min) {
+                    this->handle_current--;
                     enclosed_widget->view_area_offset_y--;
                 }
-            }
-            break;
-
-        case Blame::Util::Direction::DOWN:
-            if (this->handle_current + 1 < this->handle_max - 2 && this->orientation == Blame::Util::Orientation::VERTICAL) {
-                this->handle_current++;
-
-                for (Widget *enclosed_widget : this->widgets) {
-                    /* TODO scroll down IFF. there are more items not currently displayed */
-/*                    if (enclosed_widget->) {*/
-                        enclosed_widget->view_area_offset_y++;
-/*                    }*/
+                break;
+            
+            case Blame::Util::Direction::DOWN:
+                if (this->handle_current + 1 < this->handle_max - 2) { // TODO is ths accurate?
+                    this->handle_current++;
+                    enclosed_widget->view_area_offset_y++;
                 }
-            }
-            break;
-
-        case Blame::Util::Direction::LEFT:
-            if (this->handle_current - 1 > this->handle_min - 1 && this->orientation == Blame::Util::Orientation::HORIZONTAL) {
-                this->handle_current--;
-
-                for (Widget *enclosed_widget : this->widgets) {
+                break;
+            default:
+                break;
+        }
+        
+    } else if (this->orientation == Blame::Util::Orientation::HORIZONTAL) {
+        if (enclosed_widget->getContent().size() <= this->width ||
+            direction == Blame::Util::Direction::UP ||
+            direction == Blame::Util::Direction::DOWN) {
+            return;
+        }
+        switch (direction) {
+            case Blame::Util::Direction::LEFT:
+                if (this->handle_current > this->handle_min) {
+                    this->handle_current--;
                     enclosed_widget->view_area_offset_x--;
                 }
-            }
-            break;
-
-        case Blame::Util::Direction::RIGHT:
-            if (this->handle_current + 1 < this->handle_max && this->orientation == Blame::Util::Orientation::HORIZONTAL) {
-                this->handle_current++;
-
-                for (Widget *enclosed_widget : this->widgets) {
+                break;
+    
+            case Blame::Util::Direction::RIGHT:
+                if (this->handle_current + 1 < this->handle_max) {
+                    this->handle_current++;
                     enclosed_widget->view_area_offset_x++;
                 }
-            }
-            break;
+                break;
+            default:
+                break;
+        }
+        
     }
 
     this->current = (this->handle_max / this->handle_size) * this->handle_current;

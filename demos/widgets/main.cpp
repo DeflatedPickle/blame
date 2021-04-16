@@ -33,7 +33,7 @@ int main() {
     scale_text->height = 3;
     scale_text->state = Blame::Util::State::DISABLED;
 
-    scale->command = [=]() { scale_text->content[0] = std::to_string(scale->current); };
+    scale->command = [=]() { scale_text->addItem(std::to_string(scale->current)); };
 
     console->mainLoop();
 

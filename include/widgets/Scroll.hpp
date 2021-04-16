@@ -3,12 +3,13 @@
 #include <functional>
 
 #include <util/Orientation.hpp>
+#include <widgets/Scrollable.hpp>
 #include <widgets/Widget.hpp>
 
 namespace Blame::Widgets {
     class Scroll : public Blame::Widgets::Widget {
     public:
-        Scroll(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, std::vector<Blame::Widgets::Widget *> widgets);
+        Scroll(Blame::Console *console, Blame::Widgets::Widget *parent, Blame::Util::Orientation orientation, Blame::Widgets::Scrollable *associated_widget);
 
         void redraw() override;
 
@@ -17,7 +18,8 @@ namespace Blame::Widgets {
         void activate() override {}
 
         Blame::Util::Orientation orientation;
-        std::vector<Blame::Widgets::Widget *> widgets;
+/*        std::vector<Blame::Widgets::Widget *> widgets;*/
+        Scrollable *enclosed_widget;
 
         int min = 0;
         int current = 0;

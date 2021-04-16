@@ -18,4 +18,6 @@ add_library(blame_src
 
         main/cpp/widgets/List.cpp
 
-        main/cpp/widgets/Scroll.cpp)
+        main/cpp/widgets/Scroll.cpp
+        
+        main/cpp/widgets/Scrollable.cpp)
