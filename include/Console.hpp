@@ -74,24 +74,9 @@ namespace Blame {
         void flipBuffers() {
             this->has_flipped.exchange(true);
 
-            switch (this->current_buffer) {
-                case 0:
-                    std::cout << back_buffer.str();
-                    // Clear the buffer
-                    back_buffer.str(std::string());
-                    this->current_buffer = 1;
-                    break;
-
-                case 1:
-                    std::cout << front_buffer.str();
-                    // Clear the buffer
-                    front_buffer.str(std::string());
-                    this->current_buffer = 0;
-                    break;
-
-                default:
-                    break;
-            }
+            this->current_buffer = static_cast<buffer_t>((this->current_buffer + 1) % NUM_BUFFERS);
+            std::cout << buffer_list.at(this->current_buffer)->str();
+            buffer_list.at(this->current_buffer)->str(std::string());
 
             // this->setTitle(std::to_string(this->current_buffer));
         }
@@ -105,10 +90,13 @@ namespace Blame {
         std::vector<Blame::Widgets::Listener *> focus_order;
         Blame::Widgets::Listener *focused_widget;
 
-        std::ostringstream front_buffer;
-        std::ostringstream back_buffer;
+        enum buffer_t {
+          FRONT=0, BACK, NUM_BUFFERS
+        };
+/*        std::ostringstream front_buffer;
+        std::ostringstream back_buffer;*/
         std::vector<std::ostringstream *> buffer_list;
-        int current_buffer = 0;
+        buffer_t current_buffer = FRONT;
 
         std::atomic_bool has_flipped;
 
