@@ -4,9 +4,10 @@
 #include <vector>
 
 #include <widgets/Widget.hpp>
+#include <widgets/Scrollable.hpp>
 
 namespace Blame::Widgets {
-    class List : public Blame::Widgets::Widget {
+    class List : public Blame::Widgets::Scrollable {
     public:
         List(Blame::Console *console, Blame::Widgets::Widget *parent, std::vector<std::string> items, std::function<void()> command);
 
@@ -14,12 +15,11 @@ namespace Blame::Widgets {
 
         void move(Blame::Util::Direction direction) override {
             if (direction == Blame::Util::Direction::UP) {
-                if (this->selection - 1 >= 0) {
+                if (this->selection >= 1) {
                     this->selection--;
                 }
-            }
-            else if (direction == Blame::Util::Direction::DOWN) {
-                if (this->selection + 1 <= this->items.size() - 1) {
+            } else if (direction == Blame::Util::Direction::DOWN) {
+                if (this->selection < (this->content.size() - 1)) {
                     this->selection++;
                 }
             }
@@ -33,9 +33,9 @@ namespace Blame::Widgets {
             Widget::activate();
         }
 
-        std::vector<std::string> items;
         std::function<void()> command;
 
         int selection;
     };
 }
+

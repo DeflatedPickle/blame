@@ -50,15 +50,15 @@ int main() {
     list->updateClientArea();
     list->updateViewArea();
 
-    std::vector<Blame::Widgets::Widget *> list_vector;
-    list_vector.emplace_back(list.get());
+/*    std::vector<Blame::Widgets::Widget *> list_vector;
+    list_vector.emplace_back(list.get());*/
 
-    std::shared_ptr<Blame::Widgets::Scroll> list_scroll_x(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::HORIZONTAL, list_vector));
+    std::shared_ptr<Blame::Widgets::Scroll> list_scroll_x(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::HORIZONTAL, list.get()));
     list_scroll_x->style.colours = new_colours;
     list_scroll_x->place(list->column - 1, list->row + list->height, list->width, 3);
     list_scroll_x->handle_max = list_scroll_x->width;
 
-    std::shared_ptr<Blame::Widgets::Scroll> list_scroll_y(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::VERTICAL, list_vector));
+    std::shared_ptr<Blame::Widgets::Scroll> list_scroll_y(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::VERTICAL, list.get()));
     list_scroll_y->style.colours = new_colours;
     list_scroll_y->place(list->column + list->width + 1, 1, 1, console->height - 6);
     list_scroll_y->handle_max = list_scroll_y->height;
@@ -89,12 +89,12 @@ int main() {
 
     std::vector<Blame::Widgets::Widget *> content_vector {line_numbers.get(), text.get()};
 
-    std::shared_ptr<Blame::Widgets::Scroll> text_scroll_x(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::HORIZONTAL, content_vector));
+    std::shared_ptr<Blame::Widgets::Scroll> text_scroll_x(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::HORIZONTAL, text.get()));
     text_scroll_x->style.colours = new_colours;
     text_scroll_x->place(text->column - 1, text->row + text->height, text->width, 3);
     text_scroll_x->handle_max = text_scroll_x->width;
 
-    std::shared_ptr<Blame::Widgets::Scroll> text_scroll_y(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::VERTICAL, content_vector));
+    std::shared_ptr<Blame::Widgets::Scroll> text_scroll_y(new Blame::Widgets::Scroll(console.get(), window.get(), Blame::Util::Orientation::VERTICAL, text.get()));
     text_scroll_y->style.colours = new_colours;
     text_scroll_y->place(text->column + text->width + 1, 1, 1, console->height - 6);
     text_scroll_y->handle_max = text_scroll_y->height;
@@ -134,9 +134,9 @@ int main() {
                 numbers.emplace_back(std::to_string(i));
             }
         }
-        line_numbers->content = numbers;
+        line_numbers->setContent(numbers);
 
-        text->content = new_content;
+        text->setContent(new_content);
 
         text_scroll_y->max = (int) new_content.size();
         text_scroll_y->handle_size = std::abs(text->view_area_height - 2 - (int) new_content.size()) % text_scroll_y->max;
